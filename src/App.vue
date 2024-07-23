@@ -6,17 +6,23 @@
       </el-menu>
     </el-header>
     <el-main>
-      <RouterView/>
+      <RouterView />
     </el-main>
   </el-container>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
-import {ElMenu, ElMenuItem} from 'element-plus'
-import {RouterView} from 'vue-router'
+import { ref } from "vue";
+import {
+  ElMenu,
+  ElMenuItem,
+  ElContainer,
+  ElHeader,
+  ElMain,
+} from "element-plus";
+import { RouterView } from "vue-router";
 
-const activeIndex = ref('1')
+const activeIndex = ref("1");
 </script>
 
 <style>
