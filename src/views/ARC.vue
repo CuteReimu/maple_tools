@@ -96,7 +96,10 @@ const data = reactive({
 
 const calculate = (level: number, index: number, save: boolean = true) => {
   data.list[index].level = level
-  data.list[index].left = Math.max(0, arcCostData[arcCostData.length - 1] - arcCostData[level] - data.list[index].exp);
+  data.list[index].left = arcCostData[arcCostData.length - 1] - arcCostData[level] - data.list[index].exp;
+  if (data.list[index].left < 0) {
+    data.list[index].left = 0
+  }
   data.list[index].need = Math.ceil(data.list[index].left / (data.daily + data.weekly / 7));
   if (save) {
     localStorage.setItem("ARCData", JSON.stringify(data));
