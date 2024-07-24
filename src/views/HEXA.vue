@@ -1,6 +1,6 @@
 <template>
   <el-row class="row">
-    <el-card v-for="(item, index) in list" :key="index" style="max-width: 280px" :header="item.name">
+    <el-card v-for="(item, index) in list" :key="index" :header="item.name">
       <div>
         <el-text class="mx-1">当前等级：</el-text>
         <el-input-number
