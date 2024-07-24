@@ -13,7 +13,6 @@
         <el-input-number
             v-model="item.exp"
             :min="0"
-            :max="levelMaxExp(item.level)"
             @change="calculate(item.level, index)"
         />
       </div>
@@ -45,13 +44,6 @@ const arcCostData = [
   0, 1, 13, 28, 48, 75, 111, 158, 218, 293, 385,
   496, 628, 783, 963, 1170, 1406, 1673, 1973, 2308, 2680
 ];
-
-const levelMaxExp = (level: number) => {
-  if (level <= 0 || level >= 20) {
-    return 0;
-  }
-  return arcCostData[level + 1] - arcCostData[level] - 1;
-}
 
 const data = reactive({
   daily: 20,
@@ -103,8 +95,6 @@ const data = reactive({
 })
 
 const calculate = (level: number, index: number, save: boolean = true) => {
-  const levelMax = levelMaxExp(level);
-  data.list[index].exp = Math.min(data.list[index].exp, levelMax);
   data.list[index].level = level
   data.list[index].left = arcCostData[arcCostData.length - 1] - arcCostData[level] - data.list[index].exp;
   data.list[index].need = Math.ceil(data.list[index].left / (data.daily + data.weekly / 7));
@@ -126,6 +116,7 @@ onMounted(() => {
     data.list.forEach((item: any) => {
       const i = v.list.find((i: any) => i.name === item.name);
       item.level = i.level;
+      item.exp = i.exp;
     });
     data.daily = v.daily;
     data.weekly = v.weekly;

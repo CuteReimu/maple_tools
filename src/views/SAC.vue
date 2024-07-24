@@ -13,7 +13,6 @@
         <el-input-number
             v-model="item.exp"
             :min="0"
-            :max="levelMaxExp(item.level)"
             @change="calculate(item.level, index)"
         />
       </div>
@@ -32,13 +31,6 @@ import {reactive, onMounted} from "vue";
 import {ElCol, ElInputNumber, ElRow, ElText} from "element-plus";
 
 const arcCostData = [0, 1, 30, 106, 247, 471, 796, 1240, 1821, 2557, 3466, 4566];
-
-const levelMaxExp = (level: number) => {
-  if (level <= 0 || level >= 11) {
-    return 0;
-  }
-  return arcCostData[level + 1] - arcCostData[level] - 1;
-}
 
 const data = reactive({
   list: [
@@ -88,8 +80,6 @@ const data = reactive({
 })
 
 const calculate = (level: number, index: number, save: boolean = true) => {
-  const levelMax = levelMaxExp(level);
-  data.list[index].exp = Math.min(data.list[index].exp, levelMax);
   data.list[index].level = level
   data.list[index].left = arcCostData[arcCostData.length - 1] - arcCostData[level] - data.list[index].exp;
   data.list[index].need = Math.ceil(data.list[index].left / (index == 0 ? 20 : 10));
@@ -111,6 +101,7 @@ onMounted(() => {
     data.list.forEach((item: any) => {
       const i = v.list.find((i: any) => i.name === item.name);
       item.level = i.level;
+      item.exp = i.exp;
     });
   }
   calculateAll(false)
