@@ -1,15 +1,17 @@
 <template>
-  <el-row align="middle" class="row" v-for="(item, index) in data.list" :key="index">
-    <el-col>
+  <el-row class="row">
+    <el-card v-for="(item, index) in list" :key="index" :header="item.name">
       <div>
-        <el-text class="mx-1">{{ item.name }}</el-text>
+        <el-text class="mx-1">当前等级</el-text>
         <el-input-number
             v-model="item.level"
             :min="0"
             :max="20"
             @change="calculate(item.level, index)"
         />
-        <el-text class="mx-1">&nbsp;&nbsp;&nbsp;&nbsp;当前经验</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">当前经验</el-text>
         <el-input-number
             v-model="item.exp"
             :min="0"
@@ -17,117 +19,130 @@
         />
       </div>
       <div>
-        <el-text size="small">距离满级还需要：</el-text>
-        <el-text size="small">{{ item.left }}</el-text>
-        <el-text size="small">&nbsp;&nbsp;&nbsp;&nbsp;还需天数：</el-text>
-        <el-text size="small">{{ item.need }}</el-text>
+        <el-text size="small">距满级还差 {{ item.left }} 个，需 {{ item.need }} 天</el-text>
       </div>
-    </el-col>
+    </el-card>
   </el-row>
-  <el-row align="middle" class="row">
-    <el-col>
-      <div>
-        <el-text class="mx-1">每日岛球数量</el-text>
-        <el-input-number v-model="data.daily" :min="0" @change="calculateAll(true)"/>
-        <el-text class="mx-1">&nbsp;&nbsp;&nbsp;&nbsp;每周岛球数量</el-text>
-        <el-input-number v-model="data.weekly" :min="0" @change="calculateAll(true)"/>
-      </div>
-    </el-col>
-  </el-row>
+  <div class="row">
+    <div>
+      <el-text class="mx-1">每日岛球数量</el-text>
+      <el-input-number v-model="daily" :min="0" @change="calculateAll()"/>
+      <el-text class="mx-1">&nbsp;&nbsp;&nbsp;&nbsp;每周岛球数量</el-text>
+      <el-input-number v-model="weekly" :min="0" @change="calculateAll()"/>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {reactive, onMounted} from "vue";
-import {ElCol, ElInputNumber, ElRow, ElText} from "element-plus";
+import {reactive, onMounted, watch, ref} from "vue";
+import {ElInputNumber, ElRow, ElCard, ElText} from "element-plus";
 
 const arcCostData = [
   0, 1, 13, 28, 48, 75, 111, 158, 218, 293, 385,
   496, 628, 783, 963, 1170, 1406, 1673, 1973, 2308, 2680
 ];
 
-const data = reactive({
-  daily: 20,
-  weekly: 45,
-  list: [
-    {
-      name: "1岛",
-      level: 0,
-      exp: 0,
-      left: 0,
-      need: 0,
-    },
-    {
-      name: "2岛",
-      level: 0,
-      exp: 0,
-      left: 0,
-      need: 0,
-    },
-    {
-      name: "3岛",
-      level: 0,
-      exp: 0,
-      left: 0,
-      need: 0,
-    },
-    {
-      name: "4岛",
-      level: 0,
-      exp: 0,
-      left: 0,
-      need: 0,
-    },
-    {
-      name: "5岛",
-      level: 0,
-      exp: 0,
-      left: 0,
-      need: 0,
-    },
-    {
-      name: "6岛",
-      level: 0,
-      exp: 0,
-      left: 0,
-      need: 0,
-    },
-  ]
-})
+const daily = ref(20);
+const weekly = ref(45);
 
-const calculate = (level: number, index: number, save: boolean = true) => {
-  data.list[index].level = level
-  data.list[index].left = arcCostData[arcCostData.length - 1] - arcCostData[level] - data.list[index].exp;
-  if (data.list[index].left < 0) {
-    data.list[index].left = 0
+const list = reactive([
+  {
+    name: "Vanishing Journey",
+    level: 0,
+    exp: 0,
+    left: 0,
+    need: 0,
+  },
+  {
+    name: "Chu Chu Island",
+    level: 0,
+    exp: 0,
+    left: 0,
+    need: 0,
+  },
+  {
+    name: "Lachelein",
+    level: 0,
+    exp: 0,
+    left: 0,
+    need: 0,
+  },
+  {
+    name: "Arcana",
+    level: 0,
+    exp: 0,
+    left: 0,
+    need: 0,
+  },
+  {
+    name: "Morass",
+    level: 0,
+    exp: 0,
+    left: 0,
+    need: 0,
+  },
+  {
+    name: "Esfera",
+    level: 0,
+    exp: 0,
+    left: 0,
+    need: 0,
+  },
+]);
+
+const calculate = (level: number, index: number) => {
+  list[index].level = level
+  list[index].left = arcCostData[arcCostData.length - 1] - arcCostData[level] - list[index].exp;
+  if (list[index].left < 0) {
+    list[index].left = 0
   }
-  data.list[index].need = Math.ceil(data.list[index].left / (data.daily + data.weekly / 7));
-  if (save) {
-    localStorage.setItem("ARCData", JSON.stringify(data));
-  }
+  list[index].need = Math.ceil(list[index].left / (daily.value + weekly.value / 7));
 };
 
-const calculateAll = (save: boolean = true) => {
-  data.list.forEach((item, index) => {
-    calculate(item.level, index, save);
+const calculateAll = () => {
+  list.forEach((item, index) => {
+    calculate(item.level, index);
   });
-}
+};
+
+const save = () => {
+  const items = list.map((item) => ({name: item.name, level: item.level, exp: item.exp}));
+  localStorage.setItem(
+      "ARCData",
+      JSON.stringify({list: items, daily: daily.value, weekly: weekly.value})
+  );
+};
+
+watch(list, save);
+watch(daily, save);
+watch(weekly, save);
 
 onMounted(() => {
   const d = localStorage.getItem("ARCData");
   if (d) {
     const v = JSON.parse(d);
-    data.list.forEach((item: any) => {
-      const i = v.list.find((i: any) => i.name === item.name);
-      item.level = i.level;
-      item.exp = i.exp;
+    list.forEach((item: any) => {
+      const i = v.list?.find((i: any) => i.name === item.name);
+      item.level = i?.level || 0;
+      item.exp = i?.exp || 0;
     });
-    data.daily = v.daily;
-    data.weekly = v.weekly;
+    daily.value = v.daily;
+    weekly.value = v.weekly;
   }
-  calculateAll(false)
+  calculateAll()
 });
 </script>
 
 <style scoped>
+.row {
+  margin: 10px 0;
+}
 
+.row > div {
+  margin-bottom: 5px;
+}
+
+.mx-1 {
+  margin-right: 10px;
+}
 </style>
