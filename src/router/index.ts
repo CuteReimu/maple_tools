@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HEXA from '../views/HEXA.vue'
-import Symbol from '../views/Symbol.vue'
+import ARC from '../views/ARC.vue'
+import SAC from '../views/SAC.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,9 +16,14 @@ const router = createRouter({
       component: HEXA
     },
     {
-      path: '/Symbol',
-      name: 'Symbol',
-      component: Symbol
+      path: '/ARC',
+      name: 'ARC',
+      component: ARC
+    },
+    {
+      path: '/SAC',
+      name: 'SAC',
+      component: SAC
     },
   ]
 })
