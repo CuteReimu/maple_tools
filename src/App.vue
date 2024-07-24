@@ -1,8 +1,9 @@
 <template>
   <el-container>
     <el-header>
-      <el-menu :default-active="activeIndex" mode="horizontal">
-        <el-menu-item index="1">HEXA计算器</el-menu-item>
+      <el-menu :default-active="activeIndex" mode="horizontal" router>
+        <el-menu-item index="/HEXA" route="/HEXA">HEXA计算器</el-menu-item>
+        <el-menu-item index="/Symbol" route="/Symbol">岛球计算器</el-menu-item>
       </el-menu>
     </el-header>
     <el-main>
@@ -12,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 import {
   ElMenu,
   ElMenuItem,
@@ -20,9 +21,17 @@ import {
   ElHeader,
   ElMain,
 } from "element-plus";
-import { RouterView } from "vue-router";
+import {RouterView, useRouter} from "vue-router";
 
-const activeIndex = ref("1");
+const activeIndex = ref("");
+
+onMounted(() => {
+  const router = useRouter();
+  console.log(router.currentRoute.value);
+  console.log(router.currentRoute.value.path);
+  activeIndex.value = router.currentRoute.value.path;
+});
+
 </script>
 
 <style>
