@@ -1,45 +1,54 @@
 <template>
   <el-row class="row">
-    <el-card v-for="(item, index) in list" :key="index" :header="item.name">
-      <div>
+    <el-card
+      v-for="(item, index) in list"
+      :key="index"
+      :header="item.name"
+      class="card"
+    >
+      <div class="input">
         <el-text class="mx-1">当前等级</el-text>
         <el-input-number
-            v-model="item.level"
-            :min="0"
-            :max="20"
-            @change="calculate(item.level, index)"
+          v-model="item.level"
+          :min="0"
+          :max="20"
+          @change="calculate(item.level, index)"
         />
       </div>
-      <div>
+      <div class="input">
         <el-text class="mx-1">当前经验</el-text>
         <el-input-number
-            v-model="item.exp"
-            :min="0"
-            @change="calculate(item.level, index)"
+          v-model="item.exp"
+          :min="0"
+          @change="calculate(item.level, index)"
         />
       </div>
       <div>
-        <el-text size="small">距满级还差 {{ item.left }} 个，需 {{ item.need }} 天</el-text>
+        <el-text size="small"
+          >距满级还差 {{ item.left }} 个，需 {{ item.need }} 天</el-text
+        >
       </div>
     </el-card>
   </el-row>
-  <div class="row">
-    <div>
+  <div>
+    <div class="input">
       <el-text class="mx-1">每日岛球数量</el-text>
-      <el-input-number v-model="daily" :min="0" @change="calculateAll()"/>
-      <el-text class="mx-1">&nbsp;&nbsp;&nbsp;&nbsp;每周岛球数量</el-text>
-      <el-input-number v-model="weekly" :min="0" @change="calculateAll()"/>
+      <el-input-number v-model="daily" :min="0" @change="calculateAll()" />
+    </div>
+    <div class="input">
+      <el-text class="mx-1">每周岛球数量</el-text>
+      <el-input-number v-model="weekly" :min="0" @change="calculateAll()" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {reactive, onMounted, watch, ref} from "vue";
-import {ElInputNumber, ElRow, ElCard, ElText} from "element-plus";
+import { reactive, onMounted, watch, ref } from "vue";
+import { ElInputNumber, ElRow, ElCard, ElText } from "element-plus";
 
 const arcCostData = [
-  0, 1, 13, 28, 48, 75, 111, 158, 218, 293, 385,
-  496, 628, 783, 963, 1170, 1406, 1673, 1973, 2308, 2680
+  0, 1, 13, 28, 48, 75, 111, 158, 218, 293, 385, 496, 628, 783, 963, 1170, 1406,
+  1673, 1973, 2308, 2680,
 ];
 
 const daily = ref(20);
@@ -91,12 +100,15 @@ const list = reactive([
 ]);
 
 const calculate = (level: number, index: number) => {
-  list[index].level = level
-  list[index].left = arcCostData[arcCostData.length - 1] - arcCostData[level] - list[index].exp;
+  list[index].level = level;
+  list[index].left =
+    arcCostData[arcCostData.length - 1] - arcCostData[level] - list[index].exp;
   if (list[index].left < 0) {
-    list[index].left = 0
+    list[index].left = 0;
   }
-  list[index].need = Math.ceil(list[index].left / (daily.value + weekly.value / 7));
+  list[index].need = Math.ceil(
+    list[index].left / (daily.value + weekly.value / 7)
+  );
 };
 
 const calculateAll = () => {
@@ -106,10 +118,14 @@ const calculateAll = () => {
 };
 
 const save = () => {
-  const items = list.map((item) => ({name: item.name, level: item.level, exp: item.exp}));
+  const items = list.map((item) => ({
+    name: item.name,
+    level: item.level,
+    exp: item.exp,
+  }));
   localStorage.setItem(
-      "ARCData",
-      JSON.stringify({list: items, daily: daily.value, weekly: weekly.value})
+    "ARCData",
+    JSON.stringify({ list: items, daily: daily.value, weekly: weekly.value })
   );
 };
 
@@ -129,17 +145,23 @@ onMounted(() => {
     daily.value = v.daily;
     weekly.value = v.weekly;
   }
-  calculateAll()
+  calculateAll();
 });
 </script>
 
 <style scoped>
 .row {
   margin: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
 }
 
-.row > div {
+.input {
   margin-bottom: 5px;
+}
+
+.card {
+  margin: 10px;
 }
 
 .mx-1 {

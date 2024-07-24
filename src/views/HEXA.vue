@@ -1,22 +1,27 @@
 <template>
-  <el-row class="row">
-    <el-card v-for="(item, index) in list" :key="index" :header="item.name">
-      <div>
+  <div class="row" justify="space-evenly">
+    <el-card
+      v-for="(item, index) in list"
+      :key="index"
+      :header="item.name"
+      class="card"
+    >
+      <div class="input">
         <el-text class="mx-1">当前等级：</el-text>
         <el-input-number
-            v-model="item.level"
-            :min="item.min"
-            :max="item.max"
-            @change="calculate(item.data, item.level, item.target, index)"
+          v-model="item.level"
+          :min="item.min"
+          :max="item.max"
+          @change="calculate(item.data, item.level, item.target, index)"
         />
       </div>
-      <div>
+      <div class="input">
         <el-text class="mx-1">目标等级：</el-text>
         <el-input-number
-            v-model="item.target"
-            :min="item.min"
-            :max="item.max"
-            @change="calculate(item.data, item.level, item.target, index)"
+          v-model="item.target"
+          :min="item.min"
+          :max="item.max"
+          @change="calculate(item.data, item.level, item.target, index)"
         />
       </div>
       <div>
@@ -26,14 +31,14 @@
         <el-text size="small">距离目标还需要：{{ item.left }}</el-text>
       </div>
     </el-card>
-  </el-row>
-  <el-divider/>
-  <div class="row">
+  </div>
+  <el-divider />
+  <div>
     <div>
       <el-progress
-          :percentage="percentage"
-          :format="format"
-          style="width: 100%"
+        :percentage="percentage"
+        :format="format"
+        style="width: 100%; max-width: 400px"
       />
     </div>
     <div>
@@ -46,8 +51,14 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, computed, onMounted, watch} from "vue";
-import {ElCard, ElRow, ElDivider, ElText, ElInputNumber, ElProgress} from "element-plus";
+import { reactive, computed, onMounted, watch } from "vue";
+import {
+  ElCard,
+  ElDivider,
+  ElText,
+  ElInputNumber,
+  ElProgress,
+} from "element-plus";
 
 const skillCostData = [
   0, 30, 35, 40, 45, 50, 55, 60, 65, 200, 80, 90, 100, 110, 120, 130, 140, 150,
@@ -150,14 +161,14 @@ const totalLeft = computed(() => {
   return v;
 });
 const percentage = computed(
-    () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
+  () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
 );
 
 const calculate = (
-    data: number[],
-    level: number,
-    target: number,
-    index: number
+  data: number[],
+  level: number,
+  target: number,
+  index: number
 ) => {
   let cost = 0;
   let left = 0;
@@ -175,10 +186,14 @@ const format = (percentage: number) => percentage.toFixed(2) + "%";
 
 watch(list, () => {
   localStorage.setItem(
-      "HEXAData",
-      JSON.stringify(
-          list.map((item) => ({name: item.name, level: item.level, target: item.target}))
-      )
+    "HEXAData",
+    JSON.stringify(
+      list.map((item) => ({
+        name: item.name,
+        level: item.level,
+        target: item.target,
+      }))
+    )
   );
 });
 
@@ -201,10 +216,16 @@ onMounted(() => {
 <style scoped>
 .row {
   margin: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
 }
 
-.row > div {
+.input {
   margin-bottom: 5px;
+}
+
+.card {
+  margin: 10px;
 }
 
 .mx-1 {
