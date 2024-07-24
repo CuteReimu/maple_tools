@@ -7,6 +7,10 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/HEXA'
+    },
+    {
+      path: '/HEXA',
       name: 'HEXA',
       component: HEXA
     },

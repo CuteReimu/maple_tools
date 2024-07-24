@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <el-menu :default-active="$route.path" mode="horizontal" router>
-        <el-menu-item index="/">HEXA计算器</el-menu-item>
+        <el-menu-item index="/HEXA">HEXA计算器</el-menu-item>
         <el-menu-item index="/Symbol">岛球计算器</el-menu-item>
       </el-menu>
     </el-header>

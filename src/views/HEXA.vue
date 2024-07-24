@@ -173,7 +173,7 @@ const calculate = (data: number[], level: number, target: number, index: number,
 const format = (percentage: number) => percentage.toFixed(2) + "%";
 
 onMounted(() => {
-  const data = localStorage.getItem("HEXAData")
+  const data = localStorage.getItem("HEXAData");
   if (data) {
     const items = JSON.parse(data);
     list.forEach((item) => {
