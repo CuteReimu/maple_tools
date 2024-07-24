@@ -1,54 +1,53 @@
 <template>
-  <el-row align="middle" class="row" v-for="(item, index) in list" :key="index">
-    <el-col>
-      <div>
-        <el-text class="mx-1">{{ item.name }}</el-text>
-        <el-input-number
-          v-model="item.level"
-          :min="item.min"
-          :max="item.max"
-          @change="calculate(item.data, item.level, item.target, index)"
-        />
-        <el-text class="mx-1">&nbsp;&nbsp;&nbsp;&nbsp;目标等级：</el-text>
-        <el-input-number
-            v-model="item.target"
-            :min="item.min"
-            :max="item.max"
-            @change="calculate(item.data, item.level, item.target, index)"
-        />
-      </div>
-      <div>
-        <el-text size="small">已消耗碎片数量：</el-text>
-        <el-text size="small">{{ item.cost }}</el-text>
-        <el-text size="small">&nbsp;&nbsp;&nbsp;&nbsp;距离目标还需要：</el-text>
-        <el-text size="small">{{ item.left }}</el-text>
-      </div>
-    </el-col>
-  </el-row>
-  <el-row align="middle" class="row">
-    <el-col>
-      <div>
-        <el-progress
-          :percentage="percentage"
-          :format="format"
-          style="width: 480px"
-        />
-      </div>
-      <div>
-        <el-text class="mx-1">已消耗碎片总量</el-text>
-        <el-text>{{ totalCost }}</el-text>
-      </div>
-      <div>
-        <el-text class="mx-1">还需要碎片总量</el-text>
-        <el-text>{{ totalLeft }}</el-text>
-      </div>
-    </el-col>
-  </el-row>
+  <div class="row" v-for="(item, index) in list" :key="index">
+    <div>
+      <el-text class="mx-1">{{ item.name }}：</el-text>
+      <el-input-number
+        v-model="item.level"
+        :min="item.min"
+        :max="item.max"
+        @change="calculate(item.data, item.level, item.target, index)"
+      />
+    </div>
+    <div>
+      <el-text class="mx-1">目标等级：</el-text>
+      <el-input-number
+        v-model="item.target"
+        :min="item.min"
+        :max="item.max"
+        @change="calculate(item.data, item.level, item.target, index)"
+      />
+    </div>
+    <div>
+      <el-text size="small">已消耗碎片数量：{{ item.cost }}</el-text>
+    </div>
+    <div>
+      <el-text size="small">距离目标还需要：{{ item.left }}</el-text>
+    </div>
+  </div>
+  <el-divider />
+  <div class="row">
+    <div>
+      <el-progress
+        :percentage="percentage"
+        :format="format"
+        style="max-width: 480px; width: 100%"
+      />
+    </div>
+    <div>
+      <el-text class="mx-1">已消耗碎片总量</el-text>
+      <el-text>{{ totalCost }}</el-text>
+    </div>
+    <div>
+      <el-text class="mx-1">还需要碎片总量</el-text>
+      <el-text>{{ totalLeft }}</el-text>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {reactive, computed, onMounted} from "vue";
-import { ElRow, ElCol, ElText, ElInputNumber, ElProgress } from "element-plus";
+import { reactive, computed, onMounted, onUnmounted, watch } from "vue";
+import { ElDivider, ElText, ElInputNumber, ElProgress } from "element-plus";
 
 const skillCostData = [
   0, 30, 35, 40, 45, 50, 55, 60, 65, 200, 80, 90, 100, 110, 120, 130, 140, 150,
@@ -154,7 +153,12 @@ const percentage = computed(
   () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
 );
 
-const calculate = (data: number[], level: number, target: number, index: number, save: boolean = true) => {
+const calculate = (
+  data: number[],
+  level: number,
+  target: number,
+  index: number
+) => {
   let cost = 0;
   let left = 0;
   for (let i = 0; i < level; i++) {
@@ -165,25 +169,30 @@ const calculate = (data: number[], level: number, target: number, index: number,
   }
   list[index].cost = cost;
   list[index].left = left;
-  if (save) {
-    localStorage.setItem("HEXAData", JSON.stringify(list));
-  }
 };
 
 const format = (percentage: number) => percentage.toFixed(2) + "%";
 
+watch(list, () => {
+  localStorage.setItem(
+    "HEXAData",
+    JSON.stringify(
+      list.map((item) => ({ level: item.level, target: item.target }))
+    )
+  );
+});
+
 onMounted(() => {
-  const data = localStorage.getItem("HEXAData");
-  if (data) {
-    const items = JSON.parse(data);
-    list.forEach((item) => {
-      const i = items.find((i: any) => i.name === item.name);
-      item.level = i.level;
-      item.target = i.target;
+  const HEXAData = localStorage.getItem("HEXAData");
+  if (HEXAData) {
+    const data = JSON.parse(HEXAData);
+    list.forEach((item, index) => {
+      data[index]?.level && (item.level = data[index].level);
+      data[index]?.target && (item.target = data[index].target);
     });
   }
   list.forEach((item, index) => {
-    calculate(item.data, item.level, item.target, index, false);
+    calculate(item.data, item.level, item.target, index);
   });
 });
 </script>
@@ -191,6 +200,10 @@ onMounted(() => {
 <style scoped>
 .row {
   margin: 10px 0;
+}
+
+.row > div {
+  margin-bottom: 5px;
 }
 
 .mx-1 {
