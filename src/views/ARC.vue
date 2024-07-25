@@ -133,12 +133,18 @@ watch(list, save);
 watch(daily, save);
 watch(weekly, save);
 
+interface StorageData {
+  name: string;
+  level: number;
+  exp: number;
+}
+
 onMounted(() => {
   const d = localStorage.getItem("ARCData");
   if (d) {
     const v = JSON.parse(d);
-    list.forEach((item: any) => {
-      const i = v.list?.find((i: any) => i.name === item.name);
+    list.forEach((item: StorageData) => {
+      const i = v.list?.find((i: StorageData) => i.name === item.name);
       item.level = i?.level || 0;
       item.exp = i?.exp || 0;
     });

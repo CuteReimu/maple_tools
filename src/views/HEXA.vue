@@ -197,12 +197,19 @@ watch(list, () => {
   );
 });
 
+interface StorageData {
+  name: string;
+  level: number;
+  target: number;
+  min : number;
+}
+
 onMounted(() => {
   const HEXAData = localStorage.getItem("HEXAData");
   if (HEXAData) {
     const data = JSON.parse(HEXAData);
-    list.forEach((item) => {
-      const i = data?.find((i: any) => i.name === item.name);
+    list.forEach((item: StorageData) => {
+      const i = data?.find((i: StorageData) => i.name === item.name);
       item.level = i?.level || item.min;
       item.target = i?.target || item.min;
     });
