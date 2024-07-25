@@ -17,13 +17,14 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20.x
-    - name: Install dependencies
-      id: npm-install
+    - name: Remove node_modules and package-lock.json
       run: |
+        rm -rf node_modules
+        rm -f package-lock.json
         npm cache clean --force
-        npm install
     - name: Build
       run: |
+        npm install
         npm run build
     - name: Deploy to Server
       if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
