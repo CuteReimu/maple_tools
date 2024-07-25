@@ -108,12 +108,18 @@ watch(list, () => {
   );
 });
 
+interface StorageData {
+  name: string;
+  level: number;
+  exp: number;
+}
+
 onMounted(() => {
   const SACData = localStorage.getItem("SACData");
   if (SACData) {
     const v = JSON.parse(SACData);
-    list.forEach((item: any) => {
-      const i = v.find((i: any) => i.name === item.name);
+    list.forEach((item: StorageData) => {
+      const i = v.find((i: StorageData) => i.name === item.name);
       item.level = i?.level || 0;
       item.exp = i?.exp || 0;
     });
