@@ -20,13 +20,8 @@ jobs:
     - name: Install dependencies
       id: npm-install
       run: |
-        npm install || echo "conflict=Dependency" >> $GITHUB_ENV
-    - name: Clear npm cache if conflict detected
-      if: ${{ env.conflict == 'Dependency' }}
-      run: npm cache clean --force
-    - name: Reinstall dependencies if cache cleared
-      if: ${{ env.conflict == 'Dependency' }}
-      run: npm install
+        npm cache clean --force
+        npm install
     - name: Build
       run: |
         npm run build
