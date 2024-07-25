@@ -16,18 +16,9 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20.x
-    - name: Install dependencies
-      id: npm-install
-      run: |
-        npm install || echo "conflict=Dependency" >> $GITHUB_ENV
-    - name: Clear npm cache if conflict detected
-      if: ${{ env.conflict == 'Dependency' }}
-      run: npm cache clean --force
-    - name: Reinstall dependencies if cache cleared
-      if: ${{ env.conflict == 'Dependency' }}
-      run: npm install
     - name: Lint
       run: |
+        npm install
         npm run lint
     - name: Commit formatted code
       if: github.repository_owner == 'CuteReimu'
