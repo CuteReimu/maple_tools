@@ -22,18 +22,14 @@ jobs:
         npm run lint
     - name: Commit formatted code
       if: github.repository_owner == 'CuteReimu'
+      continue-on-error: true
       run: |
         if [[ -n $(git status --porcelain) ]]; then
         git config --local user.name 'github-actions[bot]'
         git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
         git add --all
         git commit -m "gradlew ktlintFormat"
+        git push
         else
         echo "No changes to the output on this push; exiting."
         fi
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      if: github.repository_owner == 'CuteReimu'
-      continue-on-error: true
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
