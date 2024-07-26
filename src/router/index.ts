@@ -3,6 +3,7 @@ import HEXA from '../views/HEXA.vue'
 import ARC from '../views/ARC.vue'
 import SAC from '../views/SAC.vue'
 import LegionResolver from '../views/LegionResolver.vue'
+import StatEquivalentCalculator from '../views/StatEquivalentCalculator.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       path: '/LegionResolver',
       name: 'LegionResolver',
       component: LegionResolver
+    },
+    {
+      path: '/StatEquivalentCalculator',
+      name: 'StatEquivalentCalculator',
+      component: StatEquivalentCalculator
     }
   ]
 })
