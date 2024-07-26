@@ -7,6 +7,7 @@
           <el-menu-item index="/ARC">岛球计算器</el-menu-item>
           <el-menu-item index="/SAC">原初球计算器</el-menu-item>
           <el-menu-item index="/LegionResolver">联盟摆放助手</el-menu-item>
+          <el-menu-item index="/StatEquivalentCalculator">属性等价计算器</el-menu-item>
         </el-menu>
       </el-affix>
     </el-header>
