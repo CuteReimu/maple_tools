@@ -281,11 +281,7 @@ onMounted(() => {
   const StatEquivalentCalculatorData = localStorage.getItem("StatEquivalentCalculatorData");
   if (StatEquivalentCalculatorData) {
     const v = JSON.parse(StatEquivalentCalculatorData);
-    Object.keys(data).forEach((key) => {
-      if (key in v) {
-        data[key] = v[key];
-      }
-    });
+    Object.assign(data, v);
   }
 });
 
