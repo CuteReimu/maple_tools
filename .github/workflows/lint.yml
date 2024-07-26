@@ -3,8 +3,9 @@ name: lint
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -21,7 +22,6 @@ jobs:
         npm install
         npm run lint
     - name: Commit formatted code
-      if: github.repository_owner == 'CuteReimu'
       continue-on-error: true
       run: |
         if [[ -n $(git status --porcelain) ]]; then
