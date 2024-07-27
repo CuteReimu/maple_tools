@@ -190,19 +190,19 @@ interface Attr {
 }
 
 const calTotal = (attr: Attr) => {
-  return Math.floor(attr.base * (1 + attr.percent / 100) + attr.percentNotApplied);
+  return attr.base * (1 + attr.percent / 100) + attr.percentNotApplied;
 };
 
 const totalMainAttr = computed(() => {
-  return calTotal(data.mainAttr);
+  return Math.floor(calTotal(data.mainAttr));
 });
 
 const totalSubAttr = computed(() => {
-  return calTotal(data.subAttr);
+  return Math.floor(calTotal(data.subAttr));
 });
 
 const totalAtt = computed(() => {
-  return calTotal(data.att);
+  return Math.floor(calTotal(data.att));
 });
 
 const calTotalAttr = (mainAttr: Attr, subAttr: Attr) => {
