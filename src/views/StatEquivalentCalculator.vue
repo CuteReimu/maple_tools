@@ -10,24 +10,16 @@
         <el-text type="primary" tag="ins">查看如何使用</el-text>
       </template>
       <div class="input">
-        <el-text
-          >如果你想计算常态下的属性等价，就把常态buff加满(包括buff药)。</el-text
-        >
+        <el-text>先把常态buff加满(包括buff药)，然后保持站街状态。</el-text>
       </div>
       <div class="input">
-        <el-text
-          >同理如果你想计算爆发状态下的属性等价，就把爆发buff也加满。</el-text
-        >
+        <el-text>如果你想计算爆发状态下的属性等价，就把爆发buff也加满。</el-text>
       </div>
       <div class="input">
-        <el-text
-          >如果有战斗中才能叠加的buff(例如Ark的link)，请先自行叠满。</el-text
-        >
+        <el-text>战斗中才能叠的buff，请先自行手动加上，本工具后续再优化。</el-text>
       </div>
       <div class="input">
-        <el-text
-          >如果对敌人的debuff，请先自行手动加上，本工具后续再优化。</el-text
-        >
+        <el-text>如果对敌人的debuff，请先自行手动加上，本工具后续再优化。</el-text>
       </div>
       <div class="input">
         <el-text>你可以利用BOSS练习模式吃上免费的buff药水来观察面板。</el-text>
@@ -35,6 +27,25 @@
     </el-popover>
   </div>
   <el-row class="row">
+    <el-card header="link" class="card">
+      <div class="input">
+        <el-checkbox 
+          v-model="data.link.solus2" 
+          label="亚克link2(11%伤)"
+          @change="() => { if(data.link.solus2) data.link.solus3 = false }"
+        />
+        <el-checkbox 
+          v-model="data.link.solus3" 
+          label="亚克link3(16%伤)"
+          @change="() => { if(data.link.solus3) data.link.solus2 = false }"
+        />
+        <el-checkbox v-model="data.link.ua" label="链子link(12%伤)" />
+        <el-checkbox v-model="data.link.ek" label="冒险家法师link(9%伤9%无视)" />
+        <el-checkbox v-model="data.link.tc" label="冒险家飞侠link(18%伤半程)" />
+        <el-checkbox v-model="data.link.tob" label="黑皮link(12%伤)" />
+        <el-checkbox v-model="data.link.ttp" label="卡因link(17%伤半程)" />
+      </div>
+    </el-card>
     <el-card header="主属性" class="card">
       <div class="input">
         <el-text class="mx-1">Base Value</el-text>
@@ -139,67 +150,52 @@
   </el-row>
   <div>
     <div class="input">
-      <el-text class="mx-1"
-        >1主属性&nbsp;=&nbsp;{{
-          (mainAttrBaseIncr / mainAttrPercentNotAppliedIncr).toPrecision(3)
-        }}不吃百分比加成的主属性</el-text
-      >
+      <el-text class="mx-1">1主属性&nbsp;=&nbsp;{{
+        (mainAttrBaseIncr / mainAttrPercentNotAppliedIncr).toPrecision(3)
+      }}不吃百分比加成的主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1主属性&nbsp;=&nbsp;{{
-          (mainAttrBaseIncr / subAttrBaseIncr).toPrecision(3)
-        }}副属性</el-text
-      >
+      <el-text class="mx-1">1主属性&nbsp;=&nbsp;{{
+        (mainAttrBaseIncr / subAttrBaseIncr).toPrecision(3)
+      }}副属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1主属性%&nbsp;=&nbsp;{{
-          (mainAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1主属性%&nbsp;=&nbsp;{{
+        (mainAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1全属性%&nbsp;=&nbsp;{{
-          (allAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1全属性%&nbsp;=&nbsp;{{
+        (allAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1G&nbsp;=&nbsp;{{
-          (attBaseIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1G&nbsp;=&nbsp;{{
+        (attBaseIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1G%&nbsp;=&nbsp;{{
-          (attPercentIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1G%&nbsp;=&nbsp;{{
+        (attPercentIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1% Damage / 1% BD&nbsp;=&nbsp;{{
-          (damageIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1% Damage / 1% BD&nbsp;=&nbsp;{{
+        (damageIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1%爆伤&nbsp;=&nbsp;{{
-          (criticalDamageIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1%爆伤&nbsp;=&nbsp;{{
+        (criticalDamageIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1"
-        >1无视%&nbsp;=&nbsp;{{
-          (ignoreDefenseIncr / mainAttrBaseIncr).toPrecision(3)
-        }}主属性</el-text
-      >
+      <el-text class="mx-1">1无视%&nbsp;=&nbsp;{{
+        (ignoreDefenseIncr / mainAttrBaseIncr).toPrecision(3)
+      }}主属性</el-text>
+    </div>
+    <div class="input">
+      <el-button type="danger" @click="Object.assign(data, default_data)">重置</el-button>
     </div>
   </div>
 </template>
@@ -214,9 +210,20 @@ import {
   ElText,
   ElRadioGroup,
   ElRadio,
+  ElCheckbox,
+  ElButton,
 } from "element-plus";
 
-const data = reactive({
+const default_data = {
+  link: {
+    solus2: false,
+    solus3: false,
+    ua: false,
+    ek: false,
+    tc: false,
+    tob: false,
+    ttp: false,
+  },
   mainAttr: {
     base: 4244,
     percent: 382,
@@ -237,6 +244,10 @@ const data = reactive({
   criticalDamage: 130,
   ignoreDefense: 97,
   enemyDefense: 300,
+};
+
+const data = reactive({
+  ...default_data,
 });
 
 interface Attr {
@@ -319,7 +330,29 @@ const attPercentIncr = computed(() => {
 });
 
 const damageIncr = computed(() => {
-  return 1 / (100 + data.damage + data.bossDamage);
+  let link = 0;
+  if (data.link.solus2) {
+    link += 11
+  }
+  if (data.link.solus3) {
+    link += 16
+  }
+  if (data.link.ua) {
+    link += 12
+  }
+  if (data.link.ek) {
+    link += 9
+  }
+  if (data.link.tc) {
+    link += 18 / 2
+  }
+  if (data.link.tob) {
+    link += 12
+  }
+  if (data.link.ttp) {
+    link += 17 / 2
+  }
+  return 1 / (100 + data.damage + data.bossDamage + link);
 });
 
 const criticalDamageIncr = computed(() => {
@@ -327,9 +360,10 @@ const criticalDamageIncr = computed(() => {
 });
 
 const ignoreDefenseIncr = computed(() => {
-  const oldV = 100 - (data.enemyDefense * (100 - data.ignoreDefense)) / 100;
+  const link = data.link.ek ? 0.91 : 1
+  const oldV = 100 - (data.enemyDefense * (100 - data.ignoreDefense)) / 100 * link;
   const newV =
-    100 - ((data.enemyDefense * (100 - data.ignoreDefense)) / 100) * 0.99;
+    100 - ((data.enemyDefense * (100 - data.ignoreDefense)) / 100) * 0.99 * link;
   return (newV - oldV) / oldV;
 });
 
