@@ -150,52 +150,52 @@
   </el-row>
   <div>
     <div class="input">
-      <el-text class="mx-1">1主属性&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1主属性 = {{
         (mainAttrBaseIncr / mainAttrPercentNotAppliedIncr).toPrecision(3)
-      }}不吃百分比加成的主属性</el-text>
+      }} 不吃百分比加成的主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1主属性&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1 主属性 = {{
         (mainAttrBaseIncr / subAttrBaseIncr).toPrecision(3)
-      }}副属性</el-text>
+      }} 副属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1主属性%&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1% 主属性 = {{
         (mainAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1全属性%&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1% 全属性 = {{
         (allAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1G&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1G = {{
         (attBaseIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1G%&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1G% = {{
         (attPercentIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1% Damage / 1% BD&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1% Damage / 1% BD = {{
         (damageIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1%爆伤&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1% 爆伤 = {{
         (criticalDamageIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-text class="mx-1">1无视%&nbsp;=&nbsp;{{
+      <el-text class="mx-1">1% 无视 = {{
         (ignoreDefenseIncr / mainAttrBaseIncr).toPrecision(3)
-      }}主属性</el-text>
+      }} 主属性</el-text>
     </div>
     <div class="input">
-      <el-button type="danger" @click="Object.assign(data, default_data)">重置</el-button>
+      <el-button type="danger" @click="Object.assign(data, default_data)">全部还原为默认值</el-button>
     </div>
   </div>
 </template>
