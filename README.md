@@ -1,19 +1,26 @@
 # maple_tools
 
-## Project Setup
+## 开始
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 本地调试
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### 对文档页面进行本地调试
+
+```shell
+npm run docs:dev
+```
+
+### 打包
 
 ```sh
 npm run build
+npm run docs:build
 ```

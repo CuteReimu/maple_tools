@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -22,6 +24,8 @@
     "@types/node": "^20.14.5",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/tsconfig": "^0.5.1",
+    "@vuepress/bundler-vite": "^2.0.0-rc.14",
+    "@vuepress/theme-default": "^2.0.0-rc.40",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.27.0",
     "globals": "^15.8.0",
@@ -29,7 +33,8 @@
     "typescript": "~5.4.0",
     "typescript-eslint": "^7.17.0",
     "vite": "^5.3.1",
-    "vue-tsc": "^2.0.21"
+    "vue-tsc": "^2.0.21",
+    "vuepress": "^2.0.0-rc.14"
   },
   "volta": {
     "node": "20.15.1"

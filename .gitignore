@@ -1,3 +1,7 @@
+# Vurpress temp files
+/docs/.vuepress/.cache
+/docs/.vuepress/.temp
+
 # Logs
 logs
 *.log
