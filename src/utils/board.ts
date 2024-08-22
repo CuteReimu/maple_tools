@@ -1,6 +1,6 @@
-import { Point } from './point.js';
-import { LegionSolver } from './legion_solver.js';
-import { pieceColours, pieces } from './pieces.js';
+import { Point } from './point';
+import { LegionSolver } from './legion_solver';
+import { pieceColours, pieces } from './pieces';
 import _ from 'lodash';
 import {type Reactive, reactive, ref} from "vue";
 
@@ -105,7 +105,7 @@ const clearBoard = () => {
 }
 
 const setBoard = (i: number, j: number) => {
-  console.log("setBoard");
+  console.log("setBoard" + i + ',' + j);
   if (state != states.START) {
     return;
   }

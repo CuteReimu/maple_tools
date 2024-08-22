@@ -21,7 +21,7 @@
       <table id="legionBoard">
         <tbody>
         <tr v-for="(row, y) in board">
-          <td @click="setBoard(x, y)" class="legionCell" v-for="(col, x) in row" :style="'border-width: '+calWidth(x, y, 1)+'px '+calWidth(x, y, 2)+'px '+calWidth(x, y, 3)+'px '+calWidth(x, y, 4)+'px;'"></td>
+          <td @click="setBoard(x, y)" class="legionCell" v-for="(col, x) in row" :style="'background-color: ' + (col ? '#666' : '#FFF')  + '; border-width: '+calWidth(x, y, 1)+'px '+calWidth(x, y, 2)+'px '+calWidth(x, y, 3)+'px '+calWidth(x, y, 4)+'px;'"></td>
         </tr>
         </tbody>
       </table>
@@ -72,16 +72,16 @@
 </template>
 
 <script setup lang="ts">
-import "@/components/style.css";
+import "@/style/style.css";
 import {
   LegionSolver,
   iterationsStyleVisibility,
   iterationsValueInnerText,
   timeStyleVisibility,
   timeValueInnerText
-} from "@/components/legion_solver.js";
-import {currentPiecesCount, currentCaracterCount, pieceColours, pieces, clearPieces} from "@/components/pieces";
-import { boardFilledValue, isBigClick, clearBoard, reset, runSolver, board, setBoard } from "@/components/board.js";
+} from "@/utils/legion_solver";
+import {currentPiecesCount, currentCaracterCount, pieceColours, pieces, clearPieces} from "@/utils/pieces";
+import { boardFilledValue, isBigClick, clearBoard, reset, runSolver, board, setBoard } from "@/utils/board";
 import {ElRow, ElCol, ElInputNumber, ElText, ElButton, ElCheckbox, ElCheckboxGroup} from "element-plus";
 
 const calColor = (id: number, val: number) => {

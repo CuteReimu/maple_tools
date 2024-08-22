@@ -1,5 +1,5 @@
-import { Point } from './point.js';
-import { Piece } from './piece.js';
+import { Point } from './point';
+import { Piece } from './piece';
 import {ref} from "vue";
 
 class LegionSolver {
