@@ -1,19 +1,23 @@
-import { Point } from './point';
-import { LegionSolver } from './legion_solver';
-import { pieceColours, pieces } from './pieces';
-import _ from 'lodash';
-import {type Reactive, reactive, ref} from "vue";
+import { Point } from "./point";
+import { LegionSolver } from "./legion_solver";
+import { pieceColours, pieces } from "./pieces";
+import _ from "lodash";
+import { type Reactive, reactive, ref } from "vue";
 
-const board: Reactive<number[][]> = reactive(Array(20).fill(Array(22).fill(0)));
+const board: Reactive<number[][]> = reactive(
+  Array(20)
+    .fill(0)
+    .map(() => Array(22).fill(0))
+);
 let legionSolvers: LegionSolver[] = [];
 let pieceHistory: Point[][] = [];
 
 const states = {
-  START: 'start',
-  RUNNING: 'running',
-  PAUSED: 'paused',
-  COMPLETED: 'completed',
-}
+  START: "start",
+  RUNNING: "running",
+  PAUSED: "paused",
+  COMPLETED: "completed",
+};
 let state = states.START;
 
 const legionGroups: Point[][] = [];
@@ -58,24 +62,36 @@ function setLegionGroups() {
   for (let i = 0; i < board.length / 4; i++) {
     for (let j = i; j < board.length / 2; j++) {
       legionGroups[0].push(new Point(j, i));
-      legionGroups[1].push(new Point(i, j + 1))
-      legionGroups[2].push(new Point(i, board[0].length - 2 - j))
-      legionGroups[3].push(new Point(j, board[0].length - 1 - i))
-      legionGroups[4].push(new Point(board.length - 1 - j, board[0].length - 1 - i))
-      legionGroups[5].push(new Point(board.length - 1 - i, board[0].length - 2 - j))
-      legionGroups[6].push(new Point(board.length - 1 - i, j + 1))
-      legionGroups[7].push(new Point(board.length - 1 - j, i))
+      legionGroups[1].push(new Point(i, j + 1));
+      legionGroups[2].push(new Point(i, board[0].length - 2 - j));
+      legionGroups[3].push(new Point(j, board[0].length - 1 - i));
+      legionGroups[4].push(
+        new Point(board.length - 1 - j, board[0].length - 1 - i)
+      );
+      legionGroups[5].push(
+        new Point(board.length - 1 - i, board[0].length - 2 - j)
+      );
+      legionGroups[6].push(new Point(board.length - 1 - i, j + 1));
+      legionGroups[7].push(new Point(board.length - 1 - j, i));
     }
   }
   for (let i = board.length / 4; i < board.length / 2; i++) {
     for (let j = i; j < board.length / 2; j++) {
       legionGroups[8].push(new Point(j, i));
       legionGroups[9].push(new Point(i, j + 1));
-      legionGroups[10].push(new Point(3 * board.length / 4 - 1 - j, board.length / 4 + 1 + i));
+      legionGroups[10].push(
+        new Point((3 * board.length) / 4 - 1 - j, board.length / 4 + 1 + i)
+      );
       legionGroups[11].push(new Point(j, board[0].length - 1 - i));
-      legionGroups[12].push(new Point(board.length - 1 - j, board[0].length - 1 - i));
-      legionGroups[13].push(new Point(j + board.length / 4, i + board.length / 4 + 1));
-      legionGroups[14].push(new Point(j + board.length / 4, 3 * board.length / 4 - i));
+      legionGroups[12].push(
+        new Point(board.length - 1 - j, board[0].length - 1 - i)
+      );
+      legionGroups[13].push(
+        new Point(j + board.length / 4, i + board.length / 4 + 1)
+      );
+      legionGroups[14].push(
+        new Point(j + board.length / 4, (3 * board.length) / 4 - i)
+      );
       legionGroups[15].push(new Point(board.length - j - 1, i));
     }
   }
@@ -102,17 +118,16 @@ const clearBoard = () => {
   }
   boardFilled = 0;
   boardFilledValue.value = `${boardFilled}`;
-}
+};
 
 const setBoard = (i: number, j: number) => {
-  console.log("setBoard" + i + ',' + j);
+  console.log("setBoard" + i + "," + j);
   if (state != states.START) {
     return;
   }
-
   let value = -1 - board[i][j];
 
-  if (isBigClick) {
+  if (isBigClick.value) {
     if (value == 0) {
       for (let point of legionGroups[findGroupNumber(i, j)]) {
         if (board[point.x][point.y] == -1) {
@@ -142,7 +157,7 @@ const setBoard = (i: number, j: number) => {
     }
   }
   boardFilledValue.value = `${boardFilled}`;
-}
+};
 
 function resetBoard() {
   for (let k = 0; k < legionSolvers.length; k++) {
@@ -165,11 +180,11 @@ function resetBoard() {
 
 function reset() {
   resetBoard();
-  document.getElementById("boardButton")!.innerText = '开始';
-  document.getElementById("resetButton")!.style.visibility = 'hidden';
-  document.getElementById("iterations")!.style.visibility = 'hidden';
-  document.getElementById("time")!.style.visibility = 'hidden';
-  document.getElementById("failText")!.style.visibility = 'hidden';
+  document.getElementById("boardButton")!.innerText = "开始";
+  document.getElementById("resetButton")!.style.visibility = "hidden";
+  document.getElementById("iterations")!.style.visibility = "hidden";
+  document.getElementById("time")!.style.visibility = "hidden";
+  document.getElementById("failText")!.style.visibility = "hidden";
   pieceHistory = [];
   state = states.START;
 }
@@ -204,9 +219,15 @@ async function runSolver() {
 
   pieceHistory = [];
   legionSolvers.push(new LegionSolver(board, _.cloneDeep(pieces), () => false));
-  legionSolvers.push(new LegionSolver(rightBoard, _.cloneDeep(pieces), () => false));
-  legionSolvers.push(new LegionSolver(downBoard, _.cloneDeep(pieces), () => false));
-  legionSolvers.push(new LegionSolver(leftBoard, _.cloneDeep(pieces), () => false));
+  legionSolvers.push(
+    new LegionSolver(rightBoard, _.cloneDeep(pieces), () => false)
+  );
+  legionSolvers.push(
+    new LegionSolver(downBoard, _.cloneDeep(pieces), () => false)
+  );
+  legionSolvers.push(
+    new LegionSolver(leftBoard, _.cloneDeep(pieces), () => false)
+  );
 
   let runRotated = legionSolvers[0].longSpaces.length != 0;
   const boardPromise = legionSolvers[0].solve();
@@ -215,7 +236,12 @@ async function runSolver() {
     const rightBoardPromise = legionSolvers[1].solve();
     const downBoardPromise = legionSolvers[2].solve();
     const leftBoardPromise = legionSolvers[3].solve();
-    success = await Promise.race([boardPromise, rightBoardPromise, downBoardPromise, leftBoardPromise]);
+    success = await Promise.race([
+      boardPromise,
+      rightBoardPromise,
+      downBoardPromise,
+      leftBoardPromise,
+    ]);
   } else {
     success = await boardPromise;
   }
@@ -237,53 +263,66 @@ async function runSolver() {
   } else if (legionSolvers[1].success !== undefined) {
     for (let i = 0; i < legionSolvers[1].board[0].length; i++) {
       for (let j = 0; j < legionSolvers[1].board.length; j++) {
-        board[i][j] = legionSolvers[1].board[j][legionSolvers[1].board[0].length - 1 - i];
+        board[i][j] =
+          legionSolvers[1].board[j][legionSolvers[1].board[0].length - 1 - i];
       }
     }
 
     for (let piece of legionSolvers[1].history) {
       for (let point of piece) {
-        let holder = point.y
-        point.y = legionSolvers[1].board[0].length - 1 - point.x
+        let holder = point.y;
+        point.y = legionSolvers[1].board[0].length - 1 - point.x;
         point.x = holder;
       }
     }
     finishedSolver = legionSolvers[1];
-    pieceHistory = legionSolvers[1].history
+    pieceHistory = legionSolvers[1].history;
   } else if (legionSolvers[2].success !== undefined) {
     for (let i = 0; i < legionSolvers[2].board.length; i++) {
       for (let j = 0; j < legionSolvers[2].board[0].length; j++) {
-        board[i][j] = legionSolvers[2].board[legionSolvers[2].board.length - 1 - i][legionSolvers[2].board[0].length - 1 - j];
+        board[i][j] =
+          legionSolvers[2].board[legionSolvers[2].board.length - 1 - i][
+            legionSolvers[2].board[0].length - 1 - j
+          ];
       }
     }
 
     for (let piece of legionSolvers[2].history) {
       for (let point of piece) {
-        point.y = legionSolvers[2].board.length - 1 - point.y
-        point.x = legionSolvers[2].board[0].length - 1 - point.x
+        point.y = legionSolvers[2].board.length - 1 - point.y;
+        point.x = legionSolvers[2].board[0].length - 1 - point.x;
       }
     }
     finishedSolver = legionSolvers[2];
-    pieceHistory = legionSolvers[2].history
+    pieceHistory = legionSolvers[2].history;
   } else if (legionSolvers[3].success !== undefined) {
     for (let i = 0; i < legionSolvers[3].board[0].length; i++) {
       for (let j = 0; j < legionSolvers[3].board.length; j++) {
-        board[i][j] = legionSolvers[3].board[legionSolvers[3].board.length - j - 1][i];
+        board[i][j] =
+          legionSolvers[3].board[legionSolvers[3].board.length - j - 1][i];
       }
     }
 
     for (let piece of legionSolvers[3].history) {
       for (let point of piece) {
-        let holder = point.x
-        point.x = legionSolvers[3].board.length - 1 - point.y
-        point.y = holder
+        let holder = point.x;
+        point.x = legionSolvers[3].board.length - 1 - point.y;
+        point.y = holder;
       }
     }
     finishedSolver = legionSolvers[3];
-    pieceHistory = legionSolvers[3].history
+    pieceHistory = legionSolvers[3].history;
   }
 
   return success;
 }
 
-export { boardFilledValue, isBigClick, clearBoard, reset, runSolver, board, setBoard };
+export {
+  boardFilledValue,
+  isBigClick,
+  clearBoard,
+  reset,
+  runSolver,
+  board,
+  setBoard,
+};
