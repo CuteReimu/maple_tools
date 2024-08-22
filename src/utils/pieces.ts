@@ -1,7 +1,7 @@
-import { Piece } from './piece.js';
+import { Piece } from './piece';
 import { sumBy } from 'lodash';
 import {computed, onMounted, reactive, ref} from "vue";
-import cn from './cn.js';
+import cn from './cn';
 
 const defaultPieces = [
   // Lvl 60
