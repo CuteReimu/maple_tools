@@ -34,7 +34,7 @@
                 class="legionCell"
                 v-for="(col, x) in row"
                 :style="{
-                  'background-color': col ? '#666' : '#FFF',
+                  'background-color': pieceColours.get(col),
                   'border-width':
                     calWidth(x, y, 1) +
                     'px ' +
@@ -50,45 +50,32 @@
           </tbody>
         </table>
       </el-row>
-      <el-row justify="center">
+      <el-row justify="center" style="margin: 10px;">
         <el-col :span="10">
-          <div>
-            <el-text>可填入的区块数量: {{ currentPiecesCount }}</el-text>
-          </div>
-          <div>
-            <el-text>可使用的区块数量: {{ boardFilledValue }}</el-text>
-          </div>
-          <div>
-            <el-text>当前使用的角色数量: {{ currentCaracterCount }}</el-text>
-          </div>
-          <el-button id="clearBoard" @click="clearBoard">清除面板</el-button>
+          <el-text>
+            <div>可填入的区块数量：{{ currentPiecesCount }}</div>
+            <div>可使用的区块数量：{{ boardFilledValue }}</div>
+            <div>当前使用的角色数量：{{ currentCaracterCount }}</div>
+          </el-text>
+          <el-button id="clearBoard" @click="clearBoard"  style="margin-top: 10px;">清除面板</el-button>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
           <el-button id="boardButton" @click="runSolver">开始</el-button>
           <el-button id="resetButton" @click="reset">重置</el-button>
           <div id="failText"></div>
         </el-col>
-        <el-col :span="10">
-          <el-checkbox-group id="checkboxes">
-            <el-checkbox
-              id="bigClick"
-              label="选取整个区块"
-              v-model="isBigClick"
-            />
-          </el-checkbox-group>
-          <div id="iterationTime">
-            <div id="iterations">
-              Iterations: <span id="iterationsValue"></span>
-            </div>
-            <div id="time">Time: <span id="timeValue"></span></div>
-          </div>
+        <el-col :span="6">
+          <el-checkbox
+            label="按区块选取"
+            v-model="isBigClick"
+          />
         </el-col>
       </el-row>
     </el-col>
-    <el-col :span="7">
+    <el-col :span="7" style="padding-left: 30px;">
       <h2>使用方法：</h2>
-      <div id="paragraph">
-        <p>1. 点击你想要使用的区块，或者可以使用选取整个区块功能。</p>
+      <el-text size="large" style="padding-right: 80px;">
+        <p>1. 点击你想要使用的区块，或者可以使用“按区块选取”功能。</p>
         <p>2. 输入你拥有的角色拼图数量。</p>
         <p>
           3.
@@ -98,13 +85,12 @@
           4.
           只要点击开始，程序就会自动按照你输入的拼图数量填满区块。你也可以打开实时演算功能来查看过程
         </p>
-      </div>
+      </el-text>
     </el-col>
   </el-row>
 </template>
 
 <script setup lang="ts">
-import "@/style/style.css";
 import {
   LegionSolver,
   iterationsStyleVisibility,
@@ -159,4 +145,41 @@ const calWidth = (x: number, y: number, dir: number): number => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#legionBoard {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+#legionBoard td.legionCell {
+  width: 25px;
+  height: 25px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+td.pieceCell {
+  width: 7px;
+  height: 7px;
+  border-style: solid;
+  border-width: 0;
+}
+
+.piece {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 7px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.piece-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  height: fit-content;
+  width: fit-content;
+  table-layout: fixed;
+  margin-left: 7px;
+  margin-right: 7px;
+}
+</style>
