@@ -1,7 +1,6 @@
 import { Piece } from './piece';
 import { sumBy } from 'lodash';
 import {computed, onMounted, reactive, ref} from "vue";
-import cn from './cn';
 
 const defaultPieces = [
   // Lvl 60
@@ -119,25 +118,25 @@ const defaultPieces = [
 ];
 
 const piecesName = [
-  cn.lvl60,
-  cn.lvl100,
-  cn.warriorPirate140,
-  cn.mageThiefArcher140,
-  cn.warrior200,
-  cn.archer200,
-  cn.thiefLab200,
-  cn.mage200,
-  cn.pirate200,
-  cn.warrior250,
-  cn.archer250,
-  cn.thief250,
-  cn.mage250,
-  cn.pirate250,
-  cn.xenon250,
-  cn.abyssalExpedition,
-  cn.enhancedLab200,
-  cn.enhancedLab250,
-  cn.lab250,
+  '等级 60',
+  '等级 100',
+  '等级 140 战士/海盗',
+  '等级 140 魔法师/飞侠/尖兵/弓箭手',
+  '等级 200 战士',
+  '等级 200 弓箭手',
+  '等级 200 飞侠/尖兵',
+  '等级 200 魔法师',
+  '等级 200 海盗',
+  '等级 250 战士',
+  '等级 250 弓箭手',
+  '等级 250 飞侠',
+  '等级 250 魔法师',
+  '等级 250 海盗',
+  '等级 250 尖兵',
+  'Abyssal Expedition',
+  'Lvl 200 Enhanced Lab',
+  'Lvl 250 Enhanced Lab',
+  'Lvl 250 Lab',
 ]
 
 const currentPiecesCount = computed(() =>
