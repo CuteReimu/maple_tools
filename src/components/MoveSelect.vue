@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onBeforeUnmount, ref } from "vue";
 import type { MoveEvent } from "@/types";
 
 const wrap = ref<HTMLElement>();
@@ -43,7 +43,7 @@ onMounted(() => {
   wrap.value!.addEventListener("mouseup", onStopMove);
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   wrap.value!.removeEventListener("mousedown", onStartMove);
   wrap.value!.removeEventListener("mouseup", onStopMove);
 });
