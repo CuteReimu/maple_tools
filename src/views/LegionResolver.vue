@@ -1,9 +1,9 @@
 <template>
-  <iframe src="https://xenogents.github.io/LegionSolver/" height="1024px" width="100%" class="iframe"></iframe>
+  <iframe :src="legionUrl" height="1024px" width="100%" class="iframe"></iframe>
 </template>
 
 <script setup lang="ts">
-
+const legionUrl = import.meta.env.VITE_LEGION_URL;
 </script>
 
 <style scoped>
