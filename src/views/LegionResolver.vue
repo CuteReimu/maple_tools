@@ -26,38 +26,45 @@
     </el-col>
     <el-col :span="10">
       <el-row justify="center">
-        <table id="legionBoard">
-          <tbody>
-            <tr v-for="(row, y) in board">
-              <td
-                @click="setBoard(y, x)"
-                class="legionCell"
-                v-for="(col, x) in row"
-                :style="{
-                  'background-color': pieceColours.get(col),
-                  'border-width':
-                    calWidth(x, y, 1) +
-                    'px ' +
-                    calWidth(x, y, 2) +
-                    'px ' +
-                    calWidth(x, y, 3) +
-                    'px ' +
-                    calWidth(x, y, 4) +
-                    'px',
-                }"
-              ></td>
-            </tr>
-          </tbody>
-        </table>
+        <move-select @move="onMouseMove">
+          <table id="legionBoard">
+            <tbody>
+              <tr v-for="(row, y) in board">
+                <td
+                  @click="setBoard(y, x)"
+                  class="legionCell"
+                  v-for="(col, x) in row"
+                  :style="{
+                    'background-color': pieceColours.get(col),
+                    'border-width':
+                      calWidth(x, y, 1) +
+                      'px ' +
+                      calWidth(x, y, 2) +
+                      'px ' +
+                      calWidth(x, y, 3) +
+                      'px ' +
+                      calWidth(x, y, 4) +
+                      'px',
+                  }"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+        </move-select>
       </el-row>
-      <el-row justify="center" style="margin: 10px;">
+      <el-row justify="center" style="margin: 10px">
         <el-col :span="10">
           <el-text>
             <div>可填入的区块数量：{{ currentPiecesCount }}</div>
             <div>可使用的区块数量：{{ boardFilledValue }}</div>
             <div>当前使用的角色数量：{{ currentCaracterCount }}</div>
           </el-text>
-          <el-button id="clearBoard" @click="clearBoard"  style="margin-top: 10px;">清除面板</el-button>
+          <el-button
+            id="clearBoard"
+            @click="clearBoard"
+            style="margin-top: 10px"
+            >清除面板</el-button
+          >
         </el-col>
         <el-col :span="8">
           <el-button id="boardButton" @click="runSolver">开始</el-button>
@@ -65,16 +72,13 @@
           <div id="failText"></div>
         </el-col>
         <el-col :span="6">
-          <el-checkbox
-            label="按区块选取"
-            v-model="isBigClick"
-          />
+          <el-checkbox label="按区块选取" v-model="isBigClick" />
         </el-col>
       </el-row>
     </el-col>
-    <el-col :span="7" style="padding-left: 30px;">
+    <el-col :span="7" style="padding-left: 30px">
       <h2>使用方法：</h2>
-      <el-text size="large" style="padding-right: 80px;">
+      <el-text size="large" style="padding-right: 80px">
         <p>1. 点击你想要使用的区块，或者可以使用“按区块选取”功能。</p>
         <p>2. 输入你拥有的角色拼图数量。</p>
         <p>
@@ -123,6 +127,8 @@ import {
   ElCheckbox,
   ElCheckboxGroup,
 } from "element-plus";
+import MoveSelect from "@/components/MoveSelect.vue";
+import type { MoveEvent } from "@/types";
 
 const calColor = (id: number, val: number) => {
   if (val > 0) return pieceColours.get(id);
@@ -142,6 +148,10 @@ const calWidth = (x: number, y: number, dir: number): number => {
   if ([4, 16].includes(x) && y < 15 && y >= 5 && dir == 2) return 3;
   if ([4, 14].includes(y) && x <= 15 && x > 5 && dir == 3) return 3;
   return 1;
+};
+
+const onMouseMove = (data: MoveEvent) => {
+  console.log(data);
 };
 </script>
 
