@@ -1,27 +1,27 @@
 <template>
   <div class="row">
     <el-card
-        v-for="(item, index) in list"
-        :key="index"
-        :header="item.name"
-        class="card"
+      v-for="(item, index) in list"
+      :key="index"
+      :header="item.name"
+      class="card"
     >
       <div class="input">
         <el-text class="mx-1">当前等级：</el-text>
         <el-input-number
-            v-model="item.level"
-            :min="item.min"
-            :max="item.max"
-            @change="calculate(item.data, item.level, item.target, index)"
+          v-model="item.level"
+          :min="item.min"
+          :max="item.max"
+          @change="calculate(item.data, item.level, item.target, index)"
         />
       </div>
       <div class="input">
         <el-text class="mx-1">目标等级：</el-text>
         <el-input-number
-            v-model="item.target"
-            :min="item.min"
-            :max="item.max"
-            @change="calculate(item.data, item.level, item.target, index)"
+          v-model="item.target"
+          :min="item.min"
+          :max="item.max"
+          @change="calculate(item.data, item.level, item.target, index)"
         />
       </div>
       <div>
@@ -35,9 +35,9 @@
   <div>
     <div>
       <el-progress
-          :percentage="percentage"
-          :format="format"
-          style="width: 100%; max-width: 400px"
+        :percentage="percentage"
+        :format="format"
+        style="width: 100%; max-width: 400px"
       />
     </div>
     <div>
@@ -50,18 +50,18 @@
   <h2>六转核心所需数量表</h2>
   <div>
     <el-table :data="costData2" border style="width: 840px">
-      <el-table-column prop="level" label="当前等级"/>
+      <el-table-column prop="level" label="当前等级" />
       <el-table-column label="技能核心">
-        <el-table-column prop="skillNeed" label="升级所需数量"/>
-        <el-table-column prop="skillTotal" label="累计数量"/>
+        <el-table-column prop="skillNeed" label="升级所需数量" />
+        <el-table-column prop="skillTotal" label="累计数量" />
       </el-table-column>
       <el-table-column label="精通核心">
-        <el-table-column prop="jingtongNeed" label="升级所需数量"/>
-        <el-table-column prop="jingtongTotal" label="累计数量"/>
+        <el-table-column prop="jingtongNeed" label="升级所需数量" />
+        <el-table-column prop="jingtongTotal" label="累计数量" />
       </el-table-column>
       <el-table-column label="强化核心">
-        <el-table-column prop="strongNeed" label="升级所需数量"/>
-        <el-table-column prop="strongTotal" label="累计数量"/>
+        <el-table-column prop="strongNeed" label="升级所需数量" />
+        <el-table-column prop="strongTotal" label="累计数量" />
       </el-table-column>
     </el-table>
   </div>
@@ -198,14 +198,14 @@ const totalLeft = computed(() => {
   return v;
 });
 const percentage = computed(
-    () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
+  () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
 );
 
 const calculate = (
-    data: number[],
-    level: number,
-    target: number,
-    index: number
+  data: number[],
+  level: number,
+  target: number,
+  index: number
 ) => {
   let cost = 0;
   let left = 0;
@@ -223,14 +223,14 @@ const format = (percentage: number) => percentage.toFixed(2) + "%";
 
 watch(list, () => {
   localStorage.setItem(
-      "HEXAData",
-      JSON.stringify(
-          list.map((item) => ({
-            name: item.name,
-            level: item.level,
-            target: item.target,
-          }))
-      )
+    "HEXAData",
+    JSON.stringify(
+      list.map((item) => ({
+        name: item.name,
+        level: item.level,
+        target: item.target,
+      }))
+    )
   );
 });
 
