@@ -6,7 +6,7 @@ import navbar from "./navbar.js";
 export default hopeTheme({
   repo: "https://github.com/CuteReimu/maple_tools",
   docsDir: "src",
-  docsBranch: "dev",
+  docsBranch: "master",
   hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
 
   author: {
