@@ -3,7 +3,7 @@ import 'element-plus/dist/index.css'
 import "element-plus/theme-chalk/dark/css-vars.css";
 
 export default defineClientConfig({
-  enhance({app}) {
+  enhance() {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       // 监听 html 元素的 data-theme 属性变化
       const observer = new MutationObserver((mutations) => {

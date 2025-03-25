@@ -1,32 +1,30 @@
 <template>
   <el-row class="row">
     <el-card
-        v-for="(item, index) in list"
-        :key="index"
-        :header="item.name"
-        class="card"
+      v-for="(item, index) in list"
+      :key="index"
+      :header="item.name"
+      class="card"
     >
       <div class="input">
         <el-text class="mx-1">当前等级</el-text>
         <el-input-number
-            v-model="item.level"
-            :min="0"
-            :max="20"
-            @change="calculate(item.level, index)"
+          v-model="item.level"
+          :min="0"
+          :max="20"
+          @change="calculate(item.level, index)"
         />
       </div>
       <div class="input">
         <el-text class="mx-1">当前经验</el-text>
         <el-input-number
-            v-model="item.exp"
-            :min="0"
-            @change="calculate(item.level, index)"
+          v-model="item.exp"
+          :min="0"
+          @change="calculate(item.level, index)"
         />
       </div>
       <div>
-        <el-text size="small"
-        >距满级还差 {{ item.left }} 个，需 {{ item.need }} 天</el-text
-        >
+        <el-text size="small">距满级还差 {{ item.left }} 个，需 {{ item.need }} 天</el-text>
       </div>
     </el-card>
   </el-row>
@@ -107,7 +105,7 @@ const calculate = (level: number, index: number) => {
     list[index].left = 0;
   }
   list[index].need = Math.ceil(
-      list[index].left / (daily.value + weekly.value / 7)
+    list[index].left / (daily.value + weekly.value / 7)
   );
 };
 
@@ -124,8 +122,8 @@ const save = () => {
     exp: item.exp,
   }));
   localStorage.setItem(
-      "ARCData",
-      JSON.stringify({ list: items, daily: daily.value, weekly: weekly.value })
+    "ARCData",
+    JSON.stringify({ list: items, daily: daily.value, weekly: weekly.value })
   );
 };
 

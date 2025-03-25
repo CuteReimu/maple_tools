@@ -11,7 +11,7 @@ export default [
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/recommended"],
   {files: ["**/*.vue"], languageOptions: {parserOptions: {parser: tseslint.parser}}},
-  {ignores: ["dist/", "node_modules/"]},
+  {ignores: ["src/.vuepress/.temp/", "src/.vuepress/.cache/", "src/.vuepress/dist/", "node_modules/"]},
   {
     rules: {
       "indent": ["error", 2],
