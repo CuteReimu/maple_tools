@@ -2,7 +2,7 @@
 title: 星之力
 icon: star
 order: 7
-headerDepth: 2
+headerDepth: 3
 ---
 
 星之力强化是装备的额外增强。将星星注入您的装备以获得属性加成！这个系统需要**花费 mesos**
@@ -36,7 +36,7 @@ headerDepth: 2
 
 在1+1星之力活动中，对于10星及以下的装备，星力强化成功后，装备将获得2星，而不是1星，并相应增加属性。
 
-## 星级限制
+### 星级限制
 
 | 装备等级    | 最大星星数 |
 |---------|-------|
@@ -47,7 +47,7 @@ headerDepth: 2
 | 128~137 | 20    |
 | 138及以上	 | 25    |
 
-## 成功率
+### 成功率
 
 括号外的百分比表示**总体百分比**。括号内的百分比表示占不成功率的百分比。
 
@@ -87,7 +87,7 @@ headerDepth: 2
 
 如果在活动地图内进行增强，某些活动地图也会在 12★ → 13★ 到 14★ → 15★ 内免费降低破坏几率至 0%。
 
-## mesos 消耗
+### mesos 消耗
 
 mesos 消耗四舍五入到最接近的百。**装备等级四舍五入到最接近的整十级别。**
 
@@ -99,8 +99,7 @@ mesos 消耗四舍五入到最接近的百。**装备等级四舍五入到最接
 - 128~129级装备，价格上限为14->15星（6,471,400 mesos）
 
 ::: note 注意
-**TMS R区 mesos 成本在Lv150后不会增加（例如，AU与CRA的成本相同）。CMS不使用 mesos 进行星之力增强，而是使用名为“星星”的不可交易物品进行星之力增强。
-**
+**TMS R区 mesos 成本在Lv150后不会增加（例如，AU与CRA的成本相同）。CMS不使用 mesos 进行星之力增强，而是使用名为“星星”的不可交易物品进行星之力增强。**
 :::
 
 对于所有服务器，如果您是 MVP 或 高级会员玩家，您可以获得更多折扣（**仅适用于防止损坏费用前的基本价格，最高 16★ → 17★**）。
@@ -141,7 +140,7 @@ mesos 消耗四舍五入到最接近的百。**装备等级四舍五入到最接
 For Masteria's Legacy set items (Numenal's Willpower, Glona's Heart, Legacy of Light, Legacy of Darkness, Delgrund's
 Honor), an **additional $\displaystyle 5\times (\text{当前星级}+1)$ Shadowknight Coins is needed per attempt**.
 
-## 属性增长
+### 属性增长
 
 This section shows the stats increase by star force enhancement, which is why it is strongly encouraged since it is
 fairly cheap.
@@ -225,7 +224,7 @@ ${\displaystyle 1+\text{向下取整}[ItemStat\times (Proportion\%/100)]}$
 |           | 200~249 | 15   | 15  | 19              | 19 | 17             | 17 |
 |           | 250     | 17   | 17  | 21              | 21 |                |    |   
 
-### 总属性
+#### 总属性
 
 For convenience, the total stats gained from enhancement will be listed below. Scaled stats are not shown.
 
@@ -1023,10 +1022,6 @@ For convenience, the total stats gained from enhancement will be listed below. S
 <li>Gloves' Visible Magic ATT +7</li></ul>
 </td></tr></tbody></table>
 
-## 暴君装备
-
-本段暂无内容
-
 ## 抓星星
 
 在每次尝试之前，您将玩一个星星捕捉小游戏，其中一颗星星从左侧开始左右移动。单击“停止”按钮或按空格键停止星星。如果它落在黄色区域，
@@ -1107,6 +1102,10 @@ For convenience, the total stats gained from enhancement will be listed below. S
 | 391 或更高           | 	168                                          |
 
 请注意，暴君装备的星级与**普通装备星级的处理方式相同**，同样适用于16+星级和更低的星级。总的来说，星星是重复计算的。
+
+<script setup>
+import StarforceCalculator from "@StarforceCalculator";
+</script>
 
 <style scoped>
 :deep(.el-table__header-wrapper .el-table__header) {

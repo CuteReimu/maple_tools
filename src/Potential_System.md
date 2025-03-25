@@ -1,5 +1,5 @@
 ---
-title: 潜能
+title: 潜能（洗魔方）
 icon: rectangle-list
 order: 6
 headerDepth: 2
