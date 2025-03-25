@@ -16,7 +16,7 @@ export default hopeTheme({
 
   logo: "/images/maplestory.png",
 
-  darkmode: "disable",
+  darkmode: "toggle",
   print: false,
   pageInfo: false,
   navbarLayout: {

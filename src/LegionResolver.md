@@ -1,6 +1,6 @@
 ---
 title: 联盟摆放助手
-icon: calculator
+icon: rectangle-list
 order: 4
 ---
 
@@ -9,7 +9,7 @@ order: 4
   ref="iframeRef"
   :src="legionUrl"
   height="1024px"
-  width="100%"
+width="1445px"
   class="iframe"
 />
 

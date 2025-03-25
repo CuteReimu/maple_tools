@@ -1,6 +1,6 @@
 ---
-title: 岛球计算器
-icon: calculator
+title: 神秘球
+icon: bowling-ball
 order: 2
 ---
 

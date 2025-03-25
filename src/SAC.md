@@ -1,6 +1,6 @@
 ---
-title: 原初球计算器
-icon: calculator
+title: 原初球
+icon: bowling-ball
 order: 3
 ---
 

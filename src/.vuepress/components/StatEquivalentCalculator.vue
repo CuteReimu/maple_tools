@@ -1,31 +1,4 @@
 <template>
-  <div class="input">
-    <el-popover
-      placement="top-start"
-      width="max-content"
-      trigger="hover"
-      content=""
-    >
-      <template #reference>
-        <el-text type="primary" tag="ins">查看如何使用</el-text>
-      </template>
-      <div class="input">
-        <el-text>先把常态buff加满(包括buff药)，然后保持站街状态。</el-text>
-      </div>
-      <div class="input">
-        <el-text>如果你想计算爆发状态下的属性等价，就把爆发buff也加满。</el-text>
-      </div>
-      <div class="input">
-        <el-text>战斗中才能叠的buff，请先自行手动加上，本工具后续再优化。</el-text>
-      </div>
-      <div class="input">
-        <el-text>如果对敌人的debuff，请先自行手动加上，本工具后续再优化。</el-text>
-      </div>
-      <div class="input">
-        <el-text>你可以利用BOSS练习模式吃上免费的buff药水来观察面板。</el-text>
-      </div>
-    </el-popover>
-  </div>
   <el-row class="row">
     <el-card header="link" class="card">
       <div class="input">
