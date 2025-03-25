@@ -38,16 +38,32 @@
       <el-input-number v-model="weekly" :min="0" @change="calculateAll()" />
     </div>
   </div>
+  <h2>岛球升级所需数量表</h2>
+  <div>
+    <el-table :data="arcCostData2" border style="width: 360px">
+      <el-table-column prop="level" label="当前等级" />
+      <el-table-column prop="need" label="升级所需数量" />
+      <el-table-column prop="total" label="累计数量" />
+    </el-table>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, watch, ref } from "vue";
-import { ElInputNumber, ElRow, ElCard, ElText } from "element-plus";
+import {reactive, onMounted, watch, ref, computed} from "vue";
+import { ElInputNumber, ElRow, ElCard, ElText, ElTable, ElTableColumn } from "element-plus";
 
 const arcCostData = [
   0, 1, 13, 28, 48, 75, 111, 158, 218, 293, 385, 496, 628, 783, 963, 1170, 1406,
   1673, 1973, 2308, 2680,
 ];
+
+const arcCostData2 = computed(() => {
+  return arcCostData.map((item, index) => ({
+    level: index,
+    need: index < arcCostData.length-1 ? arcCostData[index+1] - arcCostData[index] : 0,
+    total: item,
+  }));
+});
 
 const daily = ref(20);
 const weekly = ref(45);
@@ -154,6 +170,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:deep(.el-table__header-wrapper .el-table__header) {
+  margin: 0;
+}
+
+:deep(.el-table__body-wrapper .el-table__body) {
+  margin: 0;
+}
+
+:deep(th) {
+  border: none;
+}
+
+:deep(td) {
+  border: none;
+}
+
 .row {
   margin: 10px 0;
   display: grid;
