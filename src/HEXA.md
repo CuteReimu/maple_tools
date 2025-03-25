@@ -1,6 +1,6 @@
 ---
-title: HEXA计算器
-icon: calculator
+title: 六转技能
+icon: book
 order: 1
 ---
 

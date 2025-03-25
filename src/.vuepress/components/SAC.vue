@@ -28,15 +28,31 @@
       </div>
     </el-card>
   </el-row>
+  <h2>原初球升级所需数量表</h2>
+  <div>
+    <el-table :data="sacCostData2" border style="width: 360px">
+      <el-table-column prop="level" label="当前等级" />
+      <el-table-column prop="need" label="升级所需数量" />
+      <el-table-column prop="total" label="累计数量" />
+    </el-table>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, watch } from "vue";
-import { ElInputNumber, ElCard, ElRow, ElText } from "element-plus";
+import {reactive, onMounted, watch, computed} from "vue";
+import {ElInputNumber, ElCard, ElRow, ElText, ElTableColumn, ElTable} from "element-plus";
 
-const arcCostData = [
+const sacCostData = [
   0, 1, 30, 106, 247, 471, 796, 1240, 1821, 2557, 3466, 4566,
 ];
+
+const sacCostData2 = computed(() => {
+  return sacCostData.map((item, index) => ({
+    level: index,
+    need: index < sacCostData.length - 1 ? sacCostData[index + 1] - sacCostData[index] : 0,
+    total: item,
+  }));
+});
 
 const list = reactive([
   {
@@ -86,7 +102,7 @@ const list = reactive([
 const calculate = (level: number, index: number) => {
   list[index].level = level;
   list[index].left =
-      arcCostData[arcCostData.length - 1] - arcCostData[level] - list[index].exp;
+      sacCostData[sacCostData.length - 1] - sacCostData[level] - list[index].exp;
   if (list[index].left < 0) {
     list[index].left = 0;
   }
@@ -129,6 +145,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:deep(.el-table__header-wrapper .el-table__header) {
+  margin: 0;
+}
+
+:deep(.el-table__body-wrapper .el-table__body) {
+  margin: 0;
+}
+
+:deep(th) {
+  border: none;
+}
+
+:deep(td) {
+  border: none;
+}
+
 .row {
   margin: 10px 0;
   display: grid;

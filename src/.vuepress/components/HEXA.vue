@@ -47,7 +47,7 @@
       <el-text class="mx-1">还需要碎片总量：{{ totalLeft }}</el-text>
     </div>
   </div>
-  <h2>六转核心所需数量表</h2>
+  <h2>六转小核所需数量表</h2>
   <div>
     <el-table :data="costData2" border style="width: 840px">
       <el-table-column prop="level" label="当前等级" />
