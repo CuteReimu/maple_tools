@@ -1,10 +1,10 @@
 <template>
   <div class="input">
     <el-popover
-        placement="top-start"
-        width="max-content"
-        trigger="hover"
-        content=""
+      placement="top-start"
+      width="max-content"
+      trigger="hover"
+      content=""
     >
       <template #reference>
         <el-text type="primary" tag="ins">查看如何使用</el-text>
@@ -30,14 +30,14 @@
     <el-card header="link" class="card">
       <div class="input">
         <el-checkbox
-            v-model="data.link.solus2"
-            label="亚克link2(11%伤)"
-            @change="() => { if(data.link.solus2) data.link.solus3 = false }"
+          v-model="data.link.solus2"
+          label="亚克link2(11%伤)"
+          @change="() => { if(data.link.solus2) data.link.solus3 = false }"
         />
         <el-checkbox
-            v-model="data.link.solus3"
-            label="亚克link3(16%伤)"
-            @change="() => { if(data.link.solus3) data.link.solus2 = false }"
+          v-model="data.link.solus3"
+          label="亚克link3(16%伤)"
+          @change="() => { if(data.link.solus3) data.link.solus2 = false }"
         />
         <el-checkbox v-model="data.link.ua" label="链子link(12%伤)" />
         <el-checkbox v-model="data.link.ek" label="冒险家法师link(9%伤9%无视)" />
@@ -60,9 +60,9 @@
       <div class="input">
         <el-text class="mx-1">% Value Not Applied</el-text>
         <el-input
-            v-model.number="data.mainAttr.percentNotApplied"
-            type="number"
-            :min="0"
+          v-model.number="data.mainAttr.percentNotApplied"
+          type="number"
+          :min="0"
         />
       </div>
       <div class="input">
@@ -83,9 +83,9 @@
       <div class="input">
         <el-text class="mx-1">% Value Not Applied</el-text>
         <el-input
-            v-model.number="data.subAttr.percentNotApplied"
-            type="number"
-            :min="0"
+          v-model.number="data.subAttr.percentNotApplied"
+          type="number"
+          :min="0"
         />
       </div>
       <div class="input">
@@ -131,10 +131,10 @@
       <div class="input">
         <el-text class="mx-1">IGNORE DEFENSE</el-text>
         <el-input
-            v-model.number="data.ignoreDefense"
-            type="number"
-            :min="0"
-            :max="100"
+          v-model.number="data.ignoreDefense"
+          type="number"
+          :min="0"
+          :max="100"
         >
           <template #suffix>%</template>
         </el-input>
@@ -151,48 +151,48 @@
   <div>
     <div class="input">
       <el-text class="mx-1">1主属性 = {{
-          (mainAttrBaseIncr / mainAttrPercentNotAppliedIncr).toPrecision(3)
-        }} 不吃百分比加成的主属性</el-text>
+        (mainAttrBaseIncr / mainAttrPercentNotAppliedIncr).toPrecision(3)
+      }} 不吃百分比加成的主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1 主属性 = {{
-          (mainAttrBaseIncr / subAttrBaseIncr).toPrecision(3)
-        }} 副属性</el-text>
+        (mainAttrBaseIncr / subAttrBaseIncr).toPrecision(3)
+      }} 副属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1% 主属性 = {{
-          (mainAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (mainAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1% 全属性 = {{
-          (allAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (allAttrPercentIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1G = {{
-          (attBaseIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (attBaseIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1G% = {{
-          (attPercentIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (attPercentIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1% Damage / 1% BD = {{
-          (damageIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (damageIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1% 爆伤 = {{
-          (criticalDamageIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (criticalDamageIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-text class="mx-1">1% 无视 = {{
-          (ignoreDefenseIncr / mainAttrBaseIncr).toPrecision(3)
-        }} 主属性</el-text>
+        (ignoreDefenseIncr / mainAttrBaseIncr).toPrecision(3)
+      }} 主属性</el-text>
     </div>
     <div class="input">
       <el-button type="danger" @click="Object.assign(data, default_data)">全部还原为默认值</el-button>
@@ -370,7 +370,7 @@ watch(data, () => {
 
 onMounted(() => {
   const StatEquivalentCalculatorData = localStorage.getItem(
-      "StatEquivalentCalculatorData"
+    "StatEquivalentCalculatorData"
   );
   if (StatEquivalentCalculatorData) {
     const v = JSON.parse(StatEquivalentCalculatorData);
