@@ -1,0 +1,35 @@
+name: lint
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+    - name: Lint
+      run: |
+        npm install
+        npm run lint
+    - name: Commit formatted code
+      continue-on-error: true
+      run: |
+        if [[ -n $(git status --porcelain) ]]; then
+        git config --local user.name 'github-actions[bot]'
+        git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add --all
+        git commit -m "npx eslint"
+        git push
+        else
+        echo "No changes to the output on this push; exiting."
+        fi
