@@ -1,27 +1,27 @@
 <template>
-  <div class="row" justify="space-evenly">
+  <div class="row">
     <el-card
-      v-for="(item, index) in list"
-      :key="index"
-      :header="item.name"
-      class="card"
+        v-for="(item, index) in list"
+        :key="index"
+        :header="item.name"
+        class="card"
     >
       <div class="input">
         <el-text class="mx-1">当前等级：</el-text>
         <el-input-number
-          v-model="item.level"
-          :min="item.min"
-          :max="item.max"
-          @change="calculate(item.data, item.level, item.target, index)"
+            v-model="item.level"
+            :min="item.min"
+            :max="item.max"
+            @change="calculate(item.data, item.level, item.target, index)"
         />
       </div>
       <div class="input">
         <el-text class="mx-1">目标等级：</el-text>
         <el-input-number
-          v-model="item.target"
-          :min="item.min"
-          :max="item.max"
-          @change="calculate(item.data, item.level, item.target, index)"
+            v-model="item.target"
+            :min="item.min"
+            :max="item.max"
+            @change="calculate(item.data, item.level, item.target, index)"
         />
       </div>
       <div>
@@ -32,13 +32,12 @@
       </div>
     </el-card>
   </div>
-  <el-divider />
   <div>
     <div>
       <el-progress
-        :percentage="percentage"
-        :format="format"
-        style="width: 100%; max-width: 400px"
+          :percentage="percentage"
+          :format="format"
+          style="width: 100%; max-width: 400px"
       />
     </div>
     <div>
@@ -48,30 +47,68 @@
       <el-text class="mx-1">还需要碎片总量：{{ totalLeft }}</el-text>
     </div>
   </div>
+  <h2>六转核心所需数量表</h2>
+  <div>
+    <el-table :data="costData2" border style="width: 840px">
+      <el-table-column prop="level" label="当前等级"/>
+      <el-table-column label="技能核心">
+        <el-table-column prop="skillNeed" label="升级所需数量"/>
+        <el-table-column prop="skillTotal" label="累计数量"/>
+      </el-table-column>
+      <el-table-column label="精通核心">
+        <el-table-column prop="jingtongNeed" label="升级所需数量"/>
+        <el-table-column prop="jingtongTotal" label="累计数量"/>
+      </el-table-column>
+      <el-table-column label="强化核心">
+        <el-table-column prop="strongNeed" label="升级所需数量"/>
+        <el-table-column prop="strongTotal" label="累计数量"/>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, onMounted, watch } from "vue";
+import {reactive, computed, onMounted, watch} from "vue";
 import {
   ElCard,
-  ElDivider,
   ElText,
   ElInputNumber,
-  ElProgress,
+  ElProgress, ElTable, ElTableColumn,
 } from "element-plus";
 
 const skillCostData = [
   0, 30, 35, 40, 45, 50, 55, 60, 65, 200, 80, 90, 100, 110, 120, 130, 140, 150,
-  160, 350, 170, 180, 190, 200, 210, 220, 230, 240, 250, 500,
+  160, 350, 170, 180, 190, 200, 210, 220, 230, 240, 250, 500, 0
 ];
 const jingtongCostData = [
   50, 15, 18, 20, 23, 25, 28, 30, 33, 100, 40, 45, 50, 55, 60, 65, 70, 75, 80,
-  175, 85, 90, 95, 100, 105, 110, 115, 120, 125, 250,
+  175, 85, 90, 95, 100, 105, 110, 115, 120, 125, 250, 0
 ];
 const strongCostData = [
   75, 23, 27, 30, 34, 38, 42, 45, 49, 150, 60, 68, 75, 83, 90, 98, 105, 113,
-  120, 263, 128, 135, 143, 150, 158, 165, 173, 180, 188, 375,
+  120, 263, 128, 135, 143, 150, 158, 165, 173, 180, 188, 375, 0
 ];
+
+const costData2 = computed(() => {
+  let skillTotal = 0;
+  let jingtongTotal = 0;
+  let strongTotal = 0;
+  return skillCostData.map((item, index) => {
+    let ret = {
+      level: index,
+      skillNeed: skillCostData[index],
+      skillTotal: skillTotal,
+      jingtongNeed: jingtongCostData[index],
+      jingtongTotal: jingtongTotal,
+      strongNeed: strongCostData[index],
+      strongTotal: strongTotal,
+    };
+    skillTotal += skillCostData[index];
+    jingtongTotal += jingtongCostData[index];
+    strongTotal += strongCostData[index];
+    return ret;
+  });
+});
 
 const list = reactive([
   {
@@ -161,14 +198,14 @@ const totalLeft = computed(() => {
   return v;
 });
 const percentage = computed(
-  () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
+    () => (totalCost.value / (totalCost.value + totalLeft.value)) * 100 || 0
 );
 
 const calculate = (
-  data: number[],
-  level: number,
-  target: number,
-  index: number
+    data: number[],
+    level: number,
+    target: number,
+    index: number
 ) => {
   let cost = 0;
   let left = 0;
@@ -186,14 +223,14 @@ const format = (percentage: number) => percentage.toFixed(2) + "%";
 
 watch(list, () => {
   localStorage.setItem(
-    "HEXAData",
-    JSON.stringify(
-      list.map((item) => ({
-        name: item.name,
-        level: item.level,
-        target: item.target,
-      }))
-    )
+      "HEXAData",
+      JSON.stringify(
+          list.map((item) => ({
+            name: item.name,
+            level: item.level,
+            target: item.target,
+          }))
+      )
   );
 });
 
@@ -201,7 +238,7 @@ interface StorageData {
   name: string;
   level: number;
   target: number;
-  min : number;
+  min: number;
 }
 
 onMounted(() => {
@@ -221,6 +258,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:deep(.el-table__header-wrapper .el-table__header) {
+  margin: 0;
+}
+
+:deep(.el-table__body-wrapper .el-table__body) {
+  margin: 0;
+}
+
+:deep(th) {
+  border: none;
+}
+
+:deep(td) {
+  border: none;
+}
+
 .row {
   margin: 10px 0;
   display: grid;

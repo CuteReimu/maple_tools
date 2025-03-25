@@ -1,6 +1,7 @@
 ---
 title: 联盟摆放助手
 icon: calculator
+order: 4
 ---
 
 <iframe
