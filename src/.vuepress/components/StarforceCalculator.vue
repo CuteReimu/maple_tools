@@ -83,7 +83,7 @@
       />
     </el-form-item>
     <el-form-item>
-      <el-button size="large" type="warning" :disabled="form.trials<=0">
+      <el-button size="large" type="warning" :disabled="form.trials<=0" @click="doStuff">
         <template #icon>
           <VPIcon icon="calculator" />
         </template>
@@ -91,30 +91,31 @@
       </el-button>
     </el-form-item>
   </el-form>
-  <el-row class="row">
+  <el-row class="row" v-if="show">
     <el-card>
-      <div><el-text class="mx-1">1</el-text></div>
-      <div><el-text class="mx-1">1</el-text></div>
-      <div><el-text class="mx-1">1</el-text></div>
-      <div><el-text class="mx-1">1</el-text></div>
+      <div><el-text class="mx-1">Mesos Stats</el-text></div>
+      <div><el-text class="mx-1">Average cost: {{ average_mesos }}</el-text></div>
+      <div><el-text class="mx-1">Median cost: {{ median_cost }}</el-text></div>
+      <div><el-text class="mx-1">Range of cost: {{ min_cost }} - {{ max_cost }}</el-text></div>
     </el-card>
     <el-card>
-      <div><el-text class="mx-1">1</el-text></div>
-      <div><el-text class="mx-1">1</el-text></div>
-      <div><el-text class="mx-1">1</el-text></div>
-      <div><el-text class="mx-1">1</el-text></div>
+      <div><el-text class="mx-1">Mesos Percentiles</el-text></div>
+      <div><el-text class="mx-1">75% chance within {{ seventy_fifth_percentile }} mesos</el-text></div>
+      <div><el-text class="mx-1">85% chance within {{ eighty_fifth_percentile }} mesos</el-text></div>
+      <div><el-text class="mx-1">95% chance within {{ ninty_fifth_percentile }} mesos</el-text></div>
     </el-card>
   </el-row>
 </template>
 
 <script setup lang="ts">
-import {reactive, computed, onMounted} from "vue";
+import {reactive, ref} from "vue";
 import {
   ElCard, ElText, ElRow,
   ElInputNumber, ElSelect, ElOption,
   ElCheckboxGroup, ElCheckbox,
   ElForm, ElFormItem, ElButton,
 } from "element-plus";
+import * as Utils from "./StarforceCalculator.js";
 
 const form = reactive({
   itemLevel: 200,
@@ -126,6 +127,68 @@ const form = reactive({
   events: [],
   trials: 1000,
 });
+
+const show = ref(false);
+const average_mesos = ref("");
+const median_cost = ref("");
+const min_cost = ref("");
+const max_cost = ref("");
+const seventy_fifth_percentile = ref("");
+const eighty_fifth_percentile = ref("");
+const ninty_fifth_percentile = ref("");
+
+const doStuff = () => {
+  const item_level = form.itemLevel;
+  const item_type = 'normal';
+  const current_star = form.cur_stars;
+  const desired_star = form.target_stars;
+  const region = form.server;
+  const boom_protect = form.misc.includes('safeguard');
+  const star_catch = form.misc.includes('starcatching');
+  const boom_event = form.events.includes('boom_event');
+  const mvp = form.mvp;
+  const sauna = false;
+  const total_trials = form.trials;
+  const thirty_off = form.events.includes('thirty_off');
+  const five_ten_fifteen = form.events.includes('five_ten_fifteen');
+  const two_plus = form.events.includes('plus2');
+  const useAEE = false
+  const server = form.server;
+
+  const rates = Utils.getRates(server, item_type, useAEE);
+
+  const silver = mvp === 'silver';
+  const gold = mvp === 'gold';
+  const diamond = mvp === 'diamond';
+  
+  const result = Utils.repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event);
+  //result = [average_cost, average_booms, meso_result_list, boom_result_list, median_cost, median_booms, max_cost, min_cost, max_booms, min_booms, meso_std, boom_std, meso_result_list_divided]
+  average_mesos.value = result[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const average_booms = result[1];
+
+  median_cost.value = result[4].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const median_booms = result[5];
+
+  const meso_result_list = result[2];
+  const meso_result_list_divided = result[12];
+  const boom_result_list = result[3];
+
+  max_cost.value = result[6].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  min_cost.value = result[7].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const max_booms = result[8];
+  const min_booms = result[9];
+
+  seventy_fifth_percentile.value = (Utils.percentile(meso_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  eighty_fifth_percentile.value = (Utils.percentile(meso_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  ninty_fifth_percentile.value = (Utils.percentile(meso_result_list, 0.95).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  const seventy_fifth_percentile_boom = (Utils.percentile(boom_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const eighty_fifth_percentile_boom = (Utils.percentile(boom_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const ninty_fifth_percentile_boom = (Utils.percentile(boom_result_list, 0.95).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  show.value = true;
+};
 </script>
 
 <style scoped>
