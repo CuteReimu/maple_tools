@@ -329,7 +329,7 @@ const doStuff = () => {
   booms_result.value = {
     average: result[1],
     median: result[5],
-    min: result[8],
+    min: result[9],
     max: result[8],
     seventy_fifth_percentile: (percentile(boom_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     eighty_fifth_percentile: (percentile(boom_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
