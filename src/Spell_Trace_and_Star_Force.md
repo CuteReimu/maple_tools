@@ -1112,6 +1112,10 @@ For convenience, the total stats gained from enhancement will be listed below. S
 
 请注意，暴君装备的星级与**普通装备星级的处理方式相同**，同样适用于16+星级和更低的星级。总的来说，星星是重复计算的。
 
+<script setup>
+import StarforceCalculator from "@StarforceCalculator";
+</script>
+
 <style scoped>
 :deep(.el-table__header-wrapper .el-table__header) {
   margin: 0;
