@@ -6,6 +6,14 @@ headerDepth: 3
 editLink: true
 ---
 
+<StarforceCalculator></StarforceCalculator>
+
+::: note 注意
+由于22星以上的升星概率非常低，如果你试图升星超过22颗星，计算器可能会崩溃。
+:::
+
+## 星之力强化
+
 星之力强化是装备的额外增强。将星星注入您的装备以获得属性加成！这个系统需要**花费 mesos**
 来使用。或者，可以使用星力卷轴直接将完全卷轴的物品（可能有也可能没有等级要求，具体取决于卷轴）带到所述的星之力（从活动中给出）。
 
@@ -1103,6 +1111,10 @@ For convenience, the total stats gained from enhancement will be listed below. S
 | 391 或更高           | 	168                                          |
 
 请注意，暴君装备的星级与**普通装备星级的处理方式相同**，同样适用于16+星级和更低的星级。总的来说，星星是重复计算的。
+
+<script setup>
+import StarforceCalculator from "@StarforceCalculator";
+</script>
 
 <style scoped>
 :deep(.el-table__header-wrapper .el-table__header) {

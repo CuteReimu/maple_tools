@@ -5,6 +5,7 @@
     "target": "ES2022"
   },
   "include": [
+    "src/.vuepress/components/*.js",
     "src/.vuepress/**/*.ts",
     "src/.vuepress/**/*.vue"
   ],
