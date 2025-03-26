@@ -3,6 +3,9 @@ title: 联盟摆放助手
 icon: rectangle-list
 order: 4
 sidebar: false
+breadcrumb: true
+contributors: false
+lastUpdated: false
 ---
 
 <iframe

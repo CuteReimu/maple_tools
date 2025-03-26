@@ -1,8 +1,9 @@
 ---
-home: true
+title: MapleStory工具集
 icon: house
-heroText: false
 index: false
+contributors: false
+lastUpdated: false
 ---
 
 <Catalog></Catalog>
