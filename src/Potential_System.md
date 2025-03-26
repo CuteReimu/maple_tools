@@ -3,6 +3,7 @@ title: 潜能（洗魔方）
 icon: rectangle-list
 order: 6
 headerDepth: 2
+editLink: true
 ---
 
 ## Regular Potential
