@@ -33,6 +33,7 @@
         :min="0"
         :max="form.server=='kms'?30:25"
         controls-position="right"
+        @change="onUpdateTargetStars"
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
@@ -156,19 +157,19 @@
   </el-row>
   <Bar
     v-if="show"
-    id="my-chart-id"
+    id="boom-chart"
     :options="chartOptions"
     :data="chartData"
   />
 </template>
 
 <script setup lang="ts">
-import {computed, reactive, ref} from "vue";
+import {computed, h, reactive, ref} from "vue";
 import {
   ElCard, ElText, ElRow,
   ElInputNumber, ElSelect, ElOption,
   ElCheckboxGroup, ElCheckbox,
-  ElForm, ElFormItem, ElButton,
+  ElForm, ElFormItem, ElButton, ElMessage,
 } from "element-plus";
 import {getRates, grabColumnColors, percentile, repeatExperiment} from "./StarforceCalculator.js";
 import {Bar} from 'vue-chartjs'
@@ -176,7 +177,6 @@ import {
   Chart as ChartJS,
   Title,
   Tooltip,
-  Legend,
   BarElement,
   CategoryScale,
   LinearScale,
@@ -184,7 +184,7 @@ import {
   ChartData
 } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale)
 
 const chartData = computed<ChartData>(() => {
   let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
@@ -246,6 +246,18 @@ const chartOptions: ChartOptions = {
     intersect: false,
     mode: 'index',
   },
+};
+
+const onUpdateTargetStars = () => {
+  if (form.target_stars > 22) {
+    ElMessage({
+      message: h('p', {
+        class: 'el-message__content',
+        style: 'font-size: unset;'
+      }, '由于22星以上的升星概率非常低，如果你试图升星超过22颗星，计算器可能会崩溃。'),
+      type: 'warning',
+    });
+  }
 };
 
 const form = reactive({

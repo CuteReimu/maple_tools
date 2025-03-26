@@ -8,10 +8,6 @@ editLink: true
 
 <StarforceCalculator></StarforceCalculator>
 
-::: note 注意
-由于22星以上的升星概率非常低，如果你试图升星超过22颗星，计算器可能会崩溃。
-:::
-
 ## 星之力强化
 
 星之力强化是装备的额外增强。将星星注入您的装备以获得属性加成！这个系统需要**花费 mesos**
