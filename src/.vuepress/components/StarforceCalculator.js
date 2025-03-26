@@ -2,12 +2,11 @@
 // Server cost functions
 // Values taken from https://strategywiki.org/wiki/MapleStory/Spell_Trace_and_Star_Force#Meso_Cost
 //
-
-export function makeMesoFn(divisor, currentStarExp = 2.7, extraMult = 1) {
+function makeMesoFn(divisor, currentStarExp = 2.7, extraMult = 1) {
   return (currentStar, itemLevel) => 100 * Math.round(extraMult * itemLevel ** 3 * ((currentStar + 1) ** currentStarExp) / divisor + 10);
 }
 
-export function preSaviorMesoFn(current_star) {
+function preSaviorMesoFn(current_star) {
   if (current_star >= 15) {
     return makeMesoFn(20000);
   }
@@ -17,60 +16,60 @@ export function preSaviorMesoFn(current_star) {
   return makeMesoFn(2500, 1);
 }
 
-export function preSaviorCost(current_star, item_level) {
+function preSaviorCost(current_star, item_level) {
   const mesoFn = preSaviorMesoFn(current_star);
   return mesoFn(current_star, item_level);
 }
 
-export function saviorMesoFn(current_star) {
+function saviorMesoFn(current_star) {
   switch (current_star) {
-    case 11:
-      return makeMesoFn(22000);
-    case 12:
-      return makeMesoFn(15000);
-    case 13:
-      return makeMesoFn(11000);
-    case 14:
-      return makeMesoFn(7500);
-    default:
-      return preSaviorMesoFn(current_star);
+  case 11:
+    return makeMesoFn(22000);
+  case 12:
+    return makeMesoFn(15000);
+  case 13:
+    return makeMesoFn(11000);
+  case 14:
+    return makeMesoFn(7500);
+  default:
+    return preSaviorMesoFn(current_star);
   }
 }
 
-export function kmsMesoFn(current_star) {
+function kmsMesoFn(current_star) {
   switch (current_star) {
-    case 11:
-      return makeMesoFn(22000);
-    case 12:
-      return makeMesoFn(15000);
-    case 13:
-      return makeMesoFn(11000);
-    case 14:
-      return makeMesoFn(7500);
-    case 17:
-      return makeMesoFn(20000, 2.7, 4/3);
-    case 18:
-      return makeMesoFn(20000, 2.7, 20/7);
-    case 19:
-      return makeMesoFn(20000, 2.7, 40/9);
-    case 21:
-      return makeMesoFn(20000, 2.7, 8/5);
-    default:
-      return preSaviorMesoFn(current_star);
+  case 11:
+    return makeMesoFn(22000);
+  case 12:
+    return makeMesoFn(15000);
+  case 13:
+    return makeMesoFn(11000);
+  case 14:
+    return makeMesoFn(7500);
+  case 17:
+    return makeMesoFn(20000, 2.7, 4/3);
+  case 18:
+    return makeMesoFn(20000, 2.7, 20/7);
+  case 19:
+    return makeMesoFn(20000, 2.7, 40/9);
+  case 21:
+    return makeMesoFn(20000, 2.7, 8/5);
+  default:
+    return preSaviorMesoFn(current_star);
   }
 }
 
-export function saviorCost(current_star, item_level) {
+function saviorCost(current_star, item_level) {
   const mesoFn = saviorMesoFn(current_star);
   return mesoFn(current_star, item_level);
 }
 
-export function kmsCost(current_star, item_level) {
+function kmsCost(current_star, item_level) {
   const mesoFn = kmsMesoFn(current_star);
   return mesoFn(current_star, item_level);
 }
 
-export function tmsRegMesoFn(current_star) {
+function tmsRegMesoFn(current_star) {
   if (current_star >= 20) {
     return makeMesoFn(4000);
   }
@@ -86,12 +85,12 @@ export function tmsRegMesoFn(current_star) {
   return makeMesoFn(2500, 1);
 }
 
-export function tmsRegCost(current_star, item_level) {
+function tmsRegCost(current_star, item_level) {
   const mesoFn = tmsRegMesoFn(current_star);
   return mesoFn(current_star, item_level);
 }
 
-export function tmsRebootCost(current_star, item_level) {
+function tmsRebootCost(current_star, item_level) {
   const adjusted_level = item_level > 150 ? 150 : item_level;
   return saviorCost(current_star, adjusted_level);
 }
@@ -108,7 +107,7 @@ const SERVER_COST_FUNCTIONS = {
   'kms': kmsCost
 }
 
-export function getBaseCost(server, current_star, item_level) {
+function getBaseCost(server, current_star, item_level) {
   const costFn = SERVER_COST_FUNCTIONS[server];
   return costFn(current_star, item_level, server);
 }
@@ -252,7 +251,7 @@ export function getRates(server, itemType, useAEE) {
   return SERVER_RATES[server];
 }
 
-export function getSafeguardMultiplierIncrease(current_star, sauna, server) {
+function getSafeguardMultiplierIncrease(current_star, sauna, server) {
   if (server === 'kms' && current_star >= 15 && current_star <= 17) {
     return 2;
   }
@@ -281,44 +280,7 @@ export function percentile(arr, p) {
   return arr[lower] * (1 - weight) + arr[upper] * weight;
 }
 
-// Returns the percentile of the given value in a sorted numeric array.
-export function percentRank(arr, v) {
-  if (typeof v !== 'number') throw new TypeError('v must be a number');
-  for (let i = 0, l = arr.length; i < l; i++) {
-    if (v <= arr[i]) {
-      while (i < l && v === arr[i]) i++;
-      if (i === 0) return 0;
-      if (v !== arr[i - 1]) {
-        i += (v - arr[i - 1]) / (arr[i] - arr[i - 1]);
-      }
-      return i / l;
-    }
-  }
-  return 1;
-}
-
-export function standardDeviation(values) {
-  const avg = average(values);
-
-  const squareDiffs = values.map(function (value) {
-    const diff = value - avg;
-    return diff * diff;
-  });
-
-  const avgSquareDiff = average(squareDiffs);
-
-  return Math.sqrt(avgSquareDiff);
-}
-
-export function average(data) {
-  const sum = data.reduce(function (sum, value) {
-    return sum + value;
-  }, 0);
-
-  return sum / data.length;
-}
-
-export function median(values) {
+function median(values) {
 
   values.sort(function (a, b) {
     return a - b;
@@ -332,7 +294,7 @@ export function median(values) {
     return (values[half - 1] + values[half]) / 2.0;
 }
 
-export function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chance_time, item_type, server) {
+function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chance_time, item_type, server) {
   // if (item_type == "tyrant"){
   //     var attempt_cost = item_level**3.56;
   //     return parseFloat(attempt_cost.toFixed(0))
@@ -372,11 +334,63 @@ export function attemptCost(current_star, item_level, boom_protect, thirty_off, 
   return parseFloat(attempt_cost.toFixed(0))
 }
 
-export function checkChanceTime(decrease_count) {
+function checkChanceTime(decrease_count) {
   return decrease_count === 2
 }
 
-export function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
+export function grabColumnColors(boomsAmount, boomPercentiles) {
+  let backgroundColors = [
+    'rgba(75, 192, 192, 0.2)', // green
+    'rgba(54, 162, 235, 0.2)', // blue
+    'rgba(255, 205, 86, 0.2)', // yellow
+    'rgba(255, 159, 64, 0.2)', // orange
+    'rgba(255, 99, 132, 0.2)', // red
+    'rgba(192, 192, 192, 0.2)',// gray
+  ];
+  let borderColors = [
+    'rgb(75, 192, 192)',
+    'rgb(54, 162, 235)',
+    'rgb(255, 205, 86)',
+    'rgb(255, 159, 64)',
+    'rgb(255, 99, 132)',
+    'rgb(192, 192, 192)',
+  ];
+
+  switch (true) {
+  case boomsAmount === 0:
+    return {
+      background: backgroundColors[0],
+      border: borderColors[0]
+    };
+  case boomsAmount <= boomPercentiles.median_booms:
+    return {
+      background: backgroundColors[1],
+      border: borderColors[1]
+    };
+  case boomsAmount <= boomPercentiles.seventy_fifth_percentile_boom:
+    return {
+      background: backgroundColors[2],
+      border: borderColors[2]
+    };
+  case boomsAmount <= boomPercentiles.eighty_fifth_percentile_boom:
+    return {
+      background: backgroundColors[3],
+      border: borderColors[3]
+    };
+  case boomsAmount <= boomPercentiles.ninty_fifth_percentile_boom:
+    return {
+      background: backgroundColors[4],
+      border: borderColors[4]
+    };
+  default:
+    return {
+      background: backgroundColors[5],
+      border: borderColors[5]
+    };
+  }
+}
+
+function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
   /** returns either "Success", "Maintain", "Decrease", or "Boom" */
   if (five_ten_fifteen && server !== 'kms') {
     if (current_star === 5 || current_star === 10 || current_star === 15) {
@@ -448,7 +462,7 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
   }
 }
 
-export function performExperiment(current_stars, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event) {
+function performExperiment(current_stars, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event) {
   /** returns [total_mesos, total_booms]  or [AEE_amount, total_booms]*/
   let current_star = current_stars;
   let total_mesos = 0;

@@ -83,7 +83,12 @@
       />
     </el-form-item>
     <el-form-item>
-      <el-button size="large" type="warning" :disabled="form.trials<=0" @click="doStuff">
+      <el-button
+        size="large"
+        type="warning"
+        :disabled="form.trials<=0"
+        @click="doStuff"
+      >
         <template #icon>
           <VPIcon icon="calculator" />
         </template>
@@ -91,31 +96,157 @@
       </el-button>
     </el-form-item>
   </el-form>
-  <el-row class="row" v-if="show">
+  <el-row v-if="show" class="row">
     <el-card>
-      <div><el-text class="mx-1">Mesos Stats</el-text></div>
-      <div><el-text class="mx-1">消耗平均值：{{ average_mesos }}</el-text></div>
-      <div><el-text class="mx-1">消耗中位数：{{ median_cost }}</el-text></div>
-      <div><el-text class="mx-1">消耗区间：{{ min_cost }} - {{ max_cost }}</el-text></div>
+      <div>
+        <el-text class="mx-1" size="large" style="font-weight: bold;">Mesos统计</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">消耗平均值：{{ mesos_result.average }}</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">消耗中位数：{{ mesos_result.median }}</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">消耗区间：{{ mesos_result.min }} - {{ mesos_result.max }}</el-text>
+      </div>
     </el-card>
     <el-card>
-      <div><el-text class="mx-1">Mesos Percentiles</el-text></div>
-      <div><el-text class="mx-1">75%置信概率在{{ seventy_fifth_percentile }} mesos以内</el-text></div>
-      <div><el-text class="mx-1">85%置信概率在{{ eighty_fifth_percentile }} mesos以内</el-text></div>
-      <div><el-text class="mx-1">95%置信概率在{{ ninty_fifth_percentile }} mesos以内</el-text></div>
+      <div>
+        <el-text class="mx-1" size="large" style="font-weight: bold;">Mesos概率</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">75%置信概率在 {{ mesos_result.seventy_fifth_percentile }} mesos以内</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">85%置信概率在 {{ mesos_result.eighty_fifth_percentile }} mesos以内</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">95%置信概率在 {{ mesos_result.ninty_fifth_percentile }} mesos以内</el-text>
+      </div>
+    </el-card>
+    <el-card>
+      <div>
+        <el-text class="mx-1" size="large" style="font-weight: bold;">爆炸次数统计</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">爆炸次数平均值：{{ booms_result.average }}</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">爆炸次数中位数：{{ booms_result.median }}</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">爆炸次数区间：{{ booms_result.min }} - {{ booms_result.max }}</el-text>
+      </div>
+    </el-card>
+    <el-card>
+      <div>
+        <el-text class="mx-1" size="large" style="font-weight: bold;">爆炸次数概率</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">75%置信概率爆炸次数在 {{ booms_result.seventy_fifth_percentile }} 以内</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">85%置信概率爆炸次数在 {{ booms_result.eighty_fifth_percentile }} 以内</el-text>
+      </div>
+      <div>
+        <el-text class="mx-1">95%置信概率爆炸次数在 {{ booms_result.ninty_fifth_percentile }} 以内</el-text>
+      </div>
     </el-card>
   </el-row>
+  <Bar
+    v-if="show"
+    id="my-chart-id"
+    :options="chartOptions"
+    :data="chartData"
+  />
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import {
   ElCard, ElText, ElRow,
   ElInputNumber, ElSelect, ElOption,
   ElCheckboxGroup, ElCheckbox,
   ElForm, ElFormItem, ElButton,
 } from "element-plus";
-import * as Utils from "./StarforceCalculator.js";
+import {getRates, grabColumnColors, percentile, repeatExperiment} from "./StarforceCalculator.js";
+import {Bar} from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  ChartOptions,
+  ChartData
+} from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
+const chartData = computed<ChartData>(() => {
+  let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+  let colorMatrix = Array.from(boomMap.keys()).map(key => {
+    return grabColumnColors(key, boomChartResult.value.boomPercentiles);
+  });
+
+  let backgroundArray = colorMatrix.map(el => el.background);
+  let borderArray = colorMatrix.map(el => el.border);
+
+  return {
+    labels: Array.from(boomMap.keys()),
+    datasets: [{
+      data: Array.from(boomMap.values()),
+      backgroundColor: backgroundArray,
+      borderColor: borderArray,
+      borderWidth: 1
+    }]
+  };
+});
+const chartOptions: ChartOptions = {
+  plugins: {
+    title: {
+      display: true,
+      text: '频率直方图',
+      padding: {
+        top: 30,
+        bottom: 20
+      },
+      font: {size: 20}
+    },
+    legend: {
+      display: false
+    },
+    tooltip: {
+      callbacks: {
+        title: (context) => context[0].label + " 次爆炸",
+        label: function ({raw, dataset}) {
+          let trialsAmount = 0;
+          for (let i = 0; i < dataset.data.length; i++) {
+            trialsAmount += dataset.data[i] as number;
+          }
+          return `出现 ${raw} 次 (${raw as number * 100 / trialsAmount}%)`;
+        },
+      }
+    },
+  },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: '爆炸次数',
+        font: {size: 18},
+      }
+    },
+    y: {}
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index',
+  },
+};
 
 const form = reactive({
   itemLevel: 200,
@@ -129,20 +260,39 @@ const form = reactive({
 });
 
 const show = ref(false);
-const average_mesos = ref("");
-const median_cost = ref("");
-const min_cost = ref("");
-const max_cost = ref("");
-const seventy_fifth_percentile = ref("");
-const eighty_fifth_percentile = ref("");
-const ninty_fifth_percentile = ref("");
+const mesos_result = ref({
+  average: "",
+  median: "",
+  min: "",
+  max: "",
+  seventy_fifth_percentile: "",
+  eighty_fifth_percentile: "",
+  ninty_fifth_percentile: "",
+});
+const booms_result = ref({
+  average: "",
+  median: "",
+  min: "",
+  max: "",
+  seventy_fifth_percentile: "",
+  eighty_fifth_percentile: "",
+  ninty_fifth_percentile: "",
+});
+const boomChartResult = ref({
+  boomPercentiles: {
+    median_booms: "",
+    seventy_fifth_percentile_boom: "",
+    eighty_fifth_percentile_boom: "",
+    ninty_fifth_percentile_boom: "",
+  },
+  boomResultList: [],
+})
 
 const doStuff = () => {
   const item_level = form.itemLevel;
   const item_type = 'normal';
   const current_star = form.cur_stars;
   const desired_star = form.target_stars;
-  const region = form.server;
   const boom_protect = form.misc.includes('safeguard');
   const star_catch = form.misc.includes('starcatching');
   const boom_event = form.events.includes('boom_event');
@@ -155,38 +305,46 @@ const doStuff = () => {
   const useAEE = false
   const server = form.server;
 
-  const rates = Utils.getRates(server, item_type, useAEE);
+  const rates = getRates(server, item_type, useAEE);
 
   const silver = mvp === 'silver';
   const gold = mvp === 'gold';
   const diamond = mvp === 'diamond';
-  
-  const result = Utils.repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event);
-  //result = [average_cost, average_booms, meso_result_list, boom_result_list, median_cost, median_booms, max_cost, min_cost, max_booms, min_booms, meso_std, boom_std, meso_result_list_divided]
-  average_mesos.value = result[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const average_booms = result[1];
 
-  median_cost.value = result[4].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const median_booms = result[5];
+  const result = repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event);
+  //result = [average_cost, average_booms, meso_result_list, boom_result_list, median_cost, median_booms, max_cost, min_cost, max_booms, min_booms, meso_std, boom_std, meso_result_list_divided]
 
   const meso_result_list = result[2];
-  const meso_result_list_divided = result[12];
   const boom_result_list = result[3];
 
-  max_cost.value = result[6].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  min_cost.value = result[7].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  mesos_result.value = {
+    average: result[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    median: result[4].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    min: result[7].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    max: result[6].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    seventy_fifth_percentile: (percentile(meso_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    eighty_fifth_percentile: (percentile(meso_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    ninty_fifth_percentile: (percentile(meso_result_list, 0.95).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+  }
+  booms_result.value = {
+    average: result[1],
+    median: result[5],
+    min: result[8],
+    max: result[8],
+    seventy_fifth_percentile: (percentile(boom_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    eighty_fifth_percentile: (percentile(boom_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    ninty_fifth_percentile: (percentile(boom_result_list, 0.95).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+  }
 
-  const max_booms = result[8];
-  const min_booms = result[9];
-
-  seventy_fifth_percentile.value = (Utils.percentile(meso_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  eighty_fifth_percentile.value = (Utils.percentile(meso_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  ninty_fifth_percentile.value = (Utils.percentile(meso_result_list, 0.95).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-  const seventy_fifth_percentile_boom = (Utils.percentile(boom_result_list, 0.75).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const eighty_fifth_percentile_boom = (Utils.percentile(boom_result_list, 0.85).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const ninty_fifth_percentile_boom = (Utils.percentile(boom_result_list, 0.95).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+  boomChartResult.value = {
+    boomResultList: boom_result_list,
+    boomPercentiles: {
+      median_booms: booms_result.value.median,
+      seventy_fifth_percentile_boom: booms_result.value.seventy_fifth_percentile,
+      eighty_fifth_percentile_boom: booms_result.value.eighty_fifth_percentile,
+      ninty_fifth_percentile_boom: booms_result.value.ninty_fifth_percentile,
+    },
+  }
   show.value = true;
 };
 </script>
@@ -199,7 +357,7 @@ const doStuff = () => {
 .el-card {
   text-align: center;
   border-radius: 15px;
-  background: linear-gradient(-45deg, rgba(114,34,121,1) 10%, #f59139 90%);
+  background: linear-gradient(-45deg, rgba(114, 34, 121, 1) 10%, #f59139 90%);
 }
 
 .mx-1 {
@@ -209,7 +367,7 @@ const doStuff = () => {
 .row {
   margin: 10px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
   gap: 10px;
 }
 </style>
