@@ -26,11 +26,9 @@ export default hopeTheme({
   },
   headerDepth: 0,
   breadcrumb: false,
-  editLink: true,
+  editLink: false,
   prevLink: false,
   nextLink: false,
-
-  contributors: false,
 
   navbar,
 
@@ -62,6 +60,19 @@ export default hopeTheme({
     },
     sitemap: false,
     seo: false,
+
+    git: {
+      contributors: {
+        info: [
+          {
+            username: "CuteReimu",
+            name: "咕一菈",
+            alias: ["奇葩の灵梦"],
+          },
+        ],
+        avatar: true,
+      }
+    }
   },
 
   copyright: false,
