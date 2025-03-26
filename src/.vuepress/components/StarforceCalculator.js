@@ -67,7 +67,7 @@ export function saviorCost(current_star, item_level) {
 
 export function kmsCost(current_star, item_level) {
   const mesoFn = kmsMesoFn(current_star);
-  return mesoFn(current_star, item_level, 1, );
+  return mesoFn(current_star, item_level);
 }
 
 export function tmsRegMesoFn(current_star) {
@@ -253,32 +253,17 @@ export function getRates(server, itemType, useAEE) {
 }
 
 export function getSafeguardMultiplierIncrease(current_star, sauna, server) {
-  if (server == 'kms' && current_star >= 15 && current_star <= 17) {
+  if (server === 'kms' && current_star >= 15 && current_star <= 17) {
     return 2;
   }
   if (server === "old" && !sauna && current_star >= 12 && current_star <= 16) {
     return 1;
   }
-  if (server != 'kms' && current_star >= 15 && current_star <= 16) {
+  if (server !== 'kms' && current_star >= 15 && current_star <= 16) {
     return 1;
   }
 
   return 0
-}
-
-// Returns the value at a given percentile in a sorted numeric array.
-// "Linear interpolation between closest ranks" method
-var CREATED_CHART = false
-
-export function loaderOn() {
-  $('#loader1').show();
-  $('#loader2').show();
-  setTimeout(do_stuff, 100);
-}
-
-export function loaderOff() {
-  $('#loader1').hide();
-  $('#loader2').hide()
 }
 
 export function percentile(arr, p) {
@@ -287,7 +272,7 @@ export function percentile(arr, p) {
   if (p <= 0) return arr[0];
   if (p >= 1) return arr[arr.length - 1];
 
-  var index = (arr.length - 1) * p,
+  const index = (arr.length - 1) * p,
     lower = Math.floor(index),
     upper = lower + 1,
     weight = index % 1;
@@ -299,7 +284,7 @@ export function percentile(arr, p) {
 // Returns the percentile of the given value in a sorted numeric array.
 export function percentRank(arr, v) {
   if (typeof v !== 'number') throw new TypeError('v must be a number');
-  for (var i = 0, l = arr.length; i < l; i++) {
+  for (let i = 0, l = arr.length; i < l; i++) {
     if (v <= arr[i]) {
       while (i < l && v === arr[i]) i++;
       if (i === 0) return 0;
@@ -313,27 +298,24 @@ export function percentRank(arr, v) {
 }
 
 export function standardDeviation(values) {
-  var avg = average(values);
+  const avg = average(values);
 
-  var squareDiffs = values.map(function (value) {
-    var diff = value - avg;
-    var sqrDiff = diff * diff;
-    return sqrDiff;
+  const squareDiffs = values.map(function (value) {
+    const diff = value - avg;
+    return diff * diff;
   });
 
-  var avgSquareDiff = average(squareDiffs);
+  const avgSquareDiff = average(squareDiffs);
 
-  var stdDev = Math.sqrt(avgSquareDiff);
-  return stdDev;
+  return Math.sqrt(avgSquareDiff);
 }
 
 export function average(data) {
-  var sum = data.reduce(function (sum, value) {
+  const sum = data.reduce(function (sum, value) {
     return sum + value;
   }, 0);
 
-  var avg = sum / data.length;
-  return avg;
+  return sum / data.length;
 }
 
 export function median(values) {
@@ -342,7 +324,7 @@ export function median(values) {
     return a - b;
   });
 
-  var half = Math.floor(values.length / 2);
+  const half = Math.floor(values.length / 2);
 
   if (values.length % 2)
     return values[half];
@@ -355,7 +337,7 @@ export function attemptCost(current_star, item_level, boom_protect, thirty_off, 
   //     var attempt_cost = item_level**3.56;
   //     return parseFloat(attempt_cost.toFixed(0))
   // }
-  var multiplier = 1;
+  let multiplier = 1;
 
   if (silver && current_star <= 15) {
     multiplier = multiplier - 0.03;
@@ -370,7 +352,7 @@ export function attemptCost(current_star, item_level, boom_protect, thirty_off, 
     multiplier = multiplier - 0.3;
   }
 
-  if (server == "kms") {
+  if (server === "kms") {
     //here
 
     if (boom_protect) {
@@ -380,7 +362,7 @@ export function attemptCost(current_star, item_level, boom_protect, thirty_off, 
   }
   else {
 
-    if (boom_protect && !(five_ten_fifteen && current_star == 15) && !(chance_time)) {
+    if (boom_protect && !(five_ten_fifteen && current_star === 15) && !(chance_time)) {
       multiplier = multiplier + getSafeguardMultiplierIncrease(current_star, sauna, server);
     }
 
@@ -391,135 +373,26 @@ export function attemptCost(current_star, item_level, boom_protect, thirty_off, 
 }
 
 export function checkChanceTime(decrease_count) {
-  return decrease_count == 2
-}
-
-export function grabColumnColors(boomsAmount, boomPercentiles) {
-  let backgroundColors = [
-    'rgba(75, 192, 192, 0.2)', // green
-    'rgba(54, 162, 235, 0.2)', // blue
-    'rgba(255, 205, 86, 0.2)', // yellow
-    'rgba(255, 159, 64, 0.2)', // orange
-    'rgba(255, 99, 132, 0.2)', // red
-    'rgba(192, 192, 192, 0.2)',// gray
-  ];
-  let borderColors = [
-    'rgb(75, 192, 192)',
-    'rgb(54, 162, 235)',
-    'rgb(255, 205, 86)',
-    'rgb(255, 159, 64)',
-    'rgb(255, 99, 132)',
-    'rgb(192, 192, 192)',
-  ];
-
-  switch (true) {
-    case boomsAmount == 0:
-      return {
-        background: backgroundColors[0],
-        border: borderColors[0]
-      };
-    case boomsAmount <= boomPercentiles.median_booms:
-      return {
-        background: backgroundColors[1],
-        border: borderColors[1]
-      };
-    case boomsAmount <= boomPercentiles.seventy_fifth_percentile_boom:
-      return {
-        background: backgroundColors[2],
-        border: borderColors[2]
-      };
-    case boomsAmount <= boomPercentiles.eighty_fifth_percentile_boom:
-      return {
-        background: backgroundColors[3],
-        border: borderColors[3]
-      };
-    case boomsAmount <= boomPercentiles.ninty_fifth_percentile_boom:
-      return {
-        background: backgroundColors[4],
-        border: borderColors[4]
-      };
-    default:
-      return {
-        background: backgroundColors[5],
-        border: borderColors[5]
-      };
-  }
-}
-
-
-export function createCanvas(chartData, canvasId, chartContainer) {
-
-  let canvas = document.createElement('canvas');
-  canvas.setAttribute('id', canvasId);
-  document.querySelector('#' + chartContainer).appendChild(canvas);
-
-  let chart = new Chart(document.getElementById(canvasId), {
-    type: 'bar',
-    data: chartData,
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Frequency Histogram',
-          padding: {
-            top: 30,
-            bottom: 20
-          },
-          font: { size: 20 }
-        },
-        legend: {
-          display: false
-        },
-        tooltip: {
-          callbacks: {
-            title: function (context) {
-              let label = context[0].label;
-              if (label == '0') return 'No Boom';
-              return label == '1' ? '1 Boom' : `${label} Booms`;
-            },
-            label: function (context) {
-              let trialsAmount = context.dataset.data.reduce((partialSum, a) => partialSum + a, 0);
-              return `${context.raw} occurrences (${context.raw * 100 / trialsAmount}%)`;
-            },
-          }
-        },
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Boom Amount',
-            font: { size: 18 },
-          }
-        },
-        y: {}
-      },
-      interaction: {
-        intersect: false,
-        mode: 'index',
-      },
-    }
-  });
-  return chart;
+  return decrease_count === 2
 }
 
 export function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
   /** returns either "Success", "Maintain", "Decrease", or "Boom" */
-  if (five_ten_fifteen && server != 'kms') {
-    if (current_star == 5 || current_star == 10 || current_star == 15) {
+  if (five_ten_fifteen && server !== 'kms') {
+    if (current_star === 5 || current_star === 10 || current_star === 15) {
       return "Success"
     }
   }
 
-  var outcome = Math.random();
+  const outcome = Math.random();
 
-  var probability_success = rates[current_star][0];
-  var probability_maintain = rates[current_star][1];
-  var probability_decrease = rates[current_star][2];
-  var probability_boom = rates[current_star][3];
+  let probability_success = rates[current_star][0];
+  let probability_maintain = rates[current_star][1];
+  let probability_decrease = rates[current_star][2];
+  let probability_boom = rates[current_star][3];
 
   if (sauna) {
-    if ((current_star >= 12 && current_star <= 14) || (item_type == 'tyrant' && (current_star >= 5 && current_star <= 7))) {
+    if ((current_star >= 12 && current_star <= 14) || (item_type === 'tyrant' && (current_star >= 5 && current_star <= 7))) {
       probability_decrease = probability_decrease + probability_boom;
       probability_boom = 0;
     }
@@ -532,20 +405,20 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
     //success + maintain + boom = 1
     //sucess + maintain + boom * (0.7 +0.3) = 1
   }
-  if (boom_protect && current_star <= 16 && server != 'kms') { //boom protection enabled non-KMS
+  if (boom_protect && current_star <= 16 && server !== 'kms') { //boom protection enabled non-KMS
     probability_decrease = probability_decrease + probability_boom;
     probability_boom = 0;
   }
-  if (boom_protect && current_star <= 17 && server == 'kms') { //boom protection enabled KMS
+  if (boom_protect && current_star <= 17 && server === 'kms') { //boom protection enabled KMS
     probability_maintain = probability_maintain + probability_boom;
     probability_boom = 0;
   }
 
   if (star_catch) { //star catch adjustment
     probability_success = probability_success * 1.05;
-    var left_over = 1 - probability_success;
+    const left_over = 1 - probability_success;
 
-    if (probability_decrease == 0) {
+    if (probability_decrease === 0) {
       probability_maintain = probability_maintain * (left_over) / (probability_maintain + probability_boom);
       probability_boom = left_over - probability_maintain;
       //console.log('prob of maintain = ' + probability_maintain + ' and prob of boom = ' + probability_boom);
@@ -577,24 +450,26 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
 
 export function performExperiment(current_stars, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event) {
   /** returns [total_mesos, total_booms]  or [AEE_amount, total_booms]*/
-  var current_star = current_stars;
-  var total_mesos = 0;
-  var total_booms = 0;
-  var decrease_count = 0;
+  let current_star = current_stars;
+  let total_mesos = 0;
+  let total_booms = 0;
+  let decrease_count = 0;
 
   while (current_star < desired_star) {
+    let chanceTime = false;
+    let outcome = "Success";
     if (useAEE) {
       total_mesos++;
-      var chanceTime = false;
+      chanceTime = false;
     }
     else {
-      var chanceTime = false
-      if (server != 'kms') var chanceTime = checkChanceTime(decrease_count);
+      chanceTime = false
+      if (server !== 'kms') chanceTime = checkChanceTime(decrease_count);
       total_mesos = total_mesos + attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chanceTime, item_type, server);
     }
 
     if (chanceTime) {
-      var outcome = "Success";
+      outcome = "Success";
       decrease_count = 0;
       if (two_plus && current_star <= 10) {
         current_star = current_star + 2;
@@ -604,9 +479,9 @@ export function performExperiment(current_stars, desired_star, rates, item_level
       }
     }
     else {
-      var outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
+      outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
 
-      if (outcome == "Success") {
+      if (outcome === "Success") {
         decrease_count = 0;
         if (two_plus && current_star <= 10) {
           current_star = current_star + 2;
@@ -614,16 +489,16 @@ export function performExperiment(current_stars, desired_star, rates, item_level
         else {
           current_star++
         }
-      } else if (outcome == "Decrease") {
+      } else if (outcome === "Decrease") {
         decrease_count++;
         current_star--;
-      } else if (outcome == "Maintain") {
+      } else if (outcome === "Maintain") {
         decrease_count = 0;
-      } else if (outcome == "Boom" && item_type == 'normal') {
+      } else if (outcome === "Boom" && item_type === "normal") {
         decrease_count = 0;
         current_star = 12;
         total_booms++;
-      } else if (outcome == "Boom" && item_type == 'tyrant') {
+      } else if (outcome === "Boom" && item_type === 'tyrant') {
         decrease_count = 0;
         current_star = 0;
         total_booms++;
@@ -636,39 +511,39 @@ export function performExperiment(current_stars, desired_star, rates, item_level
 
 export function repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event) {
   //* return [average_cost, average_booms, meso_result_list, boom_result_list] */
-  var total_mesos = 0;
-  var total_booms = 0;
-  var current_trial = 0;
-  var meso_result_list = [];
-  var boom_result_list = [];
-  var meso_result_list_divided = [];
+  let total_mesos = 0;
+  let total_booms = 0;
+  let current_trial = 0;
+  const meso_result_list = [];
+  const boom_result_list = [];
+  const meso_result_list_divided = [];
 
   while (current_trial < total_trials) {
-    var trial_mesos = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event)[0];
+    const trial_mesos = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event)[0];
     meso_result_list.push(trial_mesos);
     meso_result_list_divided.push(trial_mesos / 1000000000);
 
-    var trial_booms = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event)[1];
+    const trial_booms = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event)[1];
     boom_result_list.push(trial_booms);
 
     total_mesos = total_mesos + trial_mesos;
     total_booms = total_booms + trial_booms;
     current_trial++;
   }
-  var average_cost = parseFloat((total_mesos / total_trials).toFixed(0));
-  var average_booms = parseFloat((total_booms / total_trials).toFixed(2));
+  const average_cost = parseFloat((total_mesos / total_trials).toFixed(0));
+  const average_booms = parseFloat((total_booms / total_trials).toFixed(2));
 
-  var median_cost = median(meso_result_list);
-  var median_booms = median(boom_result_list);
+  const median_cost = median(meso_result_list);
+  const median_booms = median(boom_result_list);
 
-  var max_cost = Math.max.apply(Math, meso_result_list);
-  var max_booms = Math.max.apply(Math, boom_result_list);
+  const max_cost = Math.max.apply(Math, meso_result_list);
+  const max_booms = Math.max.apply(Math, boom_result_list);
 
-  var min_cost = Math.min.apply(Math, meso_result_list);
-  var min_booms = Math.min.apply(Math, boom_result_list);
+  const min_cost = Math.min.apply(Math, meso_result_list);
+  const min_booms = Math.min.apply(Math, boom_result_list);
 
-  var meso_std = 0 //parseFloat(standardDeviation(meso_result_list).toFixed(0));
-  var boom_std = 0 //parseFloat(standardDeviation(boom_result_list).toFixed(2));
+  const meso_std = 0; //parseFloat(standardDeviation(meso_result_list).toFixed(0));
+  const boom_std = 0; //parseFloat(standardDeviation(boom_result_list).toFixed(2));
 
   return [average_cost, average_booms, meso_result_list, boom_result_list, median_cost, median_booms, max_cost, min_cost, max_booms, min_booms, meso_std, boom_std, meso_result_list_divided]
 }

@@ -94,15 +94,15 @@
   <el-row class="row" v-if="show">
     <el-card>
       <div><el-text class="mx-1">Mesos Stats</el-text></div>
-      <div><el-text class="mx-1">Average cost: {{ average_mesos }}</el-text></div>
-      <div><el-text class="mx-1">Median cost: {{ median_cost }}</el-text></div>
-      <div><el-text class="mx-1">Range of cost: {{ min_cost }} - {{ max_cost }}</el-text></div>
+      <div><el-text class="mx-1">消耗平均值：{{ average_mesos }}</el-text></div>
+      <div><el-text class="mx-1">消耗中位数：{{ median_cost }}</el-text></div>
+      <div><el-text class="mx-1">消耗区间：{{ min_cost }} - {{ max_cost }}</el-text></div>
     </el-card>
     <el-card>
       <div><el-text class="mx-1">Mesos Percentiles</el-text></div>
-      <div><el-text class="mx-1">75% chance within {{ seventy_fifth_percentile }} mesos</el-text></div>
-      <div><el-text class="mx-1">85% chance within {{ eighty_fifth_percentile }} mesos</el-text></div>
-      <div><el-text class="mx-1">95% chance within {{ ninty_fifth_percentile }} mesos</el-text></div>
+      <div><el-text class="mx-1">75%置信概率在{{ seventy_fifth_percentile }} mesos以内</el-text></div>
+      <div><el-text class="mx-1">85%置信概率在{{ eighty_fifth_percentile }} mesos以内</el-text></div>
+      <div><el-text class="mx-1">95%置信概率在{{ ninty_fifth_percentile }} mesos以内</el-text></div>
     </el-card>
   </el-row>
 </template>
