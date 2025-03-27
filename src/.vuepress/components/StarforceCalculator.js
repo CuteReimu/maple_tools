@@ -334,7 +334,7 @@ function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, 
   return parseFloat(attempt_cost.toFixed(0))
 }
 
-function checkChanceTime(decrease_count) {
+export function checkChanceTime(decrease_count) {
   return decrease_count === 2
 }
 
@@ -390,7 +390,7 @@ export function grabColumnColors(boomsAmount, boomPercentiles) {
   }
 }
 
-function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
+export function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
   /** returns either "Success", "Maintain", "Decrease", or "Boom" */
   if (five_ten_fifteen && server !== 'kms') {
     if (current_star === 5 || current_star === 10 || current_star === 15) {

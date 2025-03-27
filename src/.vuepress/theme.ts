@@ -54,10 +54,6 @@ export default hopeTheme({
     icon: {
       assets: "fontawesome",
     },
-    slimsearch: {
-      indexContent: true,
-      suggestion: true,
-    },
     sitemap: false,
     seo: false,
 
@@ -72,7 +68,9 @@ export default hopeTheme({
         ],
         avatar: true,
       }
-    }
+    },
+
+    redirect: false,
   },
 
   copyright: false,
