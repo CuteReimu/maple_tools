@@ -19,15 +19,14 @@
         </el-checkbox>
       </el-checkbox-group>
     </el-form-item>
-    <el-form-item label="当前星数：">
+    <el-form-item label="星数：">
       <el-input-number
         v-model="form.cur_stars"
         :min="0"
         :max="form.server=='kms'?30:25"
         controls-position="right"
       />
-    </el-form-item>
-    <el-form-item label="目标星数：">
+      <el-text style="margin: 0 10px 0 10px;">-</el-text>
       <el-input-number
         v-model="form.target_stars"
         :min="0"
@@ -379,7 +378,14 @@ const doStuff = () => {
 .row {
   margin: 10px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  max-width: 960px;
+}
+
+@media (max-width: 710px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
