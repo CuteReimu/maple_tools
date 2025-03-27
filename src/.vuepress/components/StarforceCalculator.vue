@@ -448,23 +448,18 @@ const tryOnce = () => {
 
   const rates = getRates(server, item_type, useAEE);
 
-  let chanceTime: boolean;
+  let chanceTime = false;
   let outcome: string;
-  if (useAEE) {
-    chanceTime = false;
-  } else {
-    chanceTime = false
-    if (server !== 'kms') chanceTime = checkChanceTime(decrease_count);
-  }
+  if (server !== 'kms') chanceTime = checkChanceTime(decrease_count);
 
   if (chanceTime) {
-    outcome = `强化成功！升到${current_star}星！`
     decrease_count = 0;
     if (two_plus && current_star <= 10) {
       current_star = current_star + 2;
     } else {
       current_star++
     }
+    outcome = `强化成功！升到${current_star}星！`
   } else {
     outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
 
@@ -491,7 +486,7 @@ const tryOnce = () => {
     }
   }
 
-  if (chanceTime) {
+  if (checkChanceTime(decrease_count)) {
     outcome += "机会时间！"
   }
 
