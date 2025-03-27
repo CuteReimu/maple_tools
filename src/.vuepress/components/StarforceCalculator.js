@@ -420,7 +420,11 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
     //sucess + maintain + boom * (0.7 +0.3) = 1
   }
   if (boom_protect && current_star <= 16 && server !== 'kms') { //boom protection enabled non-KMS
-    probability_decrease = probability_decrease + probability_boom;
+    if (probability_decrease > 0) {
+      probability_decrease = probability_decrease + probability_boom;
+    } else {
+      probability_maintain = probability_maintain + probability_boom;
+    }
     probability_boom = 0;
   }
   if (boom_protect && current_star <= 17 && server === 'kms') { //boom protection enabled KMS

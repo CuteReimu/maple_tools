@@ -468,9 +468,9 @@ const tryOnce = () => {
       decrease_count = 0;
       outcome = `强化失败！维持${current_star}星！`
     } else if (outcome === "Boom") {
+      outcome = `强化失败！装备在${current_star}星损毁！`
       decrease_count = 0;
       current_star = 12;
-      outcome = `强化失败！装备损毁！`
       item_destroyed.value = true;
     }
   }
