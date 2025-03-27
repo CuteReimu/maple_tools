@@ -12,12 +12,12 @@
     </el-form-item>
     <el-form-item label="道具等级：">
       <el-input-number
-          v-model="form.itemLevel"
-          :min="0"
-          :max="300"
-          :step="10"
-          controls-position="right"
-          :disabled="form.type=='try'"
+        v-model="form.itemLevel"
+        :min="0"
+        :max="300"
+        :step="10"
+        controls-position="right"
+        :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item label="功能：">
@@ -32,45 +32,45 @@
     </el-form-item>
     <el-form-item label="星数：">
       <el-input-number
-          v-model="form.cur_stars"
-          :min="0"
-          :max="form.server=='kms'?30:25"
-          controls-position="right"
-          :disabled="form.type=='try'&&show_try"
+        v-model="form.cur_stars"
+        :min="0"
+        :max="form.server=='kms'?30:25"
+        controls-position="right"
+        :disabled="form.type=='try'&&show_try"
       />
       <el-text style="margin: 0 10px 0 10px;">-</el-text>
       <el-input-number
-          v-model="form.target_stars"
-          :min="0"
-          :max="form.server=='kms'?30:25"
-          controls-position="right"
-          @change="onUpdateTargetStars"
+        v-model="form.target_stars"
+        :min="0"
+        :max="form.server=='kms'?30:25"
+        controls-position="right"
+        @change="onUpdateTargetStars"
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
       <el-select
-          v-model="form.mvp"
-          style="width: 240px"
-          :disabled="form.type=='try'"
+        v-model="form.mvp"
+        style="width: 240px"
+        :disabled="form.type=='try'"
       >
-        <el-option label="无" value="none"/>
-        <el-option label="白银MVP（1-16星3%折扣）" value="silver"/>
-        <el-option label="黄金MVP（1-16星5%折扣）" value="gold"/>
-        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond"/>
+        <el-option label="无" value="none" />
+        <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
+        <el-option label="黄金MVP（1-16星5%折扣）" value="gold" />
+        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond" />
       </el-select>
     </el-form-item>
     <el-form-item label="服务器：">
       <el-select
-          v-model="form.server"
-          style="width: 240px"
-          @change="onUpdateServer"
-          :disabled="form.type=='try'&&show_try"
+        v-model="form.server"
+        style="width: 240px"
+        :disabled="form.type=='try'&&show_try"
+        @change="onUpdateServer"
       >
-        <el-option label="GMS/JMS/SEA" value="gms"/>
-        <el-option label="KMS" value="kms"/>
-        <el-option label="TMS" value="tms"/>
-        <el-option label="TMS Reboot" value="tmsr"/>
-        <el-option label="怀旧服" value="old"/>
+        <el-option label="GMS/JMS/SEA" value="gms" />
+        <el-option label="KMS" value="kms" />
+        <el-option label="TMS" value="tms" />
+        <el-option label="TMS Reboot" value="tmsr" />
+        <el-option label="怀旧服" value="old" />
       </el-select>
     </el-form-item>
     <el-form-item label="活动：">
@@ -81,7 +81,7 @@
         <el-checkbox value="plus2" name="events" :disabled="form.server=='kms'">
           10星前一次2星
         </el-checkbox>
-        <el-checkbox value="thirty_off" name="events" v-if="form.type=='calc'">
+        <el-checkbox v-if="form.type=='calc'" value="thirty_off" name="events">
           花费七折
         </el-checkbox>
         <el-checkbox value="boom_event" name="events" :disabled="form.server!='kms'">
@@ -91,47 +91,47 @@
     </el-form-item>
     <el-form-item label="尝试次数：">
       <el-input-number
-          v-model="form.trials"
-          :min="0"
-          :step="100"
-          controls-position="right"
-          :disabled="form.type=='try'"
+        v-model="form.trials"
+        :min="0"
+        :step="100"
+        controls-position="right"
+        :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item>
       <el-button
-          size="large"
-          type="warning"
-          :disabled="form.trials<=0"
-          @click="doStuff"
-          v-if="form.type=='calc'"
+        v-if="form.type=='calc'"
+        size="large"
+        type="warning"
+        :disabled="form.trials<=0"
+        @click="doStuff"
       >
         <template #icon>
-          <VPIcon icon="calculator"/>
+          <VPIcon icon="calculator" />
         </template>
         计算
       </el-button>
       <el-button
-          size="large"
-          type="warning"
-          @click="tryOnce"
-          v-if="form.type=='try'"
-          :disabled="cannot_try"
+        v-if="form.type=='try'"
+        size="large"
+        type="warning"
+        :disabled="cannot_try"
+        @click="tryOnce"
       >
         点！
       </el-button>
       <el-button
-          size="large"
-          type="danger"
-          @click="resetTryOnce"
-          v-if="form.type=='try'"
+        v-if="form.type=='try'"
+        size="large"
+        type="danger"
+        @click="resetTryOnce"
       >
         重置
       </el-button>
       <el-text
-          size="large"
-          v-if="form.type=='try' && show_try"
-          style="margin-left: 10px;"
+        v-if="form.type=='try' && show_try"
+        size="large"
+        style="margin-left: 10px;"
       >
         {{ try_result }}
       </el-text>
@@ -196,10 +196,10 @@
     </el-card>
   </el-row>
   <Bar
-      v-if="show_calc"
-      id="boom-chart"
-      :options="chartOptions"
-      :data="chartData"
+    v-if="show_calc"
+    id="boom-chart"
+    :options="chartOptions"
+    :data="chartData"
   />
 </template>
 
@@ -331,7 +331,7 @@ let total_count = 0;
 const item_destroyed = ref(false);
 const try_result = ref("");
 const cannot_try = computed(() =>
-    item_destroyed.value || form.cur_stars >= form.target_stars
+  item_destroyed.value || form.cur_stars >= form.target_stars
 );
 
 const show_calc = ref(false);
