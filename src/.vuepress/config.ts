@@ -19,6 +19,8 @@ export default defineUserConfig({
   },
   lang: "zh-CN",
   title: "Maplestory工具集",
-
+  head: [
+    ["link", { rel: "icon", href: '/images/maplestory.png' }],
+  ],
   theme,
 });
