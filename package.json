@@ -14,7 +14,6 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@vuepress/bundler-vite": "^2.0.0-rc.20",
-    "@vuepress/plugin-slimsearch": "^2.0.0-rc.86",
     "dotenv": "^16.4.7",
     "eslint": "^9.23.0",
     "eslint-plugin-vue": "^10.0.0",

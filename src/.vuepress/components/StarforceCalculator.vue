@@ -1,12 +1,23 @@
 <template>
   <el-form :model="form" label-width="auto">
+    <el-form-item label="工具：">
+      <el-radio-group v-model="form.type" fill="#f59139">
+        <el-radio-button value="try" name="type">
+          模拟升星
+        </el-radio-button>
+        <el-radio-button value="calc" name="type">
+          上星期望
+        </el-radio-button>
+      </el-radio-group>
+    </el-form-item>
     <el-form-item label="道具等级：">
       <el-input-number
-        v-model="form.itemLevel"
-        :min="0"
-        :max="300"
-        :step="10"
-        controls-position="right"
+          v-model="form.itemLevel"
+          :min="0"
+          :max="300"
+          :step="10"
+          controls-position="right"
+          :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item label="功能：">
@@ -21,41 +32,45 @@
     </el-form-item>
     <el-form-item label="星数：">
       <el-input-number
-        v-model="form.cur_stars"
-        :min="0"
-        :max="form.server=='kms'?30:25"
-        controls-position="right"
+          v-model="form.cur_stars"
+          :min="0"
+          :max="form.server=='kms'?30:25"
+          controls-position="right"
+          :disabled="form.type=='try'&&show_try"
       />
       <el-text style="margin: 0 10px 0 10px;">-</el-text>
       <el-input-number
-        v-model="form.target_stars"
-        :min="0"
-        :max="form.server=='kms'?30:25"
-        controls-position="right"
-        @change="onUpdateTargetStars"
+          v-model="form.target_stars"
+          :min="0"
+          :max="form.server=='kms'?30:25"
+          controls-position="right"
+          @change="onUpdateTargetStars"
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
       <el-select
-        v-model="form.mvp"
-        style="width: 240px"
+          v-model="form.mvp"
+          style="width: 240px"
+          :disabled="form.type=='try'"
       >
-        <el-option label="无" value="none" />
-        <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
-        <el-option label="黄金MVP（1-16星5%折扣）" value="gold" />
-        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond" />
+        <el-option label="无" value="none"/>
+        <el-option label="白银MVP（1-16星3%折扣）" value="silver"/>
+        <el-option label="黄金MVP（1-16星5%折扣）" value="gold"/>
+        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond"/>
       </el-select>
     </el-form-item>
     <el-form-item label="服务器：">
       <el-select
-        v-model="form.server"
-        style="width: 240px"
+          v-model="form.server"
+          style="width: 240px"
+          @change="onUpdateServer"
+          :disabled="form.type=='try'&&show_try"
       >
-        <el-option label="GMS/JMS/SEA" value="gms" />
-        <el-option label="KMS" value="kms" />
-        <el-option label="TMS" value="tms" />
-        <el-option label="TMS Reboot" value="tmsr" />
-        <el-option label="怀旧服" value="old" />
+        <el-option label="GMS/JMS/SEA" value="gms"/>
+        <el-option label="KMS" value="kms"/>
+        <el-option label="TMS" value="tms"/>
+        <el-option label="TMS Reboot" value="tmsr"/>
+        <el-option label="怀旧服" value="old"/>
       </el-select>
     </el-form-item>
     <el-form-item label="活动：">
@@ -66,7 +81,7 @@
         <el-checkbox value="plus2" name="events" :disabled="form.server=='kms'">
           10星前一次2星
         </el-checkbox>
-        <el-checkbox value="thirty_off" name="events">
+        <el-checkbox value="thirty_off" name="events" v-if="form.type=='calc'">
           花费七折
         </el-checkbox>
         <el-checkbox value="boom_event" name="events" :disabled="form.server!='kms'">
@@ -76,27 +91,53 @@
     </el-form-item>
     <el-form-item label="尝试次数：">
       <el-input-number
-        v-model="form.trials"
-        :min="0"
-        :step="100"
-        controls-position="right"
+          v-model="form.trials"
+          :min="0"
+          :step="100"
+          controls-position="right"
+          :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item>
       <el-button
-        size="large"
-        type="warning"
-        :disabled="form.trials<=0"
-        @click="doStuff"
+          size="large"
+          type="warning"
+          :disabled="form.trials<=0"
+          @click="doStuff"
+          v-if="form.type=='calc'"
       >
         <template #icon>
-          <VPIcon icon="calculator" />
+          <VPIcon icon="calculator"/>
         </template>
         计算
       </el-button>
+      <el-button
+          size="large"
+          type="warning"
+          @click="tryOnce"
+          v-if="form.type=='try'"
+          :disabled="cannot_try"
+      >
+        点！
+      </el-button>
+      <el-button
+          size="large"
+          type="danger"
+          @click="resetTryOnce"
+          v-if="form.type=='try'"
+      >
+        重置
+      </el-button>
+      <el-text
+          size="large"
+          v-if="form.type=='try' && show_try"
+          style="margin-left: 10px;"
+      >
+        {{ try_result }}
+      </el-text>
     </el-form-item>
   </el-form>
-  <el-row v-if="show" class="row">
+  <el-row v-if="show_calc" class="row">
     <el-card>
       <div>
         <el-text class="mx-1" size="large" style="font-weight: bold;">Mesos统计</el-text>
@@ -155,10 +196,10 @@
     </el-card>
   </el-row>
   <Bar
-    v-if="show"
-    id="boom-chart"
-    :options="chartOptions"
-    :data="chartData"
+      v-if="show_calc"
+      id="boom-chart"
+      :options="chartOptions"
+      :data="chartData"
   />
 </template>
 
@@ -167,10 +208,14 @@ import {computed, h, reactive, ref} from "vue";
 import {
   ElCard, ElText, ElRow,
   ElInputNumber, ElSelect, ElOption,
-  ElCheckboxGroup, ElCheckbox,
+  ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadioButton,
   ElForm, ElFormItem, ElButton, ElMessage,
 } from "element-plus";
-import {getRates, grabColumnColors, percentile, repeatExperiment} from "./StarforceCalculator.js";
+import {
+  getRates, grabColumnColors,
+  percentile, repeatExperiment,
+  determineOutcome, checkChanceTime,
+} from "./StarforceCalculator.js";
 import {Bar} from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -185,7 +230,7 @@ import {
 
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale)
 
-const chartData = computed<ChartData>(() => {
+const chartData = computed<ChartData<"bar">>(() => {
   let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
   let colorMatrix = Array.from(boomMap.keys()).map(key => {
     return grabColumnColors(key, boomChartResult.value.boomPercentiles);
@@ -204,7 +249,7 @@ const chartData = computed<ChartData>(() => {
     }]
   };
 });
-const chartOptions: ChartOptions = {
+const chartOptions: ChartOptions<"bar"> = {
   plugins: {
     title: {
       display: true,
@@ -248,7 +293,7 @@ const chartOptions: ChartOptions = {
 };
 
 const onUpdateTargetStars = () => {
-  if (form.target_stars > 22) {
+  if (form.type == 'calc' && form.target_stars > 22) {
     ElMessage({
       message: h('p', {
         class: 'el-message__content',
@@ -259,7 +304,17 @@ const onUpdateTargetStars = () => {
   }
 };
 
+const onUpdateServer = () => {
+  if (form.server === 'kms') {
+    form.events = form.events.filter(e => e !== 'five_ten_fifteen');
+    form.events = form.events.filter(e => e !== 'plus2');
+  } else {
+    form.events = form.events.filter(e => e !== 'boom_event');
+  }
+};
+
 const form = reactive({
+  type: "try",
   itemLevel: 200,
   misc: ["starcatching"],
   cur_stars: 0,
@@ -270,7 +325,16 @@ const form = reactive({
   trials: 1000,
 });
 
-const show = ref(false);
+const show_try = ref(false);
+let decrease_count = 0;
+let total_count = 0;
+const item_destroyed = ref(false);
+const try_result = ref("");
+const cannot_try = computed(() =>
+    item_destroyed.value || form.cur_stars >= form.target_stars
+);
+
+const show_calc = ref(false);
 const mesos_result = ref({
   average: "",
   median: "",
@@ -356,8 +420,87 @@ const doStuff = () => {
       ninty_fifth_percentile_boom: booms_result.value.ninty_fifth_percentile,
     },
   }
-  show.value = true;
+  show_try.value = false;
+  show_calc.value = true;
 };
+
+const resetTryOnce = () => {
+  show_try.value = false;
+  item_destroyed.value = false;
+  total_count = 0;
+  decrease_count = 0;
+  if (form.cur_stars >= form.target_stars) {
+    form.cur_stars = 0;
+  }
+};
+
+const tryOnce = () => {
+  const item_type = 'normal';
+  let current_star = form.cur_stars;
+  const boom_protect = form.misc.includes('safeguard');
+  const star_catch = form.misc.includes('starcatching');
+  const boom_event = form.events.includes('boom_event');
+  const sauna = false;
+  const five_ten_fifteen = form.events.includes('five_ten_fifteen');
+  const two_plus = form.events.includes('plus2');
+  const useAEE = false
+  const server = form.server;
+
+  const rates = getRates(server, item_type, useAEE);
+
+  let chanceTime: boolean;
+  let outcome: string;
+  if (useAEE) {
+    chanceTime = false;
+  } else {
+    chanceTime = false
+    if (server !== 'kms') chanceTime = checkChanceTime(decrease_count);
+  }
+
+  if (chanceTime) {
+    outcome = `强化成功！升到${current_star}星！`
+    decrease_count = 0;
+    if (two_plus && current_star <= 10) {
+      current_star = current_star + 2;
+    } else {
+      current_star++
+    }
+  } else {
+    outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
+
+    if (outcome === "Success") {
+      decrease_count = 0;
+      if (two_plus && current_star <= 10) {
+        current_star = current_star + 2;
+      } else {
+        current_star++
+      }
+      outcome = `强化成功！升到${current_star}星！`
+    } else if (outcome === "Decrease") {
+      decrease_count++;
+      current_star--;
+      outcome = `强化失败！掉到${current_star}星！`
+    } else if (outcome === "Maintain") {
+      decrease_count = 0;
+      outcome = `强化失败！维持${current_star}星！`
+    } else if (outcome === "Boom") {
+      decrease_count = 0;
+      current_star = 12;
+      outcome = `强化失败！装备损毁！`
+      item_destroyed.value = true;
+    }
+  }
+
+  if (chanceTime) {
+    outcome += "机会时间！"
+  }
+
+  outcome += `共计点了${++total_count}次`;
+  form.cur_stars = current_star;
+  try_result.value = outcome;
+  show_calc.value = false;
+  show_try.value = true;
+}
 </script>
 
 <style scoped>

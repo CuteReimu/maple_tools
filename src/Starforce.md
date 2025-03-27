@@ -62,6 +62,10 @@ import StarforceCalculator from "@StarforceCalculator";
 </script>
 
 <style scoped>
+table {
+  text-wrap: nowrap;
+}
+
 :deep(.el-table__header-wrapper .el-table__header) {
   margin: 0;
 }
