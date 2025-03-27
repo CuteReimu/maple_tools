@@ -216,19 +216,8 @@ import {
   percentile, repeatExperiment,
   determineOutcome, checkChanceTime,
 } from "./StarforceCalculator.js";
-import {Bar} from 'vue-chartjs'
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ChartOptions,
-  ChartData
-} from 'chart.js'
-
-ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale)
+import { Bar } from 'vue-chartjs';
+import { ChartData, ChartOptions } from "chart.js";
 
 const chartData = computed<ChartData<"bar">>(() => {
   let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
