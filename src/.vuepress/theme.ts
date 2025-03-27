@@ -54,6 +54,7 @@ export default hopeTheme({
     icon: {
       assets: "fontawesome",
     },
+    slimsearch: false,
     sitemap: false,
     seo: false,
 
