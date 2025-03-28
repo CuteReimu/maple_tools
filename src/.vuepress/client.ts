@@ -1,18 +1,9 @@
 import {defineClientConfig} from 'vuepress/client';
 import 'element-plus/dist/index.css'
 import "element-plus/theme-chalk/dark/css-vars.css";
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from 'chart.js';
 
 export default defineClientConfig({
   enhance() {
-    ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       // 监听 html 元素的 data-theme 属性变化
       const observer = new MutationObserver((mutations) => {
