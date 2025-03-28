@@ -48,32 +48,34 @@
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
-      <el-select
-        v-if="is_client"
-        v-model="form.mvp"
-        style="width: 240px"
-        :disabled="form.type=='try'"
-      >
-        <el-option label="无" value="none" />
-        <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
-        <el-option label="黄金MVP（1-16星5%折扣）" value="gold" />
-        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond" />
-      </el-select>
+      <ClientOnly>
+        <el-select
+          v-model="form.mvp"
+          style="width: 240px"
+          :disabled="form.type=='try'"
+        >
+          <el-option label="无" value="none" />
+          <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
+          <el-option label="黄金MVP（1-16星5%折扣）" value="gold" />
+          <el-option label="钻石MVP（1-16星10%折扣）" value="diamond" />
+        </el-select>
+      </ClientOnly>
     </el-form-item>
     <el-form-item label="服务器：">
-      <el-select
-        v-if="is_client"
-        v-model="form.server"
-        style="width: 240px"
-        :disabled="form.type=='try'&&show_try"
-        @change="onUpdateServer"
-      >
-        <el-option label="GMS/JMS/SEA" value="gms" />
-        <el-option label="KMS" value="kms" />
-        <el-option label="TMS" value="tms" />
-        <el-option label="TMS Reboot" value="tmsr" />
-        <el-option label="怀旧服" value="old" />
-      </el-select>
+      <ClientOnly>
+        <el-select
+          v-model="form.server"
+          style="width: 240px"
+          :disabled="form.type=='try'&&show_try"
+          @change="onUpdateServer"
+        >
+          <el-option label="GMS/JMS/SEA" value="gms" />
+          <el-option label="KMS" value="kms" />
+          <el-option label="TMS" value="tms" />
+          <el-option label="TMS Reboot" value="tmsr" />
+          <el-option label="怀旧服" value="old" />
+        </el-select>
+      </ClientOnly>
     </el-form-item>
     <el-form-item label="活动：">
       <el-checkbox-group v-model="form.events">
@@ -206,7 +208,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, h, onMounted, reactive, ref} from "vue";
+import {computed, h, reactive, ref} from "vue";
 import {
   ElCard, ElText, ElRow,
   ElInputNumber, ElSelect, ElOption,
@@ -316,7 +318,6 @@ const form = reactive({
   trials: 1000,
 });
 
-const is_client = ref(false);
 const show_try = ref(false);
 let decrease_count = 0;
 let total_count = 0;
@@ -491,10 +492,6 @@ const tryOnce = () => {
   show_calc.value = false;
   show_try.value = true;
 }
-
-onMounted(() => {
-  is_client.value = true;
-});
 </script>
 
 <style scoped>
