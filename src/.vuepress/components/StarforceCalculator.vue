@@ -426,6 +426,9 @@ const resetTryOnce = () => {
 const tryOnce = () => {
   const item_type = 'normal';
   let current_star = form.cur_stars;
+  if (current_star >= form.target_stars) {
+    return;
+  }
   const boom_protect = form.misc.includes('safeguard');
   const star_catch = form.misc.includes('starcatching');
   const boom_event = form.events.includes('boom_event');
