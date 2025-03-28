@@ -48,30 +48,28 @@
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
-      <el-select
+      <el-radio-group
         v-model="form.mvp"
-        style="width: 240px"
         :disabled="form.type=='try'"
       >
-        <el-option label="无" value="none" />
-        <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
-        <el-option label="黄金MVP（1-16星5%折扣）" value="gold" />
-        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond" />
-      </el-select>
+        <el-radio label="无" value="none" />
+        <el-radio label="白银MVP（3%）" value="silver" />
+        <el-radio label="黄金MVP（5%）" value="gold" />
+        <el-radio label="钻石MVP（10%）" value="diamond" />
+      </el-radio-group>
     </el-form-item>
     <el-form-item label="服务器：">
-      <el-select
+      <el-radio-group
         v-model="form.server"
-        style="width: 240px"
         :disabled="form.type=='try'&&show_try"
         @change="onUpdateServer"
       >
-        <el-option label="GMS/JMS/SEA" value="gms" />
-        <el-option label="KMS" value="kms" />
-        <el-option label="TMS" value="tms" />
-        <el-option label="TMS Reboot" value="tmsr" />
-        <el-option label="怀旧服" value="old" />
-      </el-select>
+        <el-radio label="GMS/JMS/SEA" value="gms" />
+        <el-radio label="KMS" value="kms" />
+        <el-radio label="TMS" value="tms" />
+        <el-radio label="TMS Reboot" value="tmsr" />
+        <el-radio label="怀旧服" value="old" />
+      </el-radio-group>
     </el-form-item>
     <el-form-item label="活动：">
       <el-checkbox-group v-model="form.events">
@@ -206,10 +204,9 @@
 <script setup lang="ts">
 import {computed, h, reactive, ref} from "vue";
 import {
-  ElCard, ElText, ElRow,
-  ElInputNumber, ElSelect, ElOption,
-  ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadioButton,
-  ElForm, ElFormItem, ElButton, ElMessage,
+  ElCard, ElText, ElRow, ElInputNumber,
+  ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadio, ElRadioButton,
+  ElForm, ElFormItem, ElButton, ElMessage, ElPopover,
 } from "element-plus";
 import {
   getRates, grabColumnColors,
@@ -219,6 +216,8 @@ import {
 import { Bar } from 'vue-chartjs';
 import { ChartData, ChartOptions } from "chart.js";
 
+const mvp = ref("none");
+const server = ref("gms");
 const chartData = computed<ChartData<"bar">>(() => {
   let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
   let colorMatrix = Array.from(boomMap.keys()).map(key => {

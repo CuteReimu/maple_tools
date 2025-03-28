@@ -11,7 +11,7 @@ lastUpdated: false
   ref="iframeRef"
   :src="legionUrl"
   height="1024px"
-width="1445px"
+  width="1445px"
   class="iframe"
 />
 
