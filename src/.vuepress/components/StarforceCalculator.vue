@@ -216,6 +216,7 @@ import {
 import { Bar } from 'vue-chartjs';
 import { ChartData, ChartOptions } from "chart.js";
 
+const chartData = computed<ChartData<"bar">>(() => {
   let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
   let colorMatrix = Array.from(boomMap.keys()).map(key => {
     return grabColumnColors(key, boomChartResult.value.boomPercentiles);
