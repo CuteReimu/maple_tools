@@ -12,12 +12,12 @@
     </el-form-item>
     <el-form-item label="道具等级：">
       <el-input-number
-          v-model="form.itemLevel"
-          :min="0"
-          :max="300"
-          :step="10"
-          controls-position="right"
-          :disabled="form.type=='try'"
+        v-model="form.itemLevel"
+        :min="0"
+        :max="300"
+        :step="10"
+        controls-position="right"
+        :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item label="功能：">
@@ -32,27 +32,27 @@
     </el-form-item>
     <el-form-item label="星数：">
       <el-input-number
-          v-model="form.cur_stars"
-          :min="0"
-          :max="form.server=='kms'?30:25"
-          controls-position="right"
-          :disabled="form.type=='try'&&show_try"
+        v-model="form.cur_stars"
+        :min="0"
+        :max="form.server=='kms'?30:25"
+        controls-position="right"
+        :disabled="form.type=='try'&&show_try"
       />
       <el-text style="margin: 0 10px 0 10px;">-</el-text>
       <el-input-number
-          v-model="form.target_stars"
-          :min="0"
-          :max="form.server=='kms'?30:25"
-          controls-position="right"
-          @change="onUpdateTargetStars"
+        v-model="form.target_stars"
+        :min="0"
+        :max="form.server=='kms'?30:25"
+        controls-position="right"
+        @change="onUpdateTargetStars"
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
       <el-select
-          v-model="form.mvp"
-          style="width: 240px"
-          :disabled="form.type=='try'"
-          v-if="is_client"
+        v-if="is_client"
+        v-model="form.mvp"
+        style="width: 240px"
+        :disabled="form.type=='try'"
       >
         <el-option label="无" value="none" />
         <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
@@ -62,11 +62,11 @@
     </el-form-item>
     <el-form-item label="服务器：">
       <el-select
-          v-model="form.server"
-          style="width: 240px"
-          :disabled="form.type=='try'&&show_try"
-          @change="onUpdateServer"
-          v-if="is_client"
+        v-if="is_client"
+        v-model="form.server"
+        style="width: 240px"
+        :disabled="form.type=='try'&&show_try"
+        @change="onUpdateServer"
       >
         <el-option label="GMS/JMS/SEA" value="gms" />
         <el-option label="KMS" value="kms" />
@@ -93,20 +93,20 @@
     </el-form-item>
     <el-form-item label="尝试次数：">
       <el-input-number
-          v-model="form.trials"
-          :min="0"
-          :step="100"
-          controls-position="right"
-          :disabled="form.type=='try'"
+        v-model="form.trials"
+        :min="0"
+        :step="100"
+        controls-position="right"
+        :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item>
       <el-button
-          v-if="form.type=='calc'"
-          size="large"
-          type="warning"
-          :disabled="form.trials<=0"
-          @click="doStuff"
+        v-if="form.type=='calc'"
+        size="large"
+        type="warning"
+        :disabled="form.trials<=0"
+        @click="doStuff"
       >
         <template #icon>
           <VPIcon icon="calculator" />
@@ -114,26 +114,26 @@
         计算
       </el-button>
       <el-button
-          v-if="form.type=='try'"
-          size="large"
-          type="warning"
-          :disabled="cannot_try"
-          @click="tryOnce"
+        v-if="form.type=='try'"
+        size="large"
+        type="warning"
+        :disabled="cannot_try"
+        @click="tryOnce"
       >
         点！
       </el-button>
       <el-button
-          v-if="form.type=='try'"
-          size="large"
-          type="danger"
-          @click="resetTryOnce"
+        v-if="form.type=='try'"
+        size="large"
+        type="danger"
+        @click="resetTryOnce"
       >
         重置
       </el-button>
       <el-text
-          v-if="form.type=='try' && show_try"
-          size="large"
-          style="margin-left: 10px;"
+        v-if="form.type=='try' && show_try"
+        size="large"
+        style="margin-left: 10px;"
       >
         {{ try_result }}
       </el-text>
@@ -198,10 +198,10 @@
     </el-card>
   </el-row>
   <Bar
-      v-if="show_calc"
-      id="boom-chart"
-      :options="chartOptions"
-      :data="chartData"
+    v-if="show_calc"
+    id="boom-chart"
+    :options="chartOptions"
+    :data="chartData"
   />
 </template>
 
@@ -323,7 +323,7 @@ let total_count = 0;
 const item_destroyed = ref(false);
 const try_result = ref("");
 const cannot_try = computed(() =>
-    item_destroyed.value || form.cur_stars >= form.target_stars
+  item_destroyed.value || form.cur_stars >= form.target_stars
 );
 
 const show_calc = ref(false);
