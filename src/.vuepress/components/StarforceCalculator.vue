@@ -206,7 +206,7 @@ import {computed, h, reactive, ref} from "vue";
 import {
   ElCard, ElText, ElRow, ElInputNumber,
   ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadio, ElRadioButton,
-  ElForm, ElFormItem, ElButton, ElMessage, ElPopover,
+  ElForm, ElFormItem, ElButton, ElMessage,
 } from "element-plus";
 import {
   getRates, grabColumnColors,
@@ -216,9 +216,6 @@ import {
 import { Bar } from 'vue-chartjs';
 import { ChartData, ChartOptions } from "chart.js";
 
-const mvp = ref("none");
-const server = ref("gms");
-const chartData = computed<ChartData<"bar">>(() => {
   let boomMap = boomChartResult.value.boomResultList.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
   let colorMatrix = Array.from(boomMap.keys()).map(key => {
     return grabColumnColors(key, boomChartResult.value.boomPercentiles);
