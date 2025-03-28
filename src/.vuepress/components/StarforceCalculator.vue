@@ -12,12 +12,12 @@
     </el-form-item>
     <el-form-item label="道具等级：">
       <el-input-number
-        v-model="form.itemLevel"
-        :min="0"
-        :max="300"
-        :step="10"
-        controls-position="right"
-        :disabled="form.type=='try'"
+          v-model="form.itemLevel"
+          :min="0"
+          :max="300"
+          :step="10"
+          controls-position="right"
+          :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item label="功能：">
@@ -32,44 +32,48 @@
     </el-form-item>
     <el-form-item label="星数：">
       <el-input-number
-        v-model="form.cur_stars"
-        :min="0"
-        :max="form.server=='kms'?30:25"
-        controls-position="right"
-        :disabled="form.type=='try'&&show_try"
+          v-model="form.cur_stars"
+          :min="0"
+          :max="form.server=='kms'?30:25"
+          controls-position="right"
+          :disabled="form.type=='try'&&show_try"
       />
       <el-text style="margin: 0 10px 0 10px;">-</el-text>
       <el-input-number
-        v-model="form.target_stars"
-        :min="0"
-        :max="form.server=='kms'?30:25"
-        controls-position="right"
-        @change="onUpdateTargetStars"
+          v-model="form.target_stars"
+          :min="0"
+          :max="form.server=='kms'?30:25"
+          controls-position="right"
+          @change="onUpdateTargetStars"
       />
     </el-form-item>
     <el-form-item label="MVP折扣：">
-      <el-radio-group
-        v-model="form.mvp"
-        :disabled="form.type=='try'"
+      <el-select
+          v-model="form.mvp"
+          style="width: 240px"
+          :disabled="form.type=='try'"
+          v-if="is_client"
       >
-        <el-radio label="无" value="none" />
-        <el-radio label="白银MVP（3%）" value="silver" />
-        <el-radio label="黄金MVP（5%）" value="gold" />
-        <el-radio label="钻石MVP（10%）" value="diamond" />
-      </el-radio-group>
+        <el-option label="无" value="none" />
+        <el-option label="白银MVP（1-16星3%折扣）" value="silver" />
+        <el-option label="黄金MVP（1-16星5%折扣）" value="gold" />
+        <el-option label="钻石MVP（1-16星10%折扣）" value="diamond" />
+      </el-select>
     </el-form-item>
     <el-form-item label="服务器：">
-      <el-radio-group
-        v-model="form.server"
-        :disabled="form.type=='try'&&show_try"
-        @change="onUpdateServer"
+      <el-select
+          v-model="form.server"
+          style="width: 240px"
+          :disabled="form.type=='try'&&show_try"
+          @change="onUpdateServer"
+          v-if="is_client"
       >
-        <el-radio label="GMS/JMS/SEA" value="gms" />
-        <el-radio label="KMS" value="kms" />
-        <el-radio label="TMS" value="tms" />
-        <el-radio label="TMS Reboot" value="tmsr" />
-        <el-radio label="怀旧服" value="old" />
-      </el-radio-group>
+        <el-option label="GMS/JMS/SEA" value="gms" />
+        <el-option label="KMS" value="kms" />
+        <el-option label="TMS" value="tms" />
+        <el-option label="TMS Reboot" value="tmsr" />
+        <el-option label="怀旧服" value="old" />
+      </el-select>
     </el-form-item>
     <el-form-item label="活动：">
       <el-checkbox-group v-model="form.events">
@@ -89,20 +93,20 @@
     </el-form-item>
     <el-form-item label="尝试次数：">
       <el-input-number
-        v-model="form.trials"
-        :min="0"
-        :step="100"
-        controls-position="right"
-        :disabled="form.type=='try'"
+          v-model="form.trials"
+          :min="0"
+          :step="100"
+          controls-position="right"
+          :disabled="form.type=='try'"
       />
     </el-form-item>
     <el-form-item>
       <el-button
-        v-if="form.type=='calc'"
-        size="large"
-        type="warning"
-        :disabled="form.trials<=0"
-        @click="doStuff"
+          v-if="form.type=='calc'"
+          size="large"
+          type="warning"
+          :disabled="form.trials<=0"
+          @click="doStuff"
       >
         <template #icon>
           <VPIcon icon="calculator" />
@@ -110,26 +114,26 @@
         计算
       </el-button>
       <el-button
-        v-if="form.type=='try'"
-        size="large"
-        type="warning"
-        :disabled="cannot_try"
-        @click="tryOnce"
+          v-if="form.type=='try'"
+          size="large"
+          type="warning"
+          :disabled="cannot_try"
+          @click="tryOnce"
       >
         点！
       </el-button>
       <el-button
-        v-if="form.type=='try'"
-        size="large"
-        type="danger"
-        @click="resetTryOnce"
+          v-if="form.type=='try'"
+          size="large"
+          type="danger"
+          @click="resetTryOnce"
       >
         重置
       </el-button>
       <el-text
-        v-if="form.type=='try' && show_try"
-        size="large"
-        style="margin-left: 10px;"
+          v-if="form.type=='try' && show_try"
+          size="large"
+          style="margin-left: 10px;"
       >
         {{ try_result }}
       </el-text>
@@ -194,18 +198,19 @@
     </el-card>
   </el-row>
   <Bar
-    v-if="show_calc"
-    id="boom-chart"
-    :options="chartOptions"
-    :data="chartData"
+      v-if="show_calc"
+      id="boom-chart"
+      :options="chartOptions"
+      :data="chartData"
   />
 </template>
 
 <script setup lang="ts">
-import {computed, h, reactive, ref} from "vue";
+import {computed, h, onMounted, reactive, ref} from "vue";
 import {
-  ElCard, ElText, ElRow, ElInputNumber,
-  ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadio, ElRadioButton,
+  ElCard, ElText, ElRow,
+  ElInputNumber, ElSelect, ElOption,
+  ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadioButton,
   ElForm, ElFormItem, ElButton, ElMessage,
 } from "element-plus";
 import {
@@ -311,13 +316,14 @@ const form = reactive({
   trials: 1000,
 });
 
+const is_client = ref(false);
 const show_try = ref(false);
 let decrease_count = 0;
 let total_count = 0;
 const item_destroyed = ref(false);
 const try_result = ref("");
 const cannot_try = computed(() =>
-  item_destroyed.value || form.cur_stars >= form.target_stars
+    item_destroyed.value || form.cur_stars >= form.target_stars
 );
 
 const show_calc = ref(false);
@@ -485,6 +491,10 @@ const tryOnce = () => {
   show_calc.value = false;
   show_try.value = true;
 }
+
+onMounted(() => {
+  is_client.value = true;
+});
 </script>
 
 <style scoped>
