@@ -49,9 +49,12 @@ export default hopeTheme({
 
   plugins: {
     icon: {
-      assets: "fontawesome",
+      assets: "fontawesome-with-brands",
     },
-    slimsearch: false,
+    slimsearch: {
+      indexContent: true,
+      suggestion: true,
+    },
     sitemap: false,
     seo: false,
 
@@ -68,11 +71,7 @@ export default hopeTheme({
       }
     },
 
-    redirect: {
-      config: {
-        '/Tools/LegionResolver.html': process.env.VITE_LEGION_URL,
-      },
-    },
+    redirect: false,
   },
 
   copyright: false,
