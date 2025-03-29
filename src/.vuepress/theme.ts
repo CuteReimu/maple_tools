@@ -3,11 +3,6 @@ import { hopeTheme } from "vuepress-theme-hope";
 import sidebar from "./sidebar.js";
 import navbar from "./navbar.js";
 
-import dotenv from 'dotenv';
-import * as path2 from "node:path";
-dotenv.config({path: path2.resolve(process.cwd(), '.env.local')})
-dotenv.config()
-
 export default hopeTheme({
   repo: "https://github.com/CuteReimu/maple_tools",
   docsDir: "src",
