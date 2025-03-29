@@ -3,6 +3,7 @@ title: 文本
 icon: file
 toc: true
 lastUpdated: true
+editLink: true
 ---
 
 ::: tip
