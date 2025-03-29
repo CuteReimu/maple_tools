@@ -1,9 +1,16 @@
 ---
+home: true
 title: MapleStory工具集
 icon: house
 index: false
-contributors: false
-lastUpdated: false
+heroImage: /images/maplestory.png
+actions:
+  - text: 工具集
+    icon: screwdriver-wrench
+    link: /Tools/
+    type: primary
+  - text: 词条
+    icon: spell-check
+    link: /Dictionary/
+    type: secondary
 ---
-
-<Catalog></Catalog>

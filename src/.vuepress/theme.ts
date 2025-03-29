@@ -3,6 +3,11 @@ import { hopeTheme } from "vuepress-theme-hope";
 import sidebar from "./sidebar.js";
 import navbar from "./navbar.js";
 
+import dotenv from 'dotenv';
+import * as path2 from "node:path";
+dotenv.config({path: path2.resolve(process.cwd(), '.env.local')})
+dotenv.config()
+
 export default hopeTheme({
   repo: "https://github.com/CuteReimu/maple_tools",
   docsDir: "src",
@@ -20,31 +25,23 @@ export default hopeTheme({
   print: false,
   pageInfo: false,
   navbarLayout: {
-    start: ["Brand", "Links"],
+    start: ["Brand"],
     center: [],
-    end: ["Language", "Repo", "Outlook", "Search"],
+    end: ["Links", "Language", "Repo", "Outlook", "Search"],
   },
   toc: false,
-  breadcrumb: false,
   editLink: false,
   prevLink: false,
   nextLink: false,
+  lastUpdated: false,
 
   navbar,
 
   sidebar,
 
   markdown: {
-    // 剧透
-    spoiler: true,
-    // 使用chart.js
-    chartjs: true,
     // 支持容器
     hint: true,
-    // 支持数学公式
-    math: {
-      type: "katex",
-    },
     linksCheck: {
       build: "error",
     },
@@ -71,7 +68,11 @@ export default hopeTheme({
       }
     },
 
-    redirect: false,
+    redirect: {
+      config: {
+        '/Tools/LegionResolver.html': process.env.VITE_LEGION_URL,
+      },
+    },
   },
 
   copyright: false,
