@@ -7,4 +7,4 @@ contributors: false
 lastUpdated: false
 ---
 
-<Catalog level="1"></Catalog>
+<Catalog :level="1"></Catalog>
