@@ -1,13 +1,13 @@
 import theme from "./theme.js";
 import { defineUserConfig } from 'vuepress';
-import { getDirname, path } from "vuepress/utils";
 import dotenv from 'dotenv';
 import * as path2 from "node:path";
+import { getDirname, path } from "vuepress/utils";
 
 const __dirname = getDirname(import.meta.url);
 
-dotenv.config({path: path2.resolve(process.cwd(), '.env.local')})
-dotenv.config()
+dotenv.config({path: path2.resolve(process.cwd(), '.env.local')});
+dotenv.config();
 
 export default defineUserConfig({
   alias: {
