@@ -127,16 +127,6 @@ ocr 识别的框是为冒冒 1366 * 768 的分辨率做的，如果不适配的�
 
 [纸娃娃](https://mxd.dvg.cn/zhiwawa/#)
 
-## 怪物数量
-
-[新星图](https://seollal.tistory.com/392)
-
-[一岛](https://seollal.tistory.com/1082) [二岛](https://seollal.tistory.com/1090) [三岛](https://seollal.tistory.com/1091) [四岛](https://seollal.tistory.com/1079) [五岛](https://seollal.tistory.com/1081) [六岛](https://seollal.tistory.com/1080)
-
-[1.5岛](https://seollal.tistory.com/1092) [2.5岛](https://seollal.tistory.com/1093) [6.5岛](https://seollal.tistory.com/162) [七岛](https://seollal.tistory.com/1095) [八岛](https://seollal.tistory.com/1096) [九岛](https://seollal.tistory.com/1097)
-
-[新神都烧都](https://seollal.tistory.com/1111) [酒馆](https://seollal.tistory.com/549) [烧都](https://seollal.tistory.com/943) [仙都](https://seollal.tistory.com/726) [桃园](https://seollal.tistory.com/372)
-
 ## 社区
 
 [<img height="20" width="20" src="/images/nga.png" />nba论坛](https://ngabbs.com/thread.php?fid=707&rand=932)
