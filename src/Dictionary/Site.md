@@ -3,6 +3,7 @@ title: 链接
 icon: link
 toc: true
 lastUpdated: true
+editLink: true
 ---
 
 ::: tip
