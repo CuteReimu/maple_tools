@@ -21,6 +21,15 @@ order: 2
     - hyperpass/use
 - 芝麻开门：Open Sesame
 
+## 564
+
+564双倍奖励时间:当前版本时间为北京时间凌晨2点到6点，以及上午9点到13点。
+- 美东:2PM-6PM，9PM-1AM
+- 美西:11AM-3PM，6PM-11PM
+- 北京:2AM-6AM，9AM-1PM
+
+地点:次元门选择Ursus the Mighty，或者按默认键T的boss队列中找到~Ursus~(564)并进去，点土豪选第一个选项(点的时候不要组队)即可匹配，满18人即有15秒确定键弹出，全员确定后开始。若不按确定，进入10分钟cd。每天账号内限定三次，钱的数量与救人数、等级有关系(主要等级)。失败了也有钱，只要你打出过一定伤害(基本有就行，1、1、1、1、1除外)。基本200级左右在2千万，250级左右3、4千万/次。
+
 ## 日常
 
 1. 岛球
@@ -183,3 +192,33 @@ duo的意思是双飞，tri开头的单词意思是三飞，申请之前掂量�
 | &ge;8 | &gt;10 |
 
 调整一下属性，把最高的那个选**ATT/MATT**，第二高的选你职业的**主属**，第三高的选**爆伤**，然后就不要管了，节约核心去弄你的六转技能。
+
+## 职业名称
+
+|     中文 | 英文             |    中文 | 英文              |    中文 | 英文             |
+|-------:|:---------------|------:|:----------------|------:|:---------------|
+|     英雄 | Hero           |   魂骑士 | Dawn Warrior    |    尖兵 | Xenon          |
+|    黑骑士 | Dark Knight    |   炎术士 | Blaze Wizard    |  幻灵斗师 | Battle Mage    |
+|    圣骑士 | Paladin        |  风灵使者 | Wind Archer     |  豹弩游侠 | Wild Hunter    |
+|  冰雷魔导师 | Arch Mage(l/L) |   夜行者 | Night Walker    |   机械师 | Mechanic       |
+|  火毒魔导师 | Arch Mage(F/P) |   奇袭者 | Thunder Breaker |  恶魔猎手 | Demon Slayer   |
+|     主教 | Bishop         |   米哈尔 | Mihile          | 恶魔复仇者 | Demon Avenger  |
+| 侠盗(刀飞) | Shadower       |    战神 | Aran            |   爆破手 | Blaster        |
+| 隐士(镖飞) | Night Lord     |    龙神 | Evan            |  狂龙战士 | Kaiser         |
+|   暗影双刀 | Dual Blade     |  双弩精灵 | Mercedes        |  炼狱黑客 | Kain           |
+|   冲锋队长 | Buccaneer      |    幻影 | Phantom         |  魔链影士 | Cadena         |
+|     船长 | Corsair        |    隐月 | Shade           | 爆莉萌天使 | Angelic Buster |
+|    火炮手 | Cannoneer      |  夜光法师 | Luminous        |    剑豪 | Hayato         |
+|     箭神 | Marksman       | 浪漫风水师 | Lara            |   阴阳师 | Kanna          |
+|    神射手 | Bowmaster      |    虎影 | Hoyoung         |   神之子 | ZERO           |
+|   古迹猎人 | Pathfinder     |    琳恩 | Lynn            |  超能力者 | Kinesis        |
+
+## 门豹药
+
+完成灯泡200级任务`(Lv.200)[Collector's Request] In Search of the Legend`就可以购买。
+
+<style scoped>
+  table {
+    text-wrap: nowrap;
+  }
+</style>

@@ -35,6 +35,8 @@ export default hopeTheme({
   sidebar,
 
   markdown: {
+    // 启用图片大小
+    imgSize: true,
     // 支持容器
     hint: true,
     linksCheck: {
