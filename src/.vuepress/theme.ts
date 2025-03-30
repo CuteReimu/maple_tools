@@ -40,6 +40,7 @@ export default hopeTheme({
     },
     // 支持容器
     hint: true,
+    chartjs: true,
     linksCheck: {
       build: "error",
     },
