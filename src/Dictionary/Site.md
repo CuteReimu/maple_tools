@@ -21,8 +21,6 @@ editLink: true
 
 ## wiki
 
-[::b:bilibili =20 /#FE7398::中文wiki](https://wiki.biligame.com/maplestory)
-
 [英文wiki](https://maplestorywiki.net)
 
 [配方查询](https://maplestory.fandom.com/wiki/)
@@ -33,8 +31,6 @@ editLink: true
 [联盟的意志](https://maplestory.fandom.com/wiki/Quests/60/The_Birth_of_an_Alliance)
 
 ## 工具
-
-<a :href="legionUrl" target="_blank" rel="noopener noreferrer">联盟摆放助手</a>
 
 [放置助手](https://maplemaps.net/)
 
@@ -72,13 +68,11 @@ editLink: true
 
 [::b:bilibili =20 /#FE7398::小游戏攻略](https://www.bilibili.com/video/BV1gs4y1C7mz)
 
-[猫久攻略网址](https://bbs.gjfmxd.com/)
-
 [<img height="20" width="20" src="/images/nga.png" />快速神器经验](https://nga.178.com/read.php?tid=40559011)
 
 ### 威尔攻略
 
-三阶段全技能与小游戏模式讲解视频：
+三阶段全技能与小游戏模式讲解视频\
 [::b:bilibili =20 /#FE7398::P1](https://www.bilibili.com/video/BV1TE411y74x)
 [::b:bilibili =20 /#FE7398::P2](https://www.bilibili.com/video/BV1TE411y7Wi)
 [::b:bilibili =20 /#FE7398::P3](https://www.bilibili.com/video/BV1TE411y78i)
@@ -103,7 +97,7 @@ editLink: true
 
 [<img height="20" width="20" src="/images/nga.png" />好做的联盟神器任务分享 探险家勋章](https://bbs.nga.cn/read.php?tid=40559011)
 
-### 爬塔
+### 起源之塔
 
 发配到起源之塔被阿丽莎折磨，与nx抢夺箱子碎片，穿戴tower boost 4白嫖oz点数
 
@@ -121,7 +115,7 @@ ocr 识别的框是为冒冒 1366 * 768 的分辨率做的，如果不适配的�
 
 [<img height="20" width="20" src="/images/nga.png" />新技改](https://bbs.nga.cn/read.php?tid=42694980&_fp=2&rand=761)
 
-[::b:weixin =20::韩服改版](https://mp.weixin.qq.com/s?__biz=MzU0OTM0MjYzMA==&mid=2247498982&idx=1&sn=35025209cbc60086ca8fd85aa1122573&chksm=fbb3e02fccc46939c10a9927ef0c529c50b44eec1b1fcd3650b68fae65370f299819e897d065&mpshare=1&scene=23&srcid=1215OTxkFSNjDQMTveXmwDwj&sharer_shareinfo=c4c5b90bb7dd303619bc8b81f838daac&sharer_shareinfo_first=c4c5b90bb7dd303619bc8b81f838daac#rd)
+[::b:weixin =20 /#1aad19::韩服改版](https://mp.weixin.qq.com/s?__biz=MzU0OTM0MjYzMA==&mid=2247498982&idx=1&sn=35025209cbc60086ca8fd85aa1122573&chksm=fbb3e02fccc46939c10a9927ef0c529c50b44eec1b1fcd3650b68fae65370f299819e897d065&mpshare=1&scene=23&srcid=1215OTxkFSNjDQMTveXmwDwj&sharer_shareinfo=c4c5b90bb7dd303619bc8b81f838daac&sharer_shareinfo_first=c4c5b90bb7dd303619bc8b81f838daac#rd)
 
 ## 暖暖
 
@@ -129,10 +123,4 @@ ocr 识别的框是为冒冒 1366 * 768 的分辨率做的，如果不适配的�
 
 ## 社区
 
-[<img height="20" width="20" src="/images/nga.png" />nba论坛](https://ngabbs.com/thread.php?fid=707&rand=932)
-
 [::b:discord =20 /black::dc mvp](https://discord.gg/gHavpznWEU)
-
-<script setup lang="ts">
-const legionUrl = import.meta.env.VITE_LEGION_URL;
-</script>
