@@ -5,6 +5,7 @@ toc: true
 lastUpdated: true
 editLink: true
 order: 2
+headerDepth: 1
 ---
 
 ::: tip
@@ -153,9 +154,48 @@ duo的意思是双飞，tri开头的单词意思是三飞，申请之前掂量�
 9. 汉化以及其他任何形式修改客户端文件并进入游戏
 10. 压键（单按键连续按压超过30分钟并且没有任何其他操作，在35分钟左右会被行为检测踢出游戏，如果重复次数较多将会封号）
 
-## ask期间不能做什么
+## ask
+
+1. 完成蘑菇神社任务线后，点击屏幕左侧灯泡，拉到最底部找到任务`[Threads of Fate] Unraveling the Threads of Fate`打开缘分线团面板。
+2. 和某一个角色亲密度超过<b style="color: red;">50</b>以后可以开启<b style="color: red;">Ask</b>按钮。
+3. 点击**Ask**按钮后会随机出现问题，如果出现的是<b style="color: red;">Gather Herbs</b>或者<b style="color: red;">Chop Wood</b>那么奖励就必定会是精油，等半小时以后即可交任务。
+
+::: caution 注意
+- <b>[22-07-13更新]只有每天对话的第一个角色任务会变，其他的不变，所以只要保证herb和wood是不是第一个对话角色就行。\
+  举例：昨天天狗出wood，那么今天不要先问天狗，先去问其他人，再回来问天狗即可。</b>\
+  精油账号绑定可以仓库转移，目前仍然可以通过玩具塔电梯查看并取消掉不想要的Ask。\
+  玩具塔地图名称: `Ludibrium: Helios Tower <99th Floor>`。
+
+- 换线/进商城/使用传送功能等操作会导致获得的奖励变成 Meso，推荐在刷图或者挂机时进行 Ask。
+
+- 当对应角色的好感度不超过50时,可以通过 Talk 提升亲密度(每半小时一次,每次提升2点)，超过50后只能通过 Ask 和 Gift(每周只能送7次,总计21点)提升亲密度。每周一每个角色的好感度都会降低，50点以下亲密度时每周一降低5点亲密度，70点以下每周一降低10点亲密度，70点以上每周一降低15点亲密度。
+:::
+
+### ask期间不能做什么
 
 换线，进商城，乌鲁斯(564)，红门（不是黄），组航，跑旗，公会战，活动匹配，进小屋
+
+### 送礼列表
+
+每人每周只能送7次，周一重置。
+
+- 木野子(Kino Konoko) - 蘑菇神社附近的蘑菇（花蘑菇，绿蘑菇，蓝蘑菇和刺蘑菇）掉落的<span style="color: red;">蘑菇玩偶</span>。
+- 竹野子(Takeno Konoko) - <span style="color: red;">白色药水，红色药水，橙色药水或者特殊药水</span>（回血50%的那个）。
+- 天狗(Tengu) - <span style="color: red;">蛋白石、海蓝石、石榴石、祖母绿</span>。
+- 镰鼬(Kamaitachi) - <span style="color: red;">120级的普通防具</span>（玩具塔刷，每个职业对应不同部件）。
+- 暗(Kurama) - <span style="color: red;">箭矢</span>和<span style="color: red;">弩矢</span>，普通或者青铜的，商店可以买到。
+- 棘鬼(Ibaraki) - <span style="color: red;">4级炼金强化药水</span>，包括力量、敏捷、智力、幸运或者防御药水。
+- 鵺(Nue) - 棘鬼(Ibaraki)的亲密度达到50后完成任务解锁。NPC商店的<span style="color: red;">拉面</span>，<span style="color: red;">黄奶酪</span>或者<span style="color: red;">驯鹿奶</span>。
+- 万事屋(Yorozu) -  <span style="color: red;">扭曲的时间，卷轴精髓，中等物品结品</span>等。
+- 无头鬼(Kubinashi) -  <span style="color: red;">120级武器</span>（玩具塔刷）。
+- 泉奈(Izuna) - <span style="color: red;">炼金的花</span>，比如香蜂草花，绿色的那种。
+
+## 聚财药水配方
+
+- 最高级空药水瓶在匠人街直接买
+- Juniper Berry Seed Oil（杜松莓种子精油）直接从Ask获得的草药包里开出
+- 最高级物品结晶通过分解高级装备产出
+- Philosopher's Stone（贤者之石）通过炼金6级以上分解装备产出
 
 ## 前置
 
@@ -216,6 +256,27 @@ duo的意思是双飞，tri开头的单词意思是三飞，申请之前掂量�
 ## 门豹药
 
 完成灯泡200级任务`(Lv.200)[Collector's Request] In Search of the Legend`就可以购买。
+
+## 联盟神器
+
+|   水晶属性<br/>（一个水晶可选3条属性）   |         $x$级属性         | 10级属性 |
+|:-------------------------:|:----------------------:|:-----:|
+|            全属性            |         $15x$          |  150  |
+|          最大HP/MP          |         $750x$         | 7500  |
+|          攻击力/魔力           |          $3x$          |  30   |
+|            伤害             |        $1.5x\%$        |  15%  |
+|          BOSS伤害           |        $1.5x\%$        |  15%  |
+|           无视防御力           |         $2x\%$         |  20%  |
+|          增益持续时间           |         $2x\%$         |  20%  |
+|         概率消除冷却时间          |       $0.75x\%$        | 7.50% |
+|           金币获得量           | $\lfloor1.2x\rfloor\%$ |  12%  |
+|           道具获得量           | $\lfloor1.2x\rfloor\%$ |  12%  |
+|            暴击率            |         $2x\%$         |  20%  |
+|           暴击伤害            |        $0.4x\%$        |  4%   |
+| 额外经验值获得<br/>(群攻可攻击敌人数量+1) | $\lfloor1.2x\rfloor\%$ |  12%  |
+|          异常状态抗性           |  $\lfloor1.2x\rfloor$  |  12   |
+|          召唤兽持续时间          |         $2x\%$         |  20%  |
+|         终极攻击类技能伤害         |         $3x\%$         |  30%  |
 
 <style scoped>
   table {
