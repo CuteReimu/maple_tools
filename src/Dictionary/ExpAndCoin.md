@@ -92,7 +92,7 @@ const config = {
 
 :::
 
-## 等级差距系数
+## 经验等级差距系数
 
 ::: chartjs
 
@@ -147,7 +147,10 @@ const config = {
       tooltip: {
         callbacks: {
           title: (c) => "等级差距：" + c[0].label,
-          label: ({raw}) => "数值：" + raw.y
+          label: ({raw}) => {
+            if (raw.y == 0) return "经验不变";
+            return raw.y >= 0 ? "经验增加" + raw.y + "%" : "经验减少" + -raw.y + "%";
+          }
         }
       }
     },
@@ -166,7 +169,7 @@ const config = {
         type: "linear",
         title: {
           display: true,
-          text: "数值"
+          text: "经验增加(%)"
         },
         ticks: {
           stepSize: 10
