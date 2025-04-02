@@ -27,19 +27,19 @@
       </ClientOnly>
     </el-form-item>
     <el-form-item label="等级">
-      <el-switch
-        v-model="form.ge160"
-        active-text="&ge;160"
-        inactive-text="&lt;160"
+      <el-input-number
+        v-model="form.itemLevel"
+        :min="70"
+        :max="250"
+        :step="10"
         :disabled="try_count > 0"
-        style="--el-switch-on-color: #f59139;"
       />
     </el-form-item>
     <el-form-item>
       <el-button
         size="large"
         type="warning"
-        @click="doStuff"
+        @click="doStuff0"
       >
         点！
       </el-button>
@@ -59,13 +59,24 @@
   </p>
   <div v-for="(item, index) in try_result" :key="index">
     <el-text size="large">
-      {{ item }}
+      {{ item.text }}
     </el-text>
   </div>
   <h2>属性概率表(%)</h2>
-  <el-table :data="tableData" border>
+  <p>
+    <el-text size="large">
+      {{ selectionRates }}
+    </el-text>
+  </p>
+  <el-table
+    :data="tableData"
+    border
+    row-key="id"
+    @selection-change="(v) => { multipleSelection = v }"
+  >
+    <el-table-column type="selection" width="39" />
     <el-table-column
-      prop="type"
+      prop="text"
       class-name="overflow-hidden"
       show-overflow-tooltip
       label="属性"
@@ -80,44 +91,120 @@
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
 import {
-  ElText, ElSelect, ElOption, ElRadioGroup, ElRadioButton, ElSwitch,
-  ElForm, ElFormItem, ElButton, ElTable, ElTableColumn,
+  ElText, ElSelect, ElOption, ElRadioGroup, ElRadioButton, ElInputNumber,
+  ElForm, ElFormItem, ElButton, ElTable, ElTableColumn, ElMessageBox,
 } from "element-plus";
-import { cubeRates } from "./cubeRates.js";
+import { cubeRates, RatesLineData, EquipmentPosition, CubeType } from "./cubeRates.js";
+
+interface RateLine {
+  id: number
+  text: string
+  type: string
+  value: number
+  first_line: number
+  second_line: number
+  third_line: number
+}
+
+const multipleSelection = ref<RateLine[]>([]);
+const getCubeCost = (cubeType: CubeType) => {
+  switch (cubeType) {
+  case "red":
+    return 12000000;
+  case "black":
+    return 22000000;
+  case "master":
+    return 7500000;
+  default:
+    return 0;
+  }
+};
+const getRevealCostConstant = (itemLevel: number) => {
+  if (itemLevel < 30) { return 0; }
+  if (itemLevel <= 70) { return 0.5; }
+  if (itemLevel <= 120) { return 2.5; }
+  return 20;
+};
+const cubingCost = (cubeType: CubeType, itemLevel: number, totalCubeCount: number) => {
+  const cubeCost = getCubeCost(cubeType);
+  const revealCostConst = getRevealCostConstant(itemLevel);
+  const revealPotentialCost = revealCostConst * itemLevel ** 2;
+  const ret = cubeCost * totalCubeCount + totalCubeCount * revealPotentialCost;
+  return ret;
+};
+const selectionRates = computed(() => {
+  if (multipleSelection.value.length === 0) {
+    return "勾选想要的属性，计算平均消耗";
+  }
+  let total1 = 0, total2 = 0, total3 = 0;
+  for (const selection of multipleSelection.value) {
+    total1 += selection.first_line;
+    total2 += selection.second_line;
+    total3 += selection.third_line;
+  }
+  const totalRates = total1 * total2 * total3;
+  if (totalRates === 0) {
+    return "三条属性不可能全为所选属性";
+  }
+  const cubeCount = 1000000.0 / totalRates;
+  const mesoCount = cubingCost(form.type, form.itemLevel, cubeCount) / 1e9;
+  return `三条属性均为所选属性，平均需要： ${cubeCount.toFixed(0)} 个魔方，共计 ${mesoCount.toFixed(2)} B Mesos`;
+});
+
+const buildLine = ([lineType, lineValue]: RatesLineData) => {
+  let t = lineType;
+  if (form.itemLevel > 150 && plusOneLine.includes(t)) {
+    const v = lineValue as number;
+    if (t !== "Critical Chance %" || v < 12) {
+      lineValue = v + 1;
+    }
+  }
+  if (t === "Critical Chance %") {
+    t = "Critical Rate %"
+  } else if (t === "Meso Amount %") {
+    t = "Mesos Obtained %"
+  }
+  let t0: string | undefined
+  if (t === "Junk") {
+    t = "其它垃圾属性";
+    const v = lineValue as string[];
+    t0 = v[Math.floor(Math.random() * v.length)];
+  } else if (typeof lineValue === "string") {
+    t = lineValue;
+  } else if (t.includes("Flat")) {
+    t = t.replace("Flat", ` : +${lineValue}`);
+  } else if (t.includes(" %")) {
+    t = t.replace(" %", ` : +${lineValue}%`);
+  } else if (t === "Boss Damage") {
+    t = `${t} : +${lineValue}%`;
+  } else {
+    t = `${t} : ${lineValue}s`;
+  }
+  if (t0 === undefined) {
+    t0 = t;
+  }
+  return [t, t0]
+};
 
 const importantAttr = ["STR", "DEX", "INT", "LUK", "All Stats", "Critical Damage", "Item Drop Rate", "Meso Amount"];
 const tableData = computed(() => {
-  const result = [];
+  const result: RateLine[] = [];
   const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
   const rates = [rate.first_line, rate.second_line, rate.third_line];
+  let index = 0;
   for (let i = 0; i < rates.length; i++) {
     for (const line of rates[i]) {
-      let lineType = line[0] as string;
+      let lineType = line[0];
       const lineType0 = lineType;
-      let lineValue = line[1] as number | string | string[];
-      const lineRate = line[2] as number;
-      if (form.ge160 && plusOneLine.includes(lineType)) {
-        lineValue = lineValue as number + 1;
-      }
-      if (lineType === "Junk") {
-        lineType = "其它垃圾属性";
-      } else if (typeof lineValue === "string") {
-        lineType = lineValue;
-      } else if (lineType.includes("Flat")) {
-        lineType = lineType.replace("Flat", `+${lineValue}`);
-      } else if (lineType.includes("%")) {
-        lineType = lineType.replace("%", lineValue + "%");
-      } else if (lineType === "Boss Damage") {
-        lineType = `${lineType} ${lineValue}%`;
-      } else {
-        lineType = `${lineType}: ${lineValue}%`;
-      }
+      let lineValue = line[1];
+      const lineRate = line[2];
+      [lineType] = buildLine(line);
       if (typeof lineValue !== "number") {
         lineValue = 0;
       }
-      let v = result.find((value) => value.type === lineType);
+      let v = result.find((value) => value.text === lineType);
       if (!v) {
-        v = {type: lineType, type0: lineType0, value: lineValue, first_line: 0, second_line: 0, third_line: 0};
+        v = {id: index++, text: lineType, type: lineType0, value: lineValue, first_line: 0, second_line: 0, third_line: 0};
         result.push(v);
       }
       if (i === 0) v.first_line = lineRate;
@@ -126,26 +213,26 @@ const tableData = computed(() => {
     }
   }
   return result.sort((a, b) => {
-    if (a.type === "其它垃圾属性" && b.type !== "其它垃圾属性") return 1;
-    if (a.type !== "其它垃圾属性" && b.type === "其它垃圾属性") return -1;
+    if (a.text === "其它垃圾属性" && b.text !== "其它垃圾属性") return 1;
+    if (a.text !== "其它垃圾属性" && b.text === "其它垃圾属性") return -1;
     if (["weapon", "secondary", "emblem"].includes(form.position)) {
       const isImportant = (t: string) =>
         t.includes("ATT") && t.includes("%") || t.includes("Boss Damage") || t.includes("Ignore Enemy Defense");
-      const iA = isImportant(a.type);
-      const iB = isImportant(b.type);
+      const iA = isImportant(a.text);
+      const iB = isImportant(b.text);
       if (iA != iB) return iA ? -1 : 1;
     } else {
       const isImportant = (t: string) =>
         importantAttr.some((s) => t.includes(s)) && t.includes("%") || t.includes("Skill Cooldown Reduction");
-      const iA = isImportant(a.type);
-      const iB = isImportant(b.type);
+      const iA = isImportant(a.text);
+      const iB = isImportant(b.text);
       if (iA != iB) return iA ? -1 : 1;
       else if (iA && iB) {
-        if (a.type.length >= 15 && b.type.length < 15) return -1;
-        if (a.type.length < 15 && b.type.length >= 15) return 1;
+        if (a.text.length >= 15 && b.text.length < 15) return -1;
+        if (a.text.length < 15 && b.text.length >= 15) return 1;
       }
     }
-    const ret = a.type0.length - b.type0.length;
+    const ret = a.type.length - b.type.length;
     if (ret === 0) {
       return b.value - a.value;
     }
@@ -153,11 +240,18 @@ const tableData = computed(() => {
   });
 });
 
-const form = reactive({
+interface FormData {
+  type: CubeType,
+  trials: number,
+  position: EquipmentPosition,
+  itemLevel: number,
+}
+
+const form = reactive<FormData>({
   type: "red",
   trials: 0,
   position: "weapon",
-  ge160: false,
+  itemLevel: 200,
 });
 
 const position = [
@@ -178,14 +272,41 @@ const position = [
 ];
 
 const cost = computed(() => {
-  const result = (form.type == "red" ? 12 : 22) * try_count.value;
+  const result = cubingCost(form.type, form.itemLevel, try_count.value) / 1e6;
   return result < 100 ? (result/1000).toFixed(3) : (result/1000).toPrecision(3);
 });
 
 const try_count = ref(0);
 const try_result = ref([]);
 
-const plusOneLine = ["ATT %", "MATT %", "STR %", "DEX %", "INT %", "LUK %", "All Stats %", "Max HP %"];
+const plusOneLine = ["ATT %", "MATT %", "STR %", "DEX %", "INT %", "LUK %", "All Stats %", "Max HP %", "Critical Chance %"];
+const importantWse = ["ATT %", "MATT %", "Boss Damage", "Ignore Enemy Defense %"];
+const importantOther = ["STR %", "DEX %", "INT %", "LUK %", "All Stats %", "Max HP %", "Item Drop Rate %", "Meso Amount %"];
+const doStuff0 = () => {
+  if (try_count.value > 0) {
+    let important = importantOther;
+    if (["weapon", "secondary", "emblem"].includes(form.position)) {
+      important = importantWse;
+    }
+    const attrType = try_result.value[0].line[0];
+    if (important.includes(attrType) && try_result.value[1].line[0] == attrType && try_result.value[2].line[0] == attrType) {
+      ElMessageBox.confirm(
+        "三条相同属性，要继续重置吗？",
+        {
+          confirmButtonText: '点！',
+          cancelButtonText: '不了',
+          type: 'warning',
+          closeOnClickModal: false,
+        }
+      ).then(() => {
+        doStuff();
+      }).catch(() => {});
+      return;
+    }
+  }
+  doStuff();
+};
+
 const doStuff = () => {
   try_count.value += 1;
   const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
@@ -194,27 +315,10 @@ const doStuff = () => {
   for (let i = 0; i < rates.length; i++) {
     let r = Math.random() * 100;
     for (const line of rates[i]) {
-      const lineType = line[0] as string;
-      let lineValue = line[1] as number | string | string[];
-      const lineRate = line[2] as number;
-      if (form.ge160 && plusOneLine.includes(lineType)) {
-        lineValue = lineValue as number + 1;
-      }
+      const lineRate = line[2];
       if (r < lineRate) {
-        if (lineType === "Junk") {
-          const l = lineValue as string[];
-          a.push(l[Math.floor(Math.random() * l.length)]);
-        } else if (typeof lineValue === "string") {
-          a.push(lineValue);
-        } else if (lineType.includes("Flat")) {
-          a.push(lineType.replace("Flat", `+${lineValue}`));
-        } else if (lineType.includes("%")) {
-          a.push(lineType.replace("%", lineValue + "%"));
-        } else if (lineType === "Boss Damage") {
-          a.push(`${lineType} ${lineValue}%`);
-        } else {
-          a.push(`${lineType}: ${lineValue}%`);
-        }
+        const [, t] = buildLine(line);
+        a.push({text: t, line: line});
         break;
       }
       r -= lineRate;
