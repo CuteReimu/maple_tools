@@ -28,11 +28,11 @@
     </el-form-item>
     <el-form-item label="等级">
       <el-switch
-          v-model="form.ge160"
-          active-text="&ge;160"
-          inactive-text="&lt;160"
-          :disabled="try_count > 0"
-          style="--el-switch-on-color: #f59139;"
+        v-model="form.ge160"
+        active-text="&ge;160"
+        inactive-text="&lt;160"
+        :disabled="try_count > 0"
+        style="--el-switch-on-color: #f59139;"
       />
     </el-form-item>
     <el-form-item>
