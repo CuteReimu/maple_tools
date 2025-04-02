@@ -14,23 +14,23 @@
   "devDependencies": {
     "@eslint/js": "^9.23.0",
     "@vuepress/bundler-vite": "^2.0.0-rc.20",
-    "@vuepress/plugin-slimsearch": "2.0.0-rc.86",
+    "@vuepress/plugin-slimsearch": "^2.0.0-rc.91",
     "@vueuse/core": "^13.0.0",
     "@vueuse/shared": "^13.0.0",
+    "chart.js": "^4.4.8",
     "dotenv": "^16.4.7",
     "eslint": "^9.23.0",
     "eslint-plugin-vue": "^10.0.0",
     "katex": "^0.16.21",
-    "sass-embedded": "^1.86.0",
-    "typescript-eslint": "^8.28.0",
+    "sass-embedded": "^1.86.1",
+    "typescript-eslint": "^8.29.0",
     "vue": "^3.5.13",
+    "vue-chartjs": "^5.3.2",
     "vuepress": "2.0.0-rc.20",
-    "vuepress-plugin-md-enhance": "^2.0.0-rc.76",
-    "vuepress-theme-hope": "2.0.0-rc.76"
+    "vuepress-plugin-md-enhance": "^2.0.0-rc.78",
+    "vuepress-theme-hope": "2.0.0-rc.78"
   },
   "dependencies": {
-    "chart.js": "^4.4.8",
-    "element-plus": "^2.9.7",
-    "vue-chartjs": "^5.3.2"
+    "element-plus": "^2.9.7"
   }
 }
