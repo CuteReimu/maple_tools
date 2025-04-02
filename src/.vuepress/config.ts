@@ -16,6 +16,7 @@ export default defineUserConfig({
     "@SAC": path.resolve(__dirname, "components/SAC.vue"),
     "@StatEquivalentCalculator": path.resolve(__dirname, "components/StatEquivalentCalculator.vue"),
     "@StarforceCalculator": path.resolve(__dirname, "components/StarforceCalculator.vue"),
+    "@PotentialSystem": path.resolve(__dirname, "components/PotentialSystem.vue"),
   },
   lang: "zh-CN",
   title: "Maplestory工具集",

@@ -5,4 +5,8 @@ icon: cube
 order: 6
 ---
 
-敬请期待
+<PotentialSystem></PotentialSystem>
+
+<script setup>
+import PotentialSystem from "@PotentialSystem";
+</script>
