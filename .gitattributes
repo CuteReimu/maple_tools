@@ -2,3 +2,5 @@ src/** -linguist-documentation
 src/.vuepress/** -linguist-documentation
 
 *.md linguist-detectable
+
+src/.vuepress/components/cubeRates.js linguist-generated
