@@ -11,7 +11,9 @@ order: 3
 如果找不到词条在哪，可以点击网页右上角的搜索。
 :::
 
-## 等级压制与最终伤害
+## 等级差距系数
+
+该系数在**内在能力**<em>【按照防御力的比例增加伤害固定值】</em>之前，作为<strong>最终伤害(Final Damage%)</strong>类加成应用。
 
 ::: chartjs
 
@@ -94,6 +96,8 @@ const config = {
 
 ## 经验等级差距系数
 
+该系数直接影响**基础经验(Basic EXP)**，即所有的经验倍率都会受此影响。部分怪物不受此影响。
+
 ::: chartjs
 
 ```js
@@ -102,7 +106,6 @@ const config = {
   data: {
     datasets: [
       {
-        label: "系数",
         data: [
           { x: -40, y: -90 },
           { x: -36, y: -90 },
@@ -139,10 +142,7 @@ const config = {
   options: {
     plugins: {
       legend: {
-        display: true,
-        position: "top",
-        align: "end",
-        onClick: () => {}
+        display: false
       },
       tooltip: {
         callbacks: {
@@ -170,6 +170,83 @@ const config = {
         title: {
           display: true,
           text: "经验增加(%)"
+        },
+        ticks: {
+          stepSize: 10
+        }
+      }
+    }
+  }
+}
+```
+
+:::
+
+## Mesos等级差距系数
+
+据角色和怪物的等级差距，Mesos掉落数量会进行调整。这个系数**直接乘在**基础Mesos上。
+
+::: chartjs
+
+```js
+const config = {
+  type: "line",
+  data: {
+    datasets: [
+      {
+        data: [
+          { x: -40, y: -100 },
+          { x: -34, y: -100 },
+          { x: -20, y: -30 },
+          { x: -10, y: 0 },
+          { x: 10, y: 0 },
+          { x: 20, y: -20 },
+          { x: 21, y: -25 },
+          { x: 22, y: -31 },
+          { x: 23, y: -38 },
+          { x: 24, y: -46 },
+          { x: 25, y: -55 },
+          { x: 26, y: -65 },
+          { x: 27, y: -76 },
+          { x: 28, y: -83 },
+          { x: 29, y: -97 },
+          { x: 30, y: -100 },
+          { x: 35, y: -100 }
+        ]
+      }
+    ]
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          title: (c) => "等级差距：" + c[0].label,
+          label: ({raw}) => {
+            if (raw.y == 0) return "Mesos不变";
+            return raw.y >= 0 ? "Mesos增加" + raw.y + "%" : "Mesos减少" + -raw.y + "%";
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        type: "linear",
+        title: {
+          display: true,
+          text: "等级差距"
+        },
+        ticks: {
+          stepSize: 5
+        }
+      },
+      y: {
+        type: "linear",
+        title: {
+          display: true,
+          text: "Mesos增加(%)"
         },
         ticks: {
           stepSize: 10
