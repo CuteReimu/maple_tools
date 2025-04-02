@@ -101,6 +101,8 @@ const tableData = computed(() => {
       }
       if (lineType === "Junk") {
         lineType = "其它垃圾属性";
+      } else if (typeof lineValue === "string") {
+        lineType = lineValue;
       } else if (lineType.includes("Flat")) {
         lineType = lineType.replace("Flat", `+${lineValue}`);
       } else if (lineType.includes("%")) {
@@ -202,6 +204,8 @@ const doStuff = () => {
         if (lineType === "Junk") {
           const l = lineValue as string[];
           a.push(l[Math.floor(Math.random() * l.length)]);
+        } else if (typeof lineValue === "string") {
+          a.push(lineValue);
         } else if (lineType.includes("Flat")) {
           a.push(lineType.replace("Flat", `+${lineValue}`));
         } else if (lineType.includes("%")) {
