@@ -26,6 +26,15 @@
         </el-select>
       </ClientOnly>
     </el-form-item>
+    <el-form-item label="等级">
+      <el-switch
+          v-model="form.ge160"
+          active-text="&ge;160"
+          inactive-text="&lt;160"
+          :disabled="try_count > 0"
+          style="--el-switch-on-color: #f59139;"
+      />
+    </el-form-item>
     <el-form-item>
       <el-button
         size="large"
@@ -71,7 +80,7 @@
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
 import {
-  ElText, ElSelect, ElOption, ElRadioGroup, ElRadioButton,
+  ElText, ElSelect, ElOption, ElRadioGroup, ElRadioButton, ElSwitch,
   ElForm, ElFormItem, ElButton, ElTable, ElTableColumn,
 } from "element-plus";
 import { cubeRates } from "./cubeRates.js";
@@ -84,8 +93,12 @@ const tableData = computed(() => {
   for (let i = 0; i < rates.length; i++) {
     for (const line of rates[i]) {
       let lineType = line[0] as string;
-      const lineValue = line[1] as number | string | string[];
+      const lineType0 = lineType;
+      let lineValue = line[1] as number | string | string[];
       const lineRate = line[2] as number;
+      if (form.ge160 && plusOneLine.includes(lineType)) {
+        lineValue = lineValue as number + 1;
+      }
       if (lineType === "Junk") {
         lineType = "其它垃圾属性";
       } else if (lineType.includes("Flat")) {
@@ -97,9 +110,12 @@ const tableData = computed(() => {
       } else {
         lineType = `${lineType}: ${lineValue}%`;
       }
+      if (typeof lineValue !== "number") {
+        lineValue = 0;
+      }
       let v = result.find((value) => value.type === lineType);
       if (!v) {
-        v = {type: lineType, first_line: 0, second_line: 0, third_line: 0};
+        v = {type: lineType, type0: lineType0, value: lineValue, first_line: 0, second_line: 0, third_line: 0};
         result.push(v);
       }
       if (i === 0) v.first_line = lineRate;
@@ -127,7 +143,11 @@ const tableData = computed(() => {
         if (a.type.length < 15 && b.type.length >= 15) return 1;
       }
     }
-    return a.type.length - b.type.length;
+    const ret = a.type0.length - b.type0.length;
+    if (ret === 0) {
+      return b.value - a.value;
+    }
+    return ret;
   });
 });
 
@@ -135,6 +155,7 @@ const form = reactive({
   type: "red",
   trials: 0,
   position: "weapon",
+  ge160: false,
 });
 
 const position = [
@@ -162,6 +183,7 @@ const cost = computed(() => {
 const try_count = ref(0);
 const try_result = ref([]);
 
+const plusOneLine = ["ATT %", "MATT %", "STR %", "DEX %", "INT %", "LUK %", "All Stats %", "Max HP %"];
 const doStuff = () => {
   try_count.value += 1;
   const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
@@ -171,8 +193,11 @@ const doStuff = () => {
     let r = Math.random() * 100;
     for (const line of rates[i]) {
       const lineType = line[0] as string;
-      const lineValue = line[1] as number | string | string[];
+      let lineValue = line[1] as number | string | string[];
       const lineRate = line[2] as number;
+      if (form.ge160 && plusOneLine.includes(lineType)) {
+        lineValue = lineValue as number + 1;
+      }
       if (r < lineRate) {
         if (lineType === "Junk") {
           const l = lineValue as string[];
