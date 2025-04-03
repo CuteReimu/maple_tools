@@ -71,10 +71,10 @@
   <el-table
     :data="tableData"
     border
-    row-key="id"
-    @selection-change="(v) => { multipleSelection = v }"
+    row-key="text"
+    @selection-change="(v: RateLine[]) => { multipleSelection = v }"
   >
-    <el-table-column type="selection" :selectable="selectable" width="39" />
+    <el-table-column type="selection" :selectable="selectable" width="39"/>
     <el-table-column
       prop="text"
       class-name="overflow-hidden"
@@ -82,9 +82,27 @@
       label="属性"
       width="230"
     />
-    <el-table-column prop="first_line" label="第一条" width="90" />
-    <el-table-column prop="second_line" label="第二条" width="90" />
-    <el-table-column prop="third_line" label="第三条" width="90" />
+    <el-table-column label="第一条" width="90">
+      <template #default="scope">
+        <el-text>
+          {{ scope.row.first_line === 0 ? "0" : scope.row.first_line.toFixed(4) }}
+        </el-text>
+      </template>
+    </el-table-column>
+    <el-table-column label="第二条" width="90">
+      <template #default="scope">
+        <el-text>
+          {{ scope.row.second_line === 0 ? "0" : scope.row.second_line.toFixed(4) }}
+        </el-text>
+      </template>
+    </el-table-column>
+    <el-table-column label="第三条" width="90">
+      <template #default="scope">
+        <el-text>
+          {{ scope.row.third_line === 0 ? "0" : scope.row.third_line.toFixed(4) }}
+        </el-text>
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -160,7 +178,7 @@ const selectionRates = computed(() => {
   return `三条属性均为所选属性，平均需要： ${cubeCount.toFixed(0)} 个魔方，共计 ${mesoCount.toFixed(2)} B Mesos`;
 });
 
-const buildLine = ([lineType, lineValue]: RatesLineData) => {
+const buildLine = ([lineType, lineValue]: RatesLineData, combineJunk: boolean = false) => {
   let t = lineType;
   if (form.itemLevel > 150 && plusOneLine.includes(t)) {
     const v = lineValue as number;
@@ -173,11 +191,19 @@ const buildLine = ([lineType, lineValue]: RatesLineData) => {
   } else if (t === "Meso Amount %") {
     t = "Mesos Obtained %"
   }
-  let t0: string | undefined
+  let important = importantOther;
+  if (["weapon", "secondary", "emblem"].includes(form.position)) {
+    important = importantWse;
+  }
+  if (combineJunk && !important.includes(t)) {
+    t = "Junk";
+  }
   if (t === "Junk") {
-    t = "其它垃圾属性";
-    const v = lineValue as string[];
-    t0 = v[Math.floor(Math.random() * v.length)];
+    t = "垃圾属性";
+    if (!combineJunk) {
+      const v = lineValue as string[];
+      t = v[Math.floor(Math.random() * v.length)];
+    }
   } else if (typeof lineValue === "string") {
     t = lineValue;
   } else if (t.includes("Flat")) {
@@ -189,14 +215,10 @@ const buildLine = ([lineType, lineValue]: RatesLineData) => {
   } else {
     t = `${t} : ${lineValue}s`;
   }
-  if (t0 === undefined) {
-    t0 = t;
-  }
-  return [t, t0]
+  return t;
 };
 
-const importantAttr = ["STR", "DEX", "INT", "LUK", "All Stats", "Critical Damage", "Item Drop Rate", "Meso Amount"];
-const selectable = (row: RateLine) => MAX_CATEGORY_COUNT[row.type] === undefined;
+const selectable = (row: RateLine) => row.text !== "垃圾属性";
 const tableData = computed(() => {
   const result: RateLine[] = [];
   const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
@@ -208,7 +230,7 @@ const tableData = computed(() => {
       const lineType0 = lineType;
       let lineValue = line[1];
       const lineRate = line[2];
-      [lineType] = buildLine(line);
+      lineType = buildLine(line, true);
       if (typeof lineValue !== "number") {
         lineValue = 0;
       }
@@ -217,31 +239,16 @@ const tableData = computed(() => {
         v = {id: index++, text: lineType, type: lineType0, value: lineValue, first_line: 0, second_line: 0, third_line: 0};
         result.push(v);
       }
-      if (i === 0) v.first_line = lineRate;
-      else if (i === 1) v.second_line = lineRate;
-      else v.third_line = lineRate;
+      if (i === 0) v.first_line += lineRate;
+      else if (i === 1) v.second_line += lineRate;
+      else v.third_line += lineRate;
     }
   }
   return result.sort((a, b) => {
-    if (a.text === "其它垃圾属性" && b.text !== "其它垃圾属性") return 1;
-    if (a.text !== "其它垃圾属性" && b.text === "其它垃圾属性") return -1;
-    if (["weapon", "secondary", "emblem"].includes(form.position)) {
-      const isImportant = (t: string) =>
-        t.includes("ATT") && t.includes("%") || t.includes("Boss Damage") || t.includes("Ignore Enemy Defense");
-      const iA = isImportant(a.text);
-      const iB = isImportant(b.text);
-      if (iA != iB) return iA ? -1 : 1;
-    } else {
-      const isImportant = (t: string) =>
-        importantAttr.some((s) => t.includes(s)) && t.includes("%") || t.includes("Skill Cooldown Reduction");
-      const iA = isImportant(a.text);
-      const iB = isImportant(b.text);
-      if (iA != iB) return iA ? -1 : 1;
-      else if (iA && iB) {
-        if (a.text.length >= 15 && b.text.length < 15) return -1;
-        if (a.text.length < 15 && b.text.length >= 15) return 1;
-      }
-    }
+    if (a.text === "垃圾属性" && b.text !== "垃圾属性") return 1;
+    if (a.text !== "垃圾属性" && b.text === "垃圾属性") return -1;
+    if (a.type === "All Stats %" && b.type !== "All Stats %") return -1;
+    if (a.type !== "All Stats %" && b.type === "All Stats %") return 1;
     const ret = a.type.length - b.type.length;
     if (ret === 0) {
       return b.value - a.value;
@@ -341,7 +348,7 @@ const doStuff = () => {
             break;
           }
         }
-        const [, t] = buildLine(line);
+        const t = buildLine(line);
         a.push({text: t, line: line});
         break;
       }
