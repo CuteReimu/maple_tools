@@ -15,6 +15,7 @@ export default hopeTheme({
   },
 
   logo: "/images/maplestory.png",
+  favicon: "/images/maplestory.png",
 
   darkmode: "toggle",
   print: false,
