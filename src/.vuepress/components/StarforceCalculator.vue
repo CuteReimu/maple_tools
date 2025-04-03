@@ -379,7 +379,7 @@ const doStuff = () => {
   const thirty_off = form.events.includes('thirty_off');
   const five_ten_fifteen = form.events.includes('five_ten_fifteen');
   const two_plus = form.events.includes('plus2');
-  const useAEE = false
+  const useAEE = false;
   const server = form.server;
 
   const rates = getRates(server, item_type, useAEE);

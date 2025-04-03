@@ -91,10 +91,20 @@
 <script setup lang="ts">
 import {computed, reactive, ref} from "vue";
 import {
-  ElText, ElSelect, ElOption, ElRadioGroup, ElRadioButton, ElInputNumber,
-  ElForm, ElFormItem, ElButton, ElTable, ElTableColumn, ElMessageBox,
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInputNumber,
+  ElMessageBox,
+  ElOption,
+  ElRadioButton,
+  ElRadioGroup,
+  ElSelect,
+  ElTable,
+  ElTableColumn,
+  ElText,
 } from "element-plus";
-import { cubeRates, RatesLineData, EquipmentPosition, CubeType } from "./cubeRates.js";
+import {cubeRates, CubeType, EquipmentPosition, RatesLineData} from "./cubeRates.js";
 
 interface RateLine {
   id: number
@@ -129,8 +139,7 @@ const cubingCost = (cubeType: CubeType, itemLevel: number, totalCubeCount: numbe
   const cubeCost = getCubeCost(cubeType);
   const revealCostConst = getRevealCostConstant(itemLevel);
   const revealPotentialCost = revealCostConst * itemLevel ** 2;
-  const ret = cubeCost * totalCubeCount + totalCubeCount * revealPotentialCost;
-  return ret;
+  return cubeCost * totalCubeCount + totalCubeCount * revealPotentialCost;
 };
 const selectionRates = computed(() => {
   if (multipleSelection.value.length === 0) {
