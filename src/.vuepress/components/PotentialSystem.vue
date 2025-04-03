@@ -74,7 +74,7 @@
     row-key="text"
     @selection-change="(v: RateLine[]) => { multipleSelection = v }"
   >
-    <el-table-column type="selection" :selectable="selectable" width="39"/>
+    <el-table-column type="selection" :selectable="selectable" width="39" />
     <el-table-column
       prop="text"
       class-name="overflow-hidden"
