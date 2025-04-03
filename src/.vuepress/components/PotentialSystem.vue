@@ -74,7 +74,7 @@
     row-key="id"
     @selection-change="(v) => { multipleSelection = v }"
   >
-    <el-table-column type="selection" width="39" />
+    <el-table-column type="selection" :selectable="selectable" width="39" />
     <el-table-column
       prop="text"
       class-name="overflow-hidden"
@@ -196,6 +196,7 @@ const buildLine = ([lineType, lineValue]: RatesLineData) => {
 };
 
 const importantAttr = ["STR", "DEX", "INT", "LUK", "All Stats", "Critical Damage", "Item Drop Rate", "Meso Amount"];
+const selectable = (row: RateLine) => MAX_CATEGORY_COUNT[row.type] === undefined;
 const tableData = computed(() => {
   const result: RateLine[] = [];
   const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
@@ -316,16 +317,30 @@ const doStuff0 = () => {
   doStuff();
 };
 
+const MAX_CATEGORY_COUNT = {
+  "Decent Skill": 1,
+  "Increase invincibility time after being hit": 1,
+  "Chance to ignore % damage when hit": 2,
+  "Chance of being invincible for seconds when hit": 2,
+};
+
 const doStuff = () => {
   try_count.value += 1;
   const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
   const rates = [rate.first_line, rate.second_line, rate.third_line];
   const a = [];
-  for (let i = 0; i < rates.length; i++) {
+  while (a.length < rates.length) {
     let r = Math.random() * 100;
-    for (const line of rates[i]) {
+    for (const line of rates[a.length]) {
       const lineRate = line[2];
       if (r < lineRate) {
+        const maxCount = MAX_CATEGORY_COUNT[line[0]];
+        if (maxCount !== undefined) {
+          const count = a.filter((item) => item.line[0] === line[0]).length;
+          if (count >= maxCount) {
+            break;
+          }
+        }
         const [, t] = buildLine(line);
         a.push({text: t, line: line});
         break;
