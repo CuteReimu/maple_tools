@@ -63,6 +63,19 @@
     </el-text>
   </div>
   <h2>属性概率表(%)</h2>
+  <div>
+    <el-radio-group v-model="lineCount" fill="#f59139" size="small">
+      <el-radio-button :value="1" name="lineCount">
+        至少1条
+      </el-radio-button>
+      <el-radio-button :value="2" name="lineCount">
+        至少2条
+      </el-radio-button>
+      <el-radio-button :value="3" name="lineCount">
+        至少3条
+      </el-radio-button>
+    </el-radio-group>
+  </div>
   <p>
     <el-text size="large">
       {{ selectionRates }}
@@ -159,6 +172,7 @@ const cubingCost = (cubeType: CubeType, itemLevel: number, totalCubeCount: numbe
   const revealPotentialCost = revealCostConst * itemLevel ** 2;
   return cubeCost * totalCubeCount + totalCubeCount * revealPotentialCost;
 };
+const lineCount = ref(3);
 const selectionRates = computed(() => {
   if (multipleSelection.value.length === 0) {
     return "勾选想要的属性，计算平均消耗";
@@ -169,13 +183,25 @@ const selectionRates = computed(() => {
     total2 += selection.second_line;
     total3 += selection.third_line;
   }
-  const totalRates = total1 * total2 * total3;
+  let totalRates = 0;
+  switch (lineCount.value) {
+    case 1:
+      totalRates = 1000000.0 - (100 - total1) * (100 - total2) * (100 - total3);
+      break;
+    case 2:
+      totalRates = (total1 * total2 + total1 * total3 + total2 * total3) * 100;
+      totalRates = totalRates - 2 * total1 * total2 * total3;
+      break;
+    case 3:
+      totalRates = total1 * total2 * total3;
+  }
   if (totalRates === 0) {
-    return "三条属性不可能全为所选属性";
+    return `不可能至少有${lineCount.value}条属性为所选属性`;
   }
   const cubeCount = 1000000.0 / totalRates;
   const mesoCount = cubingCost(form.type, form.itemLevel, cubeCount) / 1e9;
-  return `三条属性均为所选属性，平均需要： ${cubeCount.toFixed(0)} 个魔方，共计 ${mesoCount.toFixed(2)} B Mesos`;
+  const cubeType = form.type === "red" ? "Glowing/Red" : "Bright/Black";
+  return `至少有 ${lineCount.value} 条属性为所选属性，平均需要： ${cubeCount.toFixed(0)} 个 ${cubeType} 魔方，共计 ${mesoCount.toFixed(2)} B Mesos`;
 });
 
 const buildLine = ([lineType, lineValue]: RatesLineData, combineJunk: boolean = false) => {

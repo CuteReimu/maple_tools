@@ -15,6 +15,8 @@ order: 6
 以下属性在同一件装备上最多出现1条：
 - Invincibility time increase
 - Decent skills of any type
+
+!!上述表格中计算出来的平均消耗并未考虑这一点，计算结果会比实际消耗的数学期望偏大。~~但差距微小，可以忽略。~~!!
 :::
 
 ## 解封消耗
