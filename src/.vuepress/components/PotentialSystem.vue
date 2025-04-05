@@ -12,18 +12,13 @@
     </el-form-item>
     <el-form-item label="部位">
       <ClientOnly>
-        <el-select
+        <el-cascader
           v-model="form.position"
           style="width: 240px"
+          :options="position"
+          :props="{ expandTrigger: 'hover' }"
           :disabled="try_count > 0"
-        >
-          <el-option
-            v-for="item in position"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+        />
       </ClientOnly>
     </el-form-item>
     <el-form-item label="等级">
@@ -127,10 +122,9 @@ import {
   ElFormItem,
   ElInputNumber,
   ElMessageBox,
-  ElOption,
+  ElCascader,
   ElRadioButton,
   ElRadioGroup,
-  ElSelect,
   ElTable,
   ElTableColumn,
   ElText,
@@ -218,7 +212,7 @@ const buildLine = ([lineType, lineValue]: RatesLineData, combineJunk: boolean = 
     t = "Mesos Obtained %"
   }
   let important = importantOther;
-  if (["weapon", "secondary", "emblem"].includes(form.position)) {
+  if (["weapon", "secondary", "emblem"].includes(form.position[1])) {
     important = importantWse;
   }
   if (combineJunk && !important.includes(t)) {
@@ -247,7 +241,7 @@ const buildLine = ([lineType, lineValue]: RatesLineData, combineJunk: boolean = 
 const selectable = (row: RateLine) => row.text !== "垃圾属性";
 const tableData = computed(() => {
   const result: RateLine[] = [];
-  const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
+  const rate = cubeRates.lvl120to200[form.position[1]][form.type].legendary;
   const rates = [rate.first_line, rate.second_line, rate.third_line];
   let index = 0;
   for (let i = 0; i < rates.length; i++) {
@@ -286,32 +280,44 @@ const tableData = computed(() => {
 interface FormData {
   type: CubeType,
   trials: number,
-  position: EquipmentPosition,
+  position: [string, EquipmentPosition],
   itemLevel: number,
 }
 
 const form = reactive<FormData>({
   type: "red",
   trials: 0,
-  position: "weapon",
+  position: ["wse", "weapon"],
   itemLevel: 200,
 });
 
 const position = [
-  { value: "weapon", label: "武器"},
-  { value: "secondary", label: "副武器"},
-  { value: "emblem", label: "纹章"},
-  { value: "hat", label: "帽子" },
-  { value: "overall", label: "套服" },
-  { value: "top", label: "上衣" },
-  { value: "bottom", label: "裙/裤" },
-  { value: "shoulder", label: "护肩" },
-  { value: "gloves", label: "手套" },
-  { value: "shoes", label: "鞋子" },
-  { value: "cape", label: "披风" },
-  { value: "ring", label: "首饰" },
-  { value: "belt", label: "腰带" },
-  { value: "heart", label: "心脏" },
+  {
+    value: "wse", label: "三大件", children: [
+      {value: "weapon", label: "武器"},
+      {value: "secondary", label: "副武器"},
+      {value: "emblem", label: "纹章"},
+    ]
+  },
+  {
+    value: "armor", label: "防具", children: [
+      {value: "hat", label: "帽子"},
+      {value: "overall", label: "套服"},
+      {value: "top", label: "上衣"},
+      {value: "bottom", label: "裙/裤"},
+      {value: "shoulder", label: "护肩"},
+      {value: "gloves", label: "手套"},
+      {value: "shoes", label: "鞋子"},
+      {value: "cape", label: "披风"},
+    ]
+  },
+  {
+    value: "accessory", label: "饰品", children: [
+      {value: "ring", label: "首饰"},
+      {value: "belt", label: "腰带"},
+      {value: "heart", label: "心脏"},
+    ]
+  },
 ];
 
 const cost = computed(() => {
@@ -328,7 +334,7 @@ const importantOther = ["STR %", "DEX %", "INT %", "LUK %", "All Stats %", "Max 
 const doStuff0 = () => {
   if (try_count.value > 0) {
     let important = importantOther;
-    if (["weapon", "secondary", "emblem"].includes(form.position)) {
+    if (["weapon", "secondary", "emblem"].includes(form.position[1])) {
       important = importantWse;
     }
     const attrType = try_result.value[0].line[0];
@@ -359,7 +365,7 @@ const MAX_CATEGORY_COUNT = {
 
 const doStuff = () => {
   try_count.value += 1;
-  const rate = cubeRates.lvl120to200[form.position][form.type].legendary;
+  const rate = cubeRates.lvl120to200[form.position[1]][form.type].legendary;
   const rates = [rate.first_line, rate.second_line, rate.third_line];
   const a = [];
   while (a.length < rates.length) {
