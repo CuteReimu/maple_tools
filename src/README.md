@@ -14,3 +14,11 @@ actions:
     link: /Dictionary/
     type: secondary
 ---
+
+::: info 关于我们
+
+欢迎加入GMSK人才班GuGuBird
+
+群号：904169430
+
+:::
