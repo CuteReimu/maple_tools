@@ -185,15 +185,15 @@ const selectionRates = computed(() => {
   }
   let totalRates = 0;
   switch (lineCount.value) {
-    case 1:
-      totalRates = 1000000.0 - (100 - total1) * (100 - total2) * (100 - total3);
-      break;
-    case 2:
-      totalRates = (total1 * total2 + total1 * total3 + total2 * total3) * 100;
-      totalRates = totalRates - 2 * total1 * total2 * total3;
-      break;
-    case 3:
-      totalRates = total1 * total2 * total3;
+  case 1:
+    totalRates = 1000000.0 - (100 - total1) * (100 - total2) * (100 - total3);
+    break;
+  case 2:
+    totalRates = (total1 * total2 + total1 * total3 + total2 * total3) * 100;
+    totalRates = totalRates - 2 * total1 * total2 * total3;
+    break;
+  case 3:
+    totalRates = total1 * total2 * total3;
   }
   if (totalRates === 0) {
     return `不可能至少有${lineCount.value}条属性为所选属性`;
