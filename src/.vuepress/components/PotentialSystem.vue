@@ -15,6 +15,8 @@
         <el-cascader
           v-model="form.position"
           style="width: 240px"
+          :show-all-levels="false"
+          popper-class="popper_custom_height_8"
           :options="position"
           :props="{ expandTrigger: 'hover' }"
           :disabled="try_count > 0"
@@ -411,5 +413,10 @@ const doReset = () => {
 
 :deep(td) {
   border: none;
+}
+</style>
+<style>
+.popper_custom_height_8 .el-scrollbar__wrap {
+  height: 285px;
 }
 </style>
