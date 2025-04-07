@@ -3,10 +3,12 @@
     <el-form-item label="魔方类型">
       <el-radio-group v-model="form.type" fill="#f59139" :disabled="try_count > 0">
         <el-radio-button value="red" name="type">
-          Glowing/Red
+          <VPIcon icon="/images/cube/GlowingCube.png" size="17" />
+          Glowing
         </el-radio-button>
         <el-radio-button value="black" name="type">
-          Bright/Black
+          <VPIcon icon="/images/cube/BrightCube.png" size="17" />
+          Bright
         </el-radio-button>
       </el-radio-group>
     </el-form-item>
@@ -126,6 +128,7 @@ import {
   ElMessageBox,
   ElCascader,
   ElRadioButton,
+  ElRadio,
   ElRadioGroup,
   ElTable,
   ElTableColumn,

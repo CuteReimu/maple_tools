@@ -36,6 +36,7 @@ export default hopeTheme({
   sidebar,
 
   markdown: {
+    imgSize: true,
     spoiler: true,
     math: {
       type: "katex",
