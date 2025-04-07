@@ -77,7 +77,11 @@ $$
 
 因此，我们得出结论，对于 <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> 升阶：
 
-对于150级以上的装备，使用 ![](/images/cube/MysticalCube.png =13x)Mystical/![](/images/cube/GlowingCube.png =17x)Glowing/![](/images/cube/BrightCube.png =17x)Bright 魔方都需要花费**44M**以上的费用，建议**优先使用** <strong style="color:#B266FF;">Epic</strong> 潜能卷或 Boss 掉落的 ![](/images/cube/HardCube.png =13x)Hard/![](/images/cube/SolidCube.png =13x)Solid 魔方。否则，150~200的装备，使用 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方在非DMT的时候更省钱，其他情况则使用 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方。
+对于150级以上的装备，使用 ![](/images/cube/MysticalCube.png =13x)Mystical/![](/images/cube/GlowingCube.png =17x)Glowing/![](/images/cube/BrightCube.png =17x)Bright 魔方都需要花费**44M**以上的费用，建议**优先使用** <strong style="color:#B266FF;">Epic</strong> 潜能卷或 Boss 掉落的 ![](/images/cube/HardCube.png =13x)Hard/![](/images/cube/SolidCube.png =13x)Solid 魔方。
+
+如果一定要使用 ![](/images/cube/MysticalCube.png =13x)Mystical/![](/images/cube/GlowingCube.png =17x)Glowing/![](/images/cube/BrightCube.png =17x)Bright 魔方：
+- 在无DMT活动的情况下，200级及以下装备使用 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方更省钱
+- 在有DMT活动的情况下，150级及以上装备使用 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方更省钱
 :::
 <script setup>
 import PotentialSystem from "@PotentialSystem";
