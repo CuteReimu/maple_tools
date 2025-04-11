@@ -49,8 +49,8 @@
   </div>
   <h2>六转小核所需数量表</h2>
   <div>
-    <el-table :data="costData2" border style="width: 840px">
-      <el-table-column prop="level" label="当前等级" />
+    <el-table :data="costData2" border>
+      <el-table-column fixed prop="level" label="当前等级" />
       <el-table-column label="技能核心">
         <el-table-column prop="skillNeed" label="升级所需数量" />
         <el-table-column prop="skillTotal" label="累计数量" />
@@ -62,6 +62,10 @@
       <el-table-column label="强化核心">
         <el-table-column prop="strongNeed" label="升级所需数量" />
         <el-table-column prop="strongTotal" label="累计数量" />
+      </el-table-column>
+      <el-table-column label="通用核心">
+        <el-table-column prop="commonNeed" label="升级所需数量" />
+        <el-table-column prop="commonTotal" label="累计数量" />
       </el-table-column>
     </el-table>
   </div>
@@ -88,12 +92,17 @@ const strongCostData = [
   75, 23, 27, 30, 34, 38, 42, 45, 49, 150, 60, 68, 75, 83, 90, 98, 105, 113,
   120, 263, 128, 135, 143, 150, 158, 165, 173, 180, 188, 375, 0
 ];
+const commonCostData = [
+  125, 38, 44, 50, 57, 63, 69, 75, 82, 300, 110, 124, 138, 152, 165, 179, 193,
+  207, 220, 525, 234, 248, 262, 275, 289, 303, 317, 330, 344, 750, 0
+];
 
 const costData2 = computed(() => {
   let skillTotal = 0;
   let jingtongTotal = 0;
   let strongTotal = 0;
-  return skillCostData.map((item, index) => {
+  let commonTotal = 0;
+  return skillCostData.map((_, index) => {
     let ret = {
       level: index,
       skillNeed: skillCostData[index],
@@ -102,10 +111,13 @@ const costData2 = computed(() => {
       jingtongTotal: jingtongTotal,
       strongNeed: strongCostData[index],
       strongTotal: strongTotal,
+      commonNeed: commonCostData[index],
+      commonTotal: commonTotal,
     };
     skillTotal += skillCostData[index];
     jingtongTotal += jingtongCostData[index];
     strongTotal += strongCostData[index];
+    commonTotal += commonCostData[index];
     return ret;
   });
 });
@@ -174,6 +186,16 @@ const list = reactive([
   {
     name: "强化4核心",
     data: strongCostData,
+    level: 0,
+    target: 0,
+    cost: 0,
+    left: 0,
+    min: 0,
+    max: 30,
+  },
+  {
+    name: "双面神",
+    data: commonCostData,
     level: 0,
     target: 0,
     cost: 0,
