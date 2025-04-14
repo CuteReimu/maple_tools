@@ -1,11 +1,11 @@
 ---
 title: 文本
 icon: file
-toc: true
 lastUpdated: true
 editLink: true
 order: 2
-headerDepth: 1
+toc:
+  level: 1
 ---
 
 ::: tip
