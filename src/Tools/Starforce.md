@@ -2,6 +2,8 @@
 title: 星之力
 icon: star
 order: 7
+gitInclude:
+  - ../.vuepress/components/StarforceCalculator.vue
 ---
 
 <StarforceCalculator></StarforceCalculator>

@@ -68,6 +68,12 @@ export default hopeTheme({
             name: "咕一菈",
             alias: ["奇葩の灵梦"],
           },
+          {
+            username: "github-actions[bot]",
+            name: "Github Actions",
+            avatar: "https://avatars.githubusercontent.com/in/15368?v=4",
+            url: "https://github.com/apps/github-actions",
+          },
         ],
         avatar: true,
       }
