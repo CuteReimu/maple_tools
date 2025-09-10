@@ -31,6 +31,6 @@
     "vuepress-theme-hope": "2.0.0-rc.81"
   },
   "dependencies": {
-    "element-plus": "^2.9.7"
+    "element-plus": "^2.11.0"
   }
 }
