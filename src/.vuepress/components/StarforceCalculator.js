@@ -317,7 +317,7 @@ function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, 
   if (server === "kms") {
     //here
 
-    if (boom_protect) {
+    if (boom_protect && !(five_ten_fifteen && current_star === 15)) {
       multiplier = multiplier + getSafeguardMultiplierIncrease(current_star, sauna, server);
     }
 
@@ -392,7 +392,7 @@ export function grabColumnColors(boomsAmount, boomPercentiles) {
 
 export function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
   /** returns either "Success", "Maintain", "Decrease", or "Boom" */
-  if (five_ten_fifteen && server !== 'kms') {
+  if (five_ten_fifteen) {
     if (current_star === 5 || current_star === 10 || current_star === 15) {
       return "Success"
     }

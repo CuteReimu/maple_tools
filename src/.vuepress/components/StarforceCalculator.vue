@@ -79,7 +79,7 @@
     </el-form-item>
     <el-form-item label="活动：">
       <el-checkbox-group v-model="form.events">
-        <el-checkbox value="five_ten_fifteen" name="events" :disabled="form.server=='kms'">
+        <el-checkbox value="five_ten_fifteen" name="events">
           5/10/15必成
         </el-checkbox>
         <el-checkbox value="plus2" name="events" :disabled="form.server=='kms'">
