@@ -12,25 +12,25 @@
     "lint": "npx eslint --fix"
   },
   "devDependencies": {
-    "@eslint/js": "^9.24.0",
-    "@vuepress/bundler-vite": "^2.0.0-rc.21",
-    "@vuepress/plugin-slimsearch": "^2.0.0-rc.94",
-    "@vueuse/core": "^13.1.0",
-    "@vueuse/shared": "^13.1.0",
-    "chart.js": "^4.4.8",
-    "dotenv": "^16.5.0",
-    "eslint": "^9.24.0",
-    "eslint-plugin-vue": "^10.0.0",
-    "katex": "^0.16.22",
-    "sass-embedded": "^1.86.3",
-    "typescript-eslint": "^8.29.1",
-    "vue": "^3.5.13",
+    "@eslint/js": "^9.38.0",
+    "@vuepress/bundler-vite": "^2.0.0-rc.26",
+    "@vuepress/plugin-slimsearch": "^2.0.0-rc.115",
+    "@vueuse/core": "^14.0.0",
+    "@vueuse/shared": "^14.0.0",
+    "chart.js": "^4.5.1",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.38.0",
+    "eslint-plugin-vue": "^10.5.1",
+    "katex": "^0.16.25",
+    "sass-embedded": "^1.93.2",
+    "typescript-eslint": "^8.46.2",
+    "vue": "^3.5.22",
     "vue-chartjs": "^5.3.2",
-    "vuepress": "2.0.0-rc.21",
-    "vuepress-plugin-md-enhance": "^2.0.0-rc.81",
-    "vuepress-theme-hope": "2.0.0-rc.81"
+    "vuepress": "2.0.0-rc.26",
+    "vuepress-plugin-md-enhance": "^2.0.0-rc.96",
+    "vuepress-theme-hope": "2.0.0-rc.96"
   },
   "dependencies": {
-    "element-plus": "^2.9.7"
+    "element-plus": "^2.11.5"
   }
 }
