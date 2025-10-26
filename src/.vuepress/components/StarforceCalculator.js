@@ -515,15 +515,15 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
       } else if (outcome === "Boom" && item_type === "normal") {
         decrease_count = 0;
         if (current_star > 25) {
-            current_star = 20;
+          current_star = 20;
         } else if (current_star > 22) {
-            current_star = 19;
+          current_star = 19;
         } else if (current_star > 20) {
-            current_star = 17;
+          current_star = 17;
         } else if (current_star > 19) {
-            current_star = 15;
+          current_star = 15;
         } else {
-            current_star = 12;
+          current_star = 12;
         }
         total_booms++;
       } else if (outcome === "Boom" && item_type === 'tyrant') {
