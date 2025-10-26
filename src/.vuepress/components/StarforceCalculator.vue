@@ -70,7 +70,7 @@
           @change="onUpdateServer"
         >
           <el-option label="GMS/JMS/SEA" value="gms" />
-          <el-option label="KMS" value="kms" />
+          <el-option label="GMS新规" value="kms" />
           <el-option label="TMS" value="tms" />
           <el-option label="TMS Reboot" value="tmsr" />
           <el-option label="怀旧服" value="old" />
@@ -486,7 +486,17 @@ const tryOnce = () => {
     } else if (outcome === "Boom") {
       outcome = `强化失败！装备在${current_star}星损毁！`
       decrease_count = 0;
-      current_star = 12;
+      if (server === 'kms' && current_star > 25) {
+        current_star = 20;
+      } else if (server === 'kms' && current_star > 22) {
+        current_star = 19;
+      } else if (server === 'kms' && current_star > 20) {
+        current_star = 17;
+      } else if (server === 'kms' && current_star > 19) {
+        current_star = 15;
+      } else {
+        current_star = 12;
+      }
       item_destroyed.value = true;
     }
   }
