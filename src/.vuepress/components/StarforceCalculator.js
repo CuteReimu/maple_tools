@@ -104,7 +104,8 @@ const SERVER_COST_FUNCTIONS = {
   "old": preSaviorCost,
   "tms": tmsRegCost,
   "tmsr": tmsRebootCost,
-  'kms': kmsCost
+  "kms": kmsCost,
+  "gms_new": kmsCost,
 }
 
 function getBaseCost(server, current_star, item_level) {
@@ -241,7 +242,8 @@ const SERVER_RATES = {
   "old": preSaviorRates,
   "tms": TMSRates,
   "tmsr": TMSRates,
-  "kms": kmsRates
+  "kms": kmsRates,
+  "gms_new": kmsRates,
 }
 
 export function getRates(server, itemType, useAEE) {
@@ -252,13 +254,13 @@ export function getRates(server, itemType, useAEE) {
 }
 
 function getSafeguardMultiplierIncrease(current_star, sauna, server) {
-  if (server === 'kms' && current_star >= 15 && current_star <= 17) {
+  if ((server === 'kms' || server === 'gms_new') && current_star >= 15 && current_star <= 17) {
     return 2;
   }
   if (server === "old" && !sauna && current_star >= 12 && current_star <= 16) {
     return 1;
   }
-  if (server !== 'kms' && current_star >= 15 && current_star <= 16) {
+  if (server !== 'kms' && server !== 'gms_new' && current_star >= 15 && current_star <= 16) {
     return 1;
   }
 
@@ -314,7 +316,7 @@ function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, 
     multiplier = multiplier - 0.3;
   }
 
-  if (server === "kms") {
+  if (server === "kms" || server === "gms_new") {
     //here
 
     if (boom_protect && !(five_ten_fifteen && current_star === 15)) {
@@ -419,7 +421,7 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
     //success + maintain + boom = 1
     //sucess + maintain + boom * (0.7 +0.3) = 1
   }
-  if (boom_protect && current_star <= 16 && server !== 'kms') { //boom protection enabled non-KMS
+  if (boom_protect && current_star <= 16 && server !== 'kms' && server !== 'gms_new') { //boom protection enabled non-KMS
     if (probability_decrease > 0) {
       probability_decrease = probability_decrease + probability_boom;
     } else {
@@ -427,7 +429,7 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
     }
     probability_boom = 0;
   }
-  if (boom_protect && current_star <= 17 && server === 'kms') { //boom protection enabled KMS
+  if (boom_protect && current_star <= 17 && (server === 'kms' || server === 'gms_new')) { //boom protection enabled KMS
     probability_maintain = probability_maintain + probability_boom;
     probability_boom = 0;
   }
@@ -482,7 +484,7 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
     }
     else {
       chanceTime = false
-      if (server !== 'kms') chanceTime = checkChanceTime(decrease_count);
+      if (server !== 'kms' && server !== 'gms_new') chanceTime = checkChanceTime(decrease_count);
       total_mesos = total_mesos + attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chanceTime, item_type, server);
     }
 
@@ -514,13 +516,13 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
         decrease_count = 0;
       } else if (outcome === "Boom" && item_type === "normal") {
         decrease_count = 0;
-        if (server === 'kms' && current_star > 25) {
+        if (server === 'gms_new' && current_star > 25) {
           current_star = 20;
-        } else if (server === 'kms' && current_star > 22) {
+        } else if (server === 'gms_new' && current_star > 22) {
           current_star = 19;
-        } else if (server === 'kms' && current_star > 20) {
+        } else if (server === 'gms_new' && current_star > 20) {
           current_star = 17;
-        } else if (server === 'kms' && current_star > 19) {
+        } else if (server === 'gms_new' && current_star > 19) {
           current_star = 15;
         } else {
           current_star = 12;
