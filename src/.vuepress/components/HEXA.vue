@@ -262,7 +262,9 @@ const calculate = (
   let cost = 0;
   let left = 0;
   for (let i = 0; i < level; i++) {
-    cost += data[i];
+    if (index > 0 || i > 0) {
+      cost += data[i];
+    }
   }
   for (let i = level; i < target; i++) {
     left += data[i];
