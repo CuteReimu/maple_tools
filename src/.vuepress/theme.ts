@@ -78,8 +78,6 @@ export default hopeTheme({
         avatar: true,
       }
     },
-
-    redirect: false,
   },
 
   copyright: false,

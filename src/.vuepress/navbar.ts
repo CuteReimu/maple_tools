@@ -2,6 +2,7 @@ import { navbar } from "vuepress-theme-hope";
 export default navbar([
   '/Tools/',
   '/Dictionary/',
+  '/Update/',
   {
     text: "常用链接",
     icon: "link",
