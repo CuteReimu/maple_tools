@@ -34,7 +34,7 @@
       <el-input-number
         v-model="form.cur_stars"
         :min="0"
-        :max="form.server==='kms'||form.server==='gms_new'?30:25"
+        :max="form.server==='kms'||form.server==='gms'?30:25"
         controls-position="right"
         :disabled="form.type=='try'&&show_try"
       />
@@ -42,7 +42,7 @@
       <el-input-number
         v-model="form.target_stars"
         :min="0"
-        :max="form.server=='kms'||form.server==='gms_new'?30:25"
+        :max="form.server=='kms'||form.server==='gms'?30:25"
         controls-position="right"
         @change="onUpdateTargetStars"
       />
@@ -69,9 +69,8 @@
           :disabled="form.type=='try'&&show_try"
           @change="onUpdateServer"
         >
-          <el-option label="GMS旧规" value="gms" />
+          <el-option label="GMS" value="gms" />
           <el-option label="KMS" value="kms" />
-          <el-option label="GMS新规" value="gms_new" />
           <el-option label="TMS" value="tms" />
           <el-option label="TMS Reboot" value="tmsr" />
           <el-option label="怀旧服" value="old" />
@@ -83,13 +82,13 @@
         <el-checkbox value="five_ten_fifteen" name="events">
           5/10/15必成
         </el-checkbox>
-        <el-checkbox value="plus2" name="events" :disabled="form.server==='kms'||form.server==='gms_new'">
+        <el-checkbox value="plus2" name="events" :disabled="form.server==='kms'||form.server==='gms'">
           10星前一次2星
         </el-checkbox>
         <el-checkbox v-if="form.type=='calc'" value="thirty_off" name="events">
           花费七折
         </el-checkbox>
-        <el-checkbox value="boom_event" name="events" :disabled="form.server!=='kms'&&form.server!=='gms_new'">
+        <el-checkbox value="boom_event" name="events" :disabled="form.server!=='kms'&&form.server!=='gms'">
           爆炸几率减少30%
         </el-checkbox>
       </el-checkbox-group>
@@ -308,7 +307,7 @@ const onUpdateTargetStars = () => {
 };
 
 const onUpdateServer = () => {
-  if (form.server === 'kms' || form.server === 'gms_new') {
+  if (form.server === 'kms' || form.server === 'gms') {
     form.events = form.events.filter(e => e !== 'plus2');
   } else {
     form.events = form.events.filter(e => e !== 'boom_event');
@@ -455,7 +454,7 @@ const tryOnce = () => {
 
   let chanceTime = false;
   let outcome: string;
-  if (server !== 'kms' && server !== 'gms_new') chanceTime = checkChanceTime(decrease_count);
+  if (server !== 'kms' && server !== 'gms') chanceTime = checkChanceTime(decrease_count);
 
   if (chanceTime) {
     decrease_count = 0;
@@ -486,13 +485,13 @@ const tryOnce = () => {
     } else if (outcome === "Boom") {
       outcome = `强化失败！装备在${current_star}星损毁！`
       decrease_count = 0;
-      if (server === 'gms_new' && current_star > 25) {
+      if (server === 'gms' && current_star > 25) {
         current_star = 20;
-      } else if (server === 'gms_new' && current_star > 22) {
+      } else if (server === 'gms' && current_star > 22) {
         current_star = 19;
-      } else if (server === 'gms_new' && current_star > 20) {
+      } else if (server === 'gms' && current_star > 20) {
         current_star = 17;
-      } else if (server === 'gms_new' && current_star > 19) {
+      } else if (server === 'gms' && current_star > 19) {
         current_star = 15;
       } else {
         current_star = 12;

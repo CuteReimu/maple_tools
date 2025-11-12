@@ -99,13 +99,12 @@ function tmsRebootCost(current_star, item_level) {
 // As of the ignition update GMS uses KMS starforce prices.
 // The Savior update increases cost for 11-15 but removes downgrading/booming.
 const SERVER_COST_FUNCTIONS = {
-  "gms": saviorCost,
+  "gms": kmsCost,
   // Leaving this in for players who want to compare.
   "old": preSaviorCost,
   "tms": tmsRegCost,
   "tmsr": tmsRebootCost,
   "kms": kmsCost,
-  "gms_new": kmsCost,
 }
 
 function getBaseCost(server, current_star, item_level) {
@@ -237,13 +236,12 @@ const tyrantRates = {
 
 // Map from server input value to the associated starforcing rates.
 const SERVER_RATES = {
-  "gms": saviorRates,
+  "gms": kmsRates,
   // Leaving this in for players who want to compare.
   "old": preSaviorRates,
   "tms": TMSRates,
   "tmsr": TMSRates,
   "kms": kmsRates,
-  "gms_new": kmsRates,
 }
 
 export function getRates(server, itemType, useAEE) {
@@ -254,13 +252,13 @@ export function getRates(server, itemType, useAEE) {
 }
 
 function getSafeguardMultiplierIncrease(current_star, sauna, server) {
-  if ((server === 'kms' || server === 'gms_new') && current_star >= 15 && current_star <= 17) {
+  if ((server === 'kms' || server === 'gms') && current_star >= 15 && current_star <= 17) {
     return 2;
   }
   if (server === "old" && !sauna && current_star >= 12 && current_star <= 16) {
     return 1;
   }
-  if (server !== 'kms' && server !== 'gms_new' && current_star >= 15 && current_star <= 16) {
+  if (server !== 'kms' && server !== 'gms' && current_star >= 15 && current_star <= 16) {
     return 1;
   }
 
@@ -316,7 +314,7 @@ function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, 
     multiplier = multiplier - 0.3;
   }
 
-  if (server === "kms" || server === "gms_new") {
+  if (server === "kms" || server === "gms") {
     //here
 
     if (boom_protect && !(five_ten_fifteen && current_star === 15)) {
@@ -421,7 +419,7 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
     //success + maintain + boom = 1
     //sucess + maintain + boom * (0.7 +0.3) = 1
   }
-  if (boom_protect && current_star <= 16 && server !== 'kms' && server !== 'gms_new') { //boom protection enabled non-KMS
+  if (boom_protect && current_star <= 16 && server !== 'kms' && server !== 'gms') { //boom protection enabled non-KMS
     if (probability_decrease > 0) {
       probability_decrease = probability_decrease + probability_boom;
     } else {
@@ -429,7 +427,7 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
     }
     probability_boom = 0;
   }
-  if (boom_protect && current_star <= 17 && (server === 'kms' || server === 'gms_new')) { //boom protection enabled KMS
+  if (boom_protect && current_star <= 17 && (server === 'kms' || server === 'gms')) { //boom protection enabled KMS
     probability_maintain = probability_maintain + probability_boom;
     probability_boom = 0;
   }
@@ -484,7 +482,7 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
     }
     else {
       chanceTime = false
-      if (server !== 'kms' && server !== 'gms_new') chanceTime = checkChanceTime(decrease_count);
+      if (server !== 'kms' && server !== 'gms') chanceTime = checkChanceTime(decrease_count);
       total_mesos = total_mesos + attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chanceTime, item_type, server);
     }
 
@@ -516,13 +514,13 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
         decrease_count = 0;
       } else if (outcome === "Boom" && item_type === "normal") {
         decrease_count = 0;
-        if (server === 'gms_new' && current_star > 25) {
+        if (server === 'gms' && current_star > 25) {
           current_star = 20;
-        } else if (server === 'gms_new' && current_star > 22) {
+        } else if (server === 'gms' && current_star > 22) {
           current_star = 19;
-        } else if (server === 'gms_new' && current_star > 20) {
+        } else if (server === 'gms' && current_star > 20) {
           current_star = 17;
-        } else if (server === 'gms_new' && current_star > 19) {
+        } else if (server === 'gms' && current_star > 19) {
           current_star = 15;
         } else {
           current_star = 12;
