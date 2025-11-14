@@ -11,14 +11,14 @@
 
 <script setup>
 import {computed, ref} from 'vue';
-import { encode } from 'iconv-lite';
+import * as iconv from 'iconv-lite';
 import {ElForm, ElFormItem, ElText, ElInput} from "element-plus";
 
 const originalText = ref('');
 const convertedText = computed(() => {
   try {
     // 将Unicode字符串转换为GB2312编码的Buffer
-    const gb2312Buffer = encode(originalText.value, 'gb2312');
+    const gb2312Buffer = iconv.encode(originalText.value, 'gb2312');
 
     // 将GB2312 Buffer转换为Latin1字符串
     // 使用 TextDecoder 的 latin1 编码来解码
