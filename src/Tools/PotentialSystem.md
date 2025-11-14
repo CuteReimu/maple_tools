@@ -49,41 +49,41 @@ $$
 
 每次重置潜能，都有几率使潜能升阶，不同魔方的升阶概率不同，能够达到的最高等价也不同。
 
-|                                         | Cube      | <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> | <strong style="color:#B266FF;">Epic</strong> -> <strong style="color:#FFCC00;">Unique</strong> | <strong style="color:#FFCC00;">Unique</strong> -> <strong style="color:#00CC66;">Legendary</strong> |
-|:---------------------------------------:|-----------|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| ![](/images/cube/MysticalCube.png =17x) | Mystical	 | 1%                                                                                           | 		                                                                                             |                                                                                                     |
-|   ![](/images/cube/HardCube.png =17x)   | Hard      | 	11.8%                                                                                       | 	3.8%                                                                                          | 	                                                                                                   |
-|  ![](/images/cube/SolidCube.png =17x)   | Solid     | 	11.1%	                                                                                      | 8.3%                                                                                           | 	4.5%                                                                                               |
-| ![](/images/cube/GlowingCube.png =23x)  | Glowing   | 	14.1%	                                                                                      | 6%                                                                                             | 	2.4%                                                                                               |
-|  ![](/images/cube/BrightCube.png =23x)  | Bright    | 16%                                                                                          | 11%                                                                                            | 4.7%                                                                                                |
+|                                                     | Cube      | <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> | <strong style="color:#B266FF;">Epic</strong> -> <strong style="color:#FFCC00;">Unique</strong> | <strong style="color:#FFCC00;">Unique</strong> -> <strong style="color:#00CC66;">Legendary</strong> |
+|:---------------------------------------------------:|-----------|----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| ![MysticalCube =17x](/images/cube/MysticalCube.png) | Mystical	 | 1%                                                                                           | 		                                                                                             |                                                                                                     |
+|     ![HardCube =17x](/images/cube/HardCube.png)     | Hard      | 	11.8%                                                                                       | 	3.8%                                                                                          | 	                                                                                                   |
+|    ![SolidCube =17x](/images/cube/SolidCube.png)    | Solid     | 	11.1%	                                                                                      | 8.3%                                                                                           | 	4.5%                                                                                               |
+|  ![GlowingCube =23x](/images/cube/GlowingCube.png)  | Glowing   | 	14.1%	                                                                                      | 6%                                                                                             | 	2.4%                                                                                               |
+|   ![BrightCube =23x](/images/cube/BrightCube.png)   | Bright    | 16%                                                                                          | 11%                                                                                            | 4.7%                                                                                                |
 
 ::: note <strong style="color:#FFCC00;">Unique</strong> -> <strong style="color:#00CC66;">Legendary</strong> 升阶
 如果忽略[解封消耗](#解封消耗)，对于 <strong style="color:#FFCC00;">Unique</strong> -> <strong style="color:#00CC66;">Legendary</strong> 升阶：
-- 使用 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方（每个售价12M），总消耗的数学期望为 $12\mathrm{M} \div 2.4\% = 500\mathrm{M}$
-- 使用 ![](/images/cube/BrightCube.png =17x) Bright 魔方（每个售价22M），总消耗的数学期望为 $22\mathrm{M} \div 4.7\% \approx 468\mathrm{M}$
+- 使用 ![GlowingCube =17x](/images/cube/GlowingCube.png) Glowing 魔方（每个售价12M），总消耗的数学期望为 $12\mathrm{M} \div 2.4\% = 500\mathrm{M}$
+- 使用 ![BrightCube =17x](/images/cube/BrightCube.png) Bright 魔方（每个售价22M），总消耗的数学期望为 $22\mathrm{M} \div 4.7\% \approx 468\mathrm{M}$
 
-因此对于 <strong style="color:#FFCC00;">Unique</strong> -> <strong style="color:#00CC66;">Legendary</strong> 升阶，购买 ![](/images/cube/BrightCube.png =17x) Bright 魔方比购买 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方更划算。
+因此对于 <strong style="color:#FFCC00;">Unique</strong> -> <strong style="color:#00CC66;">Legendary</strong> 升阶，购买 ![BrightCube =17x](/images/cube/BrightCube.png) Bright 魔方比购买 ![GlowingCube =17x](/images/cube/GlowingCube.png) Glowing 魔方更划算。
 :::
 
 ::: note <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> 升级
-由于 Boss 会掉落大量的 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方，因此在 <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> 升阶中，也可以考虑使用 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方：\
+由于 Boss 会掉落大量的 ![MysticalCube =13x](/images/cube/MysticalCube.png) Mystical 魔方，因此在 <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> 升阶中，也可以考虑使用 ![MysticalCube =13x](/images/cube/MysticalCube.png) Mystical 魔方：\
 *（由于需要重置大量次数，[解封消耗](#解封消耗)不能忽略）*
 - 对于 200 级装备，单次解封消耗为 $20\times 200^2 = 0.8\mathrm{M}$
-  - 使用 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方，升阶率为1%，总消耗为 $0.8\mathrm{M} \div 1\% = 80\mathrm{M}$
-  - 使用 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方（每个售价12M），总消耗为 $(12\mathrm{M}+0.8\mathrm{M}) \div 14.1\% \approx 90.8\mathrm{M}$
-  - 使用 ![](/images/cube/BrightCube.png =17x) Bright 魔方（每个售价22M），总消耗为 $(22\mathrm{M}+0.8\mathrm{M}) \div 16\% \approx 142.5\mathrm{M}$
+  - 使用 ![MysticalCube =13x](/images/cube/MysticalCube.png) Mystical 魔方，升阶率为1%，总消耗为 $0.8\mathrm{M} \div 1\% = 80\mathrm{M}$
+  - 使用 ![GlowingCube =17x](/images/cube/GlowingCube.png) Glowing 魔方（每个售价12M），总消耗为 $(12\mathrm{M}+0.8\mathrm{M}) \div 14.1\% \approx 90.8\mathrm{M}$
+  - 使用 ![BrightCube =17x](/images/cube/BrightCube.png) Bright 魔方（每个售价22M），总消耗为 $(22\mathrm{M}+0.8\mathrm{M}) \div 16\% \approx 142.5\mathrm{M}$
 - 对于 150 级装备，单次解封消耗为 $20\times 150^2 = 0.45\mathrm{M}$
-  - 使用 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方，升阶率为1%，总消耗为 $0.45\mathrm{M} \div 1\% = 45\mathrm{M}$
-  - 在 DMT 活动中使用 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方（每个售价12M），总消耗为 $(12\mathrm{M}+0.45\mathrm{M}) \div (2\times 14.1\%) \approx 44.1\mathrm{M}$
-  - 在 DMT 活动中使用 ![](/images/cube/BrightCube.png =17x) Bright 魔方（每个售价22M），总消耗为 $(22\mathrm{M}+0.45\mathrm{M}) \div (2\times 16\%) \approx 70.2\mathrm{M}$
+  - 使用 ![MysticalCube =13x](/images/cube/MysticalCube.png) Mystical 魔方，升阶率为1%，总消耗为 $0.45\mathrm{M} \div 1\% = 45\mathrm{M}$
+  - 在 DMT 活动中使用 ![GlowingCube =17x](/images/cube/GlowingCube.png) Glowing 魔方（每个售价12M），总消耗为 $(12\mathrm{M}+0.45\mathrm{M}) \div (2\times 14.1\%) \approx 44.1\mathrm{M}$
+  - 在 DMT 活动中使用 ![BrightCube =17x](/images/cube/BrightCube.png) Bright 魔方（每个售价22M），总消耗为 $(22\mathrm{M}+0.45\mathrm{M}) \div (2\times 16\%) \approx 70.2\mathrm{M}$
 
 因此，我们得出结论，对于 <strong style="color:#6699FF;">Rare</strong> -> <strong style="color:#B266FF;">Epic</strong> 升阶：
 
-对于150级以上的装备，使用 ![](/images/cube/MysticalCube.png =13x)Mystical/![](/images/cube/GlowingCube.png =17x)Glowing/![](/images/cube/BrightCube.png =17x)Bright 魔方都需要花费**44M**以上的费用，建议**优先使用** <strong style="color:#B266FF;">Epic</strong> 潜能卷或 Boss 掉落的 ![](/images/cube/HardCube.png =13x)Hard/![](/images/cube/SolidCube.png =13x)Solid 魔方。
+对于150级以上的装备，使用 ![MysticalCube =13x](/images/cube/MysticalCube.png)Mystical/![GlowingCube =17x](/images/cube/GlowingCube.png)Glowing/![BrightCube =17x](/images/cube/BrightCube.png)Bright 魔方都需要花费**44M**以上的费用，建议**优先使用** <strong style="color:#B266FF;">Epic</strong> 潜能卷或 Boss 掉落的 ![HardCube =13x](/images/cube/HardCube.png)Hard/![SolidCube =13x](/images/cube/SolidCube.png)Solid 魔方。
 
-如果一定要使用 ![](/images/cube/MysticalCube.png =13x)Mystical/![](/images/cube/GlowingCube.png =17x)Glowing/![](/images/cube/BrightCube.png =17x)Bright 魔方：
-- 在无DMT活动的情况下，200级及以下装备使用 ![](/images/cube/MysticalCube.png =13x) Mystical 魔方更省钱
-- 在有DMT活动的情况下，150级及以上装备使用 ![](/images/cube/GlowingCube.png =17x) Glowing 魔方更省钱
+如果一定要使用 ![MysticalCube =13x](/images/cube/MysticalCube.png)Mystical/![GlowingCube =17x](/images/cube/GlowingCube.png)Glowing/![BrightCube =17x](/images/cube/BrightCube.png)Bright 魔方：
+- 在无DMT活动的情况下，200级及以下装备使用 ![MysticalCube =13x](/images/cube/MysticalCube.png) Mystical 魔方更省钱
+- 在有DMT活动的情况下，150级及以上装备使用 ![GlowingCube =17x](/images/cube/GlowingCube.png) Glowing 魔方更省钱
 :::
 <script setup>
 import PotentialSystem from "@PotentialSystem";

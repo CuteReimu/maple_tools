@@ -2,6 +2,8 @@
 title: gms中文转换器
 icon: language
 order: 8
+gitInclude:
+  - ../.vuepress/components/UnicodeName.vue
 ---
 
 <UnicodeName></UnicodeName>
