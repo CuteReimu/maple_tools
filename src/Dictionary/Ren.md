@@ -6,12 +6,15 @@ editLink: true
 order: 4
 ---
 
+![ren-1.jpg](/images/ren-1.jpg)
+![ren-2.png](/images/ren-2.png)
+
 ## 职业buff
 
 - 二转：加攻速
 - 五转通用：火眼、战斗命令、花
 - 五转职业群通用：莲花（多一条命）
-- 爆发buff：见那张介绍图（图里缺了战士通用的武器灵气），自行设置一个sequence即可
+- 爆发buff：见上图（图里缺了战士通用的武器灵气），自行设置一个sequence即可
 
 ## 输出技能
 
