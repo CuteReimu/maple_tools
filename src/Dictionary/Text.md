@@ -4,8 +4,7 @@ icon: file
 lastUpdated: true
 editLink: true
 order: 2
-toc:
-  level: 1
+toc: false
 ---
 
 ::: tip
