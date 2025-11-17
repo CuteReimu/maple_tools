@@ -22,6 +22,7 @@
     "eslint": "^9.38.0",
     "eslint-plugin-vue": "^10.5.1",
     "katex": "^0.16.25",
+    "mermaid": "^11.12.1",
     "sass-embedded": "^1.93.2",
     "typescript-eslint": "^8.46.2",
     "vite-plugin-node-polyfills": "^0.24.0",
