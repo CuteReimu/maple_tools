@@ -13,10 +13,6 @@ actions:
     icon: spell-check
     link: /Dictionary/
     type: secondary
-  - text: 更新
-    icon: newspaper
-    link: /Update/
-    type: secondary
 ---
 
 ::: info 关于我们
