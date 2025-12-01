@@ -4,51 +4,47 @@ icon: star
 order: 7
 gitInclude:
   - ../.vuepress/components/StarforceCalculator.vue
+  - ../.vuepress/components/StarforceTable.vue
 ---
 
 <StarforceCalculator></StarforceCalculator>
 
+::: note 注意
+
+以下内容全部基于GMS改版后。
+
+:::
+
 ## 成功率
 
-括号外的百分比表示**总体百分比**。括号内的百分比表示占不成功率的百分比。
+### 15星前
 
-::: note 注意
-**以下成功率不适用于 CMS 、改版后的 KMS 。**
-:::
+| 尝试        | 成功  | 失败  |
+|-----------|-----|-----|
+| 0★ → 1★   | 95% | 5%  |
+| 1★ → 2★   | 90% | 10% |
+| 2★ → 3★   | 85% | 15% |
+| 3★ → 4★   | 85% | 15% |
+| 4★ → 5★   | 80% | 20% |
+| 5★ → 6★   | 75% | 25% |
+| 6★ → 7★   | 70% | 30% |
+| 7★ → 8★   | 65% | 35% |
+| 8★ → 9★   | 60% | 40% |
+| 9★ → 10★  | 55% | 45% |
+| 10★ → 11★ | 50% | 50% |
+| 11★ → 12★ | 45% | 55% |
+| 12★ → 13★ | 40% | 60% |
+| 13★ → 14★ | 35% | 65% |
+| 14★ → 15★ | 30% | 70% |
 
-| 尝试        | 成功  | 失败（保持）      | 失败（-1★）      | 损坏          |
-|-----------|-----|-------------|--------------|-------------|
-| 0★ → 1★   | 95% | 5% (100%)   |              |             |
-| 1★ → 2★   | 90% | 10% (100%)  |              |             |
-| 2★ → 3★   | 85% | 15% (100%)  |              |             |
-| 3★ → 4★   | 85% | 15% (100%)  |              |             |
-| 4★ → 5★   | 80% | 20% (100%)  |              |             |
-| 5★ → 6★   | 75% | 25% (100%)  |              |             |
-| 6★ → 7★   | 70% | 30% (100%)  |              |             |
-| 7★ → 8★   | 65% | 35% (100%)  |              |             |
-| 8★ → 9★   | 60% | 40% (100%)  |              |             |
-| 9★ → 10★  | 55% | 45% (100%)  |              |             |
-| 10★ → 11★ | 50% | 50% (100%)  |              |             |
-| 11★ → 12★ | 45% | 55% (100%)  |              |             |
-| 12★ → 13★ | 40% | 60% (100%)  |              |             |
-| 13★ → 14★ | 35% | 65% (100%)  |              |             |
-| 14★ → 15★ | 30% | 70% (100%)  |              |             |
-| 15★ → 16★ | 30% | 67.9% (97%) | 0% (0%)      | 2.1% (3%)   |
-| 16★ → 17★ | 30% | 0% (0%)     | 67.9% (97%)  | 2.1% (3%)   |
-| 17★ → 18★ | 30% | 0% (0%)     | 67.9% (97%)  | 2.1% (3%)   |
-| 18★ → 19★ | 30% | 0% (0%)     | 67.2% (96%)  | 2.8% (4%)   |
-| 19★ → 20★ | 30% | 0% (0%)     | 67.2% (96%)  | 2.8% (4%)   |
-| 20★ → 21★ | 30% | 63% (90%)   | 0% (0%)      | 7% (10%)    |
-| 21★ → 22★ | 30% | 0% (0%)     | 63% (90%)    | 7% (10%)    |
-| 22★ → 23★ | 3%  | 0% (0%)     | 77.6% (80%)  | 19.4% (20%) |
-| 23★ → 24★ | 2%  | 0% (0%)     | 68.6% (70%)	 | 29.4% (30%) |
-| 24★ → 25★ | 1%  | 0% (0%)     | 59.4% (60%)  | 39.6% (40%) |
+### 15星后
+
+- 成功率基于抓星星（+5%）的情况
+- `|`右边是在损坏几率降低30%的活动下的数值
+
+<StarforceTable></StarforceTable>
 
 ## 星级限制
-
-::: note 注意
-**以下星级限制不适用于改版后的 KMS 。**
-:::
 
 | 装备等级    | 最大星星数 |
 |---------|-------|
@@ -57,22 +53,118 @@ gitInclude:
 | 108~117 | 10    |
 | 118~127 | 15    |
 | 128~137 | 20    |
-| 138及以上	 | 25    |
+| 138及以上	 | 30    |
 
 <script setup>
 import StarforceCalculator from "@StarforceCalculator";
+import StarforceTable from "@StarforceTable";
 </script>
 
 <style scoped>
-table {
-  text-wrap: nowrap;
-}
-
 :deep(.el-table__header-wrapper .el-table__header) {
   margin: 0;
 }
 
 :deep(.el-table__body-wrapper .el-table__body) {
   margin: 0;
+}
+
+:deep(.el-table) {
+  border-top-color: #B8B8BA !important;
+  border-left-color: #B8B8BA !important;
+  border-bottom-color: #B8B8BA !important;
+  border-right: none !important;
+}
+
+:deep(.el-table--border) {
+  border-top-color: #B8B8BA !important;
+  border-left-color: #B8B8BA !important;
+  border-bottom-color: #B8B8BA !important;
+  border-right: none !important;
+}
+
+:deep(.el-table__inner-wrapper) {
+  border-color: #B8B8BA !important;
+  border-top: 1px solid #B8B8BA !important;
+  border-left: 1px solid #B8B8BA !important;
+  border-bottom: 1px solid #B8B8BA !important;
+  border-right: none !important;
+}
+
+:deep(.el-table th),
+:deep(.el-table td) {
+  border-color: #B8B8BA !important;
+}
+
+:deep(.el-table--border::after),
+:deep(.el-table--border::before) {
+  background-color: #B8B8BA !important;
+}
+
+:deep(.el-table--border::before) {
+  background-color: #B8B8BA !important;
+  border-top: 1px solid #B8B8BA !important;
+  border-left: 1px solid #B8B8BA !important;
+}
+
+:deep(.el-table--border::after) {
+  background-color: #B8B8BA !important;
+  border-bottom: 1px solid #B8B8BA !important;
+  width: 1px !important;
+  right: 0 !important;
+  border-right: none !important;
+}
+
+:deep(.el-table__inner-wrapper) {
+  border-collapse: collapse;
+}
+
+:deep(.el-table__inner-wrapper table) {
+  border-collapse: collapse;
+}
+
+:deep(.el-table--border) {
+  border-width: 1px;
+}
+
+:deep(.el-table th),
+:deep(.el-table td) {
+  border-width: 1px;
+}
+
+:deep(.el-table__body-wrapper) {
+  border-top: none !important;
+  border-right: none !important;
+}
+
+:deep(.el-table__body) {
+  border-top: none !important;
+  border-right: none !important;
+}
+
+:deep(.el-table__body tr:first-child td) {
+  border-top: none !important;
+}
+
+:deep(.el-table__header-wrapper) {
+  border-bottom: none !important;
+  border-right: none !important;
+}
+
+:deep(.el-table__header) {
+  border-bottom: none !important;
+  border-right: none !important;
+}
+
+:deep(.el-table__header th) {
+  border-bottom: 1px solid #B8B8BA !important;
+}
+
+:deep(.el-table__header th:last-child) {
+  border-right: none !important;
+}
+
+:deep(.el-table__body td:last-child) {
+  border-right: none !important;
 }
 </style>
