@@ -61,4 +61,7 @@ import StarforceTable from "@StarforceTable";
 </script>
 
 <style scoped>
+table {
+  text-wrap: nowrap;
+}
 </style>
