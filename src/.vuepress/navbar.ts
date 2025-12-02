@@ -21,6 +21,11 @@ export default navbar([
         link: "https://bbs.gjfmxd.com/",
         icon: "/images/maplestory.png",
       },
+      {
+        text: "玩枫谷",
+        link: "https://maplestory.wanniwa.cn/",
+        icon: "/images/wanniwa-logo.webp",
+      },
     ],
   }
 ]);
