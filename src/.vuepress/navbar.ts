@@ -26,6 +26,11 @@ export default navbar([
         link: "https://maplestory.wanniwa.cn/",
         icon: "/images/wanniwa-logo.webp",
       },
+      {
+        text: "全职业Discord",
+        link: "https://www.reddit.com/r/Maplestory/comments/1b8zv9o/master_list_of_all_class_discords/",
+        icon: "b:discord",
+      },
     ],
   }
 ]);

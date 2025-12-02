@@ -71,18 +71,13 @@ export default hopeTheme({
             alias: ["CuteReimu", "奇葩の灵梦"],
           },
           {
-            username: "github-actions[bot]",
-            name: "Github Actions",
-            avatar: "https://avatars.githubusercontent.com/in/15368?v=4",
-            url: "https://github.com/apps/github-actions",
-          },
-          {
             username: "Death-alter",
             name: "Death",
             alias: ["Death"],
           },
         ],
         avatar: true,
+        transform: contributors => contributors.filter(item => item.name !== "github-actions[bot]"),
       }
     },
 

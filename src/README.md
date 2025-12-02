@@ -13,6 +13,10 @@ actions:
     icon: spell-check
     link: /Dictionary/
     type: secondary
+contributors: content
+gitInclude:
+  - .vuepress/components/StarforceTable.vue
+  - Tools/UnicodeName.md
 ---
 
 ::: info 关于我们
