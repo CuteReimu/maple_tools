@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="starData2" border style="max-width: 650px">
+  <el-table :data="starData2" border style="max-width: 800px">
     <el-table-column prop="cur" label="尝试" :min-width="60">
       <template #default="scope">
         {{ scope.row.cur }}★ → {{ scope.row.cur + 1 }}★
@@ -21,6 +21,11 @@
     <el-table-column prop="destroy" label="最终成功没炸">
       <template #default="scope">
         {{ scope.row.no_boom }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="destroy" label="累计不炸概率">
+      <template #default="scope">
+        {{ scope.row.accumulate }}
       </template>
     </el-table-column>
   </el-table>
@@ -47,28 +52,35 @@ const starData = [
 ];
 const starData2 = [];
 const a = () => {
+  let accumulate1 = 1, accumulate2 = 1;
   for (const item of starData) {
     const success = item.success * 1.05;
     const fail1 = (item.fail * (100 - success)) / (100 - item.success);
     const destroy1 = (item.destroy * (100 - success)) / (100 - item.success);
     if (item.cur >= 22) {
+      accumulate1 *= success/(success+destroy1);
+      accumulate2 *= success/(success+destroy1);
       starData2.push({
         cur: item.cur,
         success: success.toFixed(2),
         fail: `${fail1.toFixed(2)}%`,
         destroy: `${destroy1.toFixed(2)}%`,
         no_boom: `${(success/(success+destroy1)*100).toFixed(2)}%`,
+        accumulate: `${(accumulate1*100).toFixed(2)}% | ${(accumulate2*100).toFixed(2)}%`,
       });
       continue;
     }
     const destroy2 = destroy1 * 0.7;
     const fail2 = 100 - success - destroy2;
+    accumulate1 *= success/(success+destroy1);
+    accumulate2 *= success/(success+destroy2);
     starData2.push({
       cur: item.cur,
       success: success.toFixed(2),
       fail: `${fail1.toFixed(2)}% | ${fail2.toFixed(2)}%`,
       destroy: `${destroy1.toFixed(2)}% | ${destroy2.toFixed(2)}%`,
       no_boom: `${(success/(success+destroy1)*100).toFixed(2)}% | ${(success/(success+destroy2)*100).toFixed(2)}%`,
+      accumulate: `${(accumulate1*100).toFixed(2)}% | ${(accumulate2*100).toFixed(2)}%`,
     });
   }
 };
