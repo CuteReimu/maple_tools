@@ -1,4 +1,10 @@
 <template>
+  <el-switch
+    v-model="safeGuard"
+    size="large"
+    active-text="保护"
+    inactive-text="不保护"
+  />
   <el-table :data="starData2" border style="max-width: 800px">
     <el-table-column prop="cur" label="尝试" :min-width="60">
       <template #default="scope">
@@ -31,8 +37,10 @@
   </el-table>
 </template>
 
-<script setup lang="ts">
-import { ElTableColumn, ElTable } from "element-plus";
+<script setup>
+import { ElSwitch, ElTableColumn, ElTable } from "element-plus";
+import { computed, ref } from "vue";
+const safeGuard = ref(false);
 const starData = [
   { cur: 15, success: 30, fail: 67.9, destroy: 2.1 },
   { cur: 16, success: 30, fail: 67.9, destroy: 2.1 },
@@ -50,17 +58,21 @@ const starData = [
   { cur: 28, success: 3, fail: 77.6, destroy: 19.4 },
   { cur: 29, success: 1, fail: 79.2, destroy: 19.8 },
 ];
-const starData2 = [];
-const a = () => {
+const starData2 = computed(() => {
+  const ret = [];
   let accumulate1 = 1, accumulate2 = 1;
   for (const item of starData) {
     const success = item.success * 1.05;
-    const fail1 = (item.fail * (100 - success)) / (100 - item.success);
-    const destroy1 = (item.destroy * (100 - success)) / (100 - item.success);
+    let fail1 = (item.fail * (100 - success)) / (100 - item.success);
+    let destroy1 = (item.destroy * (100 - success)) / (100 - item.success);
+    if (safeGuard.value && item.cur < 18) {
+      fail1 += destroy1;
+      destroy1 = 0;
+    }
     if (item.cur >= 22) {
       accumulate1 *= success/(success+destroy1);
       accumulate2 *= success/(success+destroy1);
-      starData2.push({
+      ret.push({
         cur: item.cur,
         success: success.toFixed(2),
         fail: `${fail1.toFixed(2)}%`,
@@ -70,11 +82,15 @@ const a = () => {
       });
       continue;
     }
-    const destroy2 = destroy1 * 0.7;
-    const fail2 = 100 - success - destroy2;
+    let destroy2 = destroy1 * 0.7;
+    let fail2 = 100 - success - destroy2;
+    if (safeGuard.value && item.cur < 18) {
+      fail2 += destroy2;
+      destroy2 = 0;
+    }
     accumulate1 *= success/(success+destroy1);
     accumulate2 *= success/(success+destroy2);
-    starData2.push({
+    ret.push({
       cur: item.cur,
       success: success.toFixed(2),
       fail: `${fail1.toFixed(2)}% | ${fail2.toFixed(2)}%`,
@@ -83,8 +99,8 @@ const a = () => {
       accumulate: `${(accumulate1*100).toFixed(2)}% | ${(accumulate2*100).toFixed(2)}%`,
     });
   }
-};
-a();
+  return ret;
+});
 </script>
 
 <style scoped>
