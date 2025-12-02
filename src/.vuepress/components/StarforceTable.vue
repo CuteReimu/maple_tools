@@ -18,7 +18,7 @@
         {{ scope.row.destroy }}
       </template>
     </el-table-column>
-    <el-table-column prop="destroy" label="一次都不炸">
+    <el-table-column prop="destroy" label="最终成功没炸">
       <template #default="scope">
         {{ scope.row.no_boom }}
       </template>
