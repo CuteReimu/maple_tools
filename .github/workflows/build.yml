@@ -40,13 +40,53 @@ jobs:
       run: |
         npm install
         npm run docs:build
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: built-files
+        path: src/.vuepress/dist
+
+  deploy-server:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: built-files
+        path: src/.vuepress/dist
     - name: Deploy to Server
-      if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
       uses: easingthemes/ssh-deploy@main
       env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvc -i --delete"
-          SOURCE: "src/.vuepress/dist/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: "-rlgoDzvc -i --delete"
+        SOURCE: "src/.vuepress/dist/"
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: ${{ secrets.REMOTE_TARGET }}
+
+  deploy-vercel:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download build artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: built-files
+        path: src/.vuepress/dist
+    - name: Write .vercel project.json
+      run: |
+        mkdir -p src/.vuepress/dist/.vercel
+        echo "{ \"orgId\": \"$VERCEL_ORG_ID\", \"projectId\": \"$VERCEL_PROJECT_ID\", \"projectName\": \"$VERCEL_PROJECT_NAME\" }" > src/.vuepress/dist/.vercel/project.json
+      env:
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        VERCEL_PROJECT_NAME: ${{ secrets.VERCEL_PROJECT_NAME }}
+    - name: Deploy to Vercel
+      run: npx vercel --prod src/.vuepress/dist --token=$VERCEL_DEPLOY_KEY --yes
+      env:
+        VERCEL_DEPLOY_KEY: ${{ secrets.VERCEL_DEPLOY_KEY }}
