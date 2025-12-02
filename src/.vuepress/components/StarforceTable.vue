@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="starData2" border style="max-width: 500px">
+  <el-table :data="starData2" border style="max-width: 650px">
     <el-table-column prop="cur" label="尝试" :min-width="60">
       <template #default="scope">
         {{ scope.row.cur }}★ → {{ scope.row.cur + 1 }}★
@@ -16,6 +16,11 @@
     <el-table-column prop="destroy" label="损坏">
       <template #default="scope">
         {{ scope.row.destroy }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="destroy" label="一次都不炸">
+      <template #default="scope">
+        {{ scope.row.no_boom }}
       </template>
     </el-table-column>
   </el-table>
@@ -52,6 +57,7 @@ const a = () => {
         success: success.toFixed(2),
         fail: `${fail1.toFixed(2)}%`,
         destroy: `${destroy1.toFixed(2)}%`,
+        no_boom: `${(success/(success+destroy1)*100).toFixed(2)}%`,
       });
       continue;
     }
@@ -62,6 +68,7 @@ const a = () => {
       success: success.toFixed(2),
       fail: `${fail1.toFixed(2)}% | ${fail2.toFixed(2)}%`,
       destroy: `${destroy1.toFixed(2)}% | ${destroy2.toFixed(2)}%`,
+      no_boom: `${(success/(success+destroy1)*100).toFixed(2)}% | ${(success/(success+destroy2)*100).toFixed(2)}%`,
     });
   }
 };
