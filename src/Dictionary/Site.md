@@ -33,7 +33,7 @@ order: 1
 
 ## 工具
 
-<a :href="legionUrl" target="_blank" rel="noopener noreferrer">联盟摆放助手</a>
+[::b:github =20 /black::联盟摆放助手](https://cutereimu.github.io/LegionSolver/)
 
 [放置助手](https://maplemaps.net/)
 
@@ -127,7 +127,3 @@ ocr 识别的框是为冒冒 1366 * 768 的分辨率做的，如果不适配的�
 ## 社区
 
 [::b:discord =20 /black::dc mvp](https://discord.gg/gHavpznWEU)
-
-<script setup lang="ts">
-const legionUrl = import.meta.env.VITE_LEGION_URL;
-</script>

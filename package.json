@@ -18,7 +18,6 @@
     "@vueuse/core": "^14.0.0",
     "@vueuse/shared": "^14.0.0",
     "chart.js": "^4.5.1",
-    "dotenv": "^17.2.3",
     "eslint": "^9.38.0",
     "eslint-plugin-vue": "^10.5.1",
     "katex": "^0.16.25",
