@@ -252,6 +252,43 @@ toc: false
 
 默认只解锁两个冠军联盟的角色位，当前两个角色位都达到 Rank A 或更高时，自动解锁第三个角色位。GMS目前还未开放第四、五、六个角色位。
 
+## 创世解封
+
+| 解封目标   | 备注                                                                                                                         | 所需 Traces of Darkness |
+|--------|----------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| 困难狮子王  | 最终伤害-90% <Badge text="只能solo" type="important" vertical="middle"/><Badge text="只能装备创世武器和副手" type="tip" vertical="middle"/> | 500                   |
+| 普通阿卡伊勒 | 最终伤害-75% <Badge text="只能solo" type="important" vertical="middle"/><Badge text="只能装备创世武器和副手" type="tip" vertical="middle"/> | 500                   |
+| 困难麦格纳斯 | 最终伤害-50% <Badge text="只能solo" type="important" vertical="middle"/><Badge text="只能装备创世武器和副手" type="tip" vertical="middle"/> | 500                   |
+| 困难斯乌   | 最终伤害-20% <Badge text="只能solo" type="important" vertical="middle"/>                                                         | 1000                  |
+| 困难黛米安  | 只有5条命 <Badge text="只能solo" type="important" vertical="middle"/>                                                            | 1000                  |
+| 困难威尔   | 受到的伤害+10% <Badge text="可以双解，终伤-50%" type="important" vertical="middle"/>                                                   | 1000                  |
+| 困难路西德  | 只能喝任务给的50瓶超级药水 <Badge text="可以双解，终伤-50%" type="important" vertical="middle"/>                                              | 1000                  |
+| 困难觉醒希拉 | Boss血量削弱25% <Badge text="可以双解，终伤-50%" type="important" vertical="middle"/>                                                 | 1000                  |
+
+解释：
+- <Badge text="只能solo" type="important" vertical="middle"/> 只能单人挑战
+- <Badge text="可以双解，终伤-50%" type="important" vertical="middle"/> 可以单人挑战，也可以和一个相同任务进度的人一起挑战。若单人挑战则没有影响。若双人挑战，则终伤-50%（伤害减半）
+- <Badge text="只能装备创世武器和副手" type="tip" vertical="middle"/> 进场前需脱掉身上的其它所有装备（包含图腾，不包含称号、岛球、真实球），只装备创世武器和任意副手
+
+注：以上挑战均不能通过练习模式完成。接取任务后，在难度选择界面有一个 `Genesis` 难度，选择这个难度进场即可，此难度将和Boss原本的对应难度共占进场CD。
+
+完成对应挑战并收集对应数量的 **Traces of Darkness** 后，即可交任务进入创世解封的下一阶段。
+
+以下是单人挑战击败各Boss可以获得的 **Traces of Darkness** 数量，组队挑战则由所有人平分。
+
+| Boss | 简单 | 普通 | 困难/极限 |
+|------|----|----|-------|
+| 斯乌   |    | 10 | 50    |
+| 黛米安  |    | 10 | 50    |
+| 路西德  | 15 | 20 | 65    |
+| 威尔   | 15 | 25 | 75    |
+| 大眼   |    | 20 | 65    |
+| 觉醒希拉 |    | 45 | 95    |
+| 队长   |    | 25 | 75    |
+| 黑魔法师 |    |    | 600   |
+
+可以简单算一下，共计需要 **Traces of Darkness** 的数量为 $500 \times 3 + 1000 \times 5 = 6500$ ，每周最高可以获得 $50 + 50 + 65 + 75 + 65 + 95 + 75 = 475$ 。而 $6500 = 475 \times 13 + 325$ ，不考虑创世通行证的话，理论上最少只需$13$周并适当挑战老黑即可创世解封，算上创世通行证则这个时间还可以除以$3$。
+
 <style scoped>
   table {
     text-wrap: nowrap;
