@@ -26,7 +26,6 @@ export default hopeTheme({
     end: ["Links", "Language", "Repo", "Outlook", "Search"],
   },
   toc: false,
-  editLink: false,
   prevLink: false,
   nextLink: false,
   lastUpdated: false,
