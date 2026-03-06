@@ -475,19 +475,15 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
 
   while (current_star < desired_star) {
     let chanceTime = false;
-    let outcome = "Success";
     if (useAEE) {
       total_mesos++;
-      chanceTime = false;
     }
     else {
-      chanceTime = false
       if (server !== 'kms' && server !== 'gms') chanceTime = checkChanceTime(decrease_count);
       total_mesos = total_mesos + attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chanceTime, item_type, server);
     }
 
     if (chanceTime) {
-      outcome = "Success";
       decrease_count = 0;
       if (two_plus && current_star <= 10) {
         current_star = current_star + 2;
@@ -497,7 +493,7 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
       }
     }
     else {
-      outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
+      let outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
 
       if (outcome === "Success") {
         decrease_count = 0;
