@@ -44,6 +44,8 @@ export default hopeTheme({
     // 支持容器
     hint: true,
     chartjs: true,
+    DANGEROUS_ALLOW_SCRIPT_EXECUTION: true,
+    DANGEROUS_SCRIPT_EXECUTION_ALLOWLIST: '*',
     mermaid: true,
     linksCheck: {
       build: "error",
