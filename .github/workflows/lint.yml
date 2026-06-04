@@ -17,10 +17,13 @@ jobs:
       uses: actions/setup-node@v6
       with:
         node-version: 20.x
+    - uses: pnpm/action-setup@v6
+      with:
+        version: 11
     - name: Lint
       run: |
-        npm install
-        npm run lint
+        pnpm install --frozen-lockfile
+        pnpm run lint
     - name: Commit formatted code
       continue-on-error: true
       run: |
