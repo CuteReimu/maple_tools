@@ -93,6 +93,17 @@
         </el-checkbox>
       </el-checkbox-group>
     </el-form-item>
+    <el-form-item label="防爆等级：">
+      <el-slider
+        v-model="form.boom_tier"
+        :min="1"
+        :max="4"
+        show-stops
+        :disabled="form.server!=='gms'"
+        style="max-width: 300px; margin-bottom: 25px;"
+        :marks="boom_tier_marks"
+      />
+    </el-form-item>
     <el-form-item label="尝试次数：">
       <el-input-number
         v-model="form.trials"
@@ -213,7 +224,7 @@ import {
   ElCard, ElText, ElRow,
   ElInputNumber, ElSelect, ElOption,
   ElCheckboxGroup, ElCheckbox, ElRadioGroup, ElRadioButton,
-  ElForm, ElFormItem, ElButton, ElMessage,
+  ElForm, ElFormItem, ElButton, ElMessage, ElSlider,
 } from "element-plus";
 import {
   getRates, grabColumnColors,
@@ -315,7 +326,7 @@ const onUpdateServer = () => {
 };
 
 const form = reactive({
-  type: "try",
+  type: "calc",
   itemLevel: 200,
   misc: ["starcatching"],
   cur_stars: 0,
@@ -324,6 +335,14 @@ const form = reactive({
   server: "gms",
   events: [],
   trials: 1000,
+  boom_tier: 1,
+});
+
+const boom_tier_marks = reactive<Record<number, string>>({
+  1: '1',
+  2: '2',
+  3: '3',
+  4: '4',
 });
 
 const show_try = ref(false);
@@ -380,6 +399,7 @@ const doStuff = () => {
   const two_plus = form.events.includes('plus2');
   const useAEE = false;
   const server = form.server;
+  const boom_tier = form.boom_tier;
 
   const rates = getRates(server, item_type, useAEE);
 
@@ -387,7 +407,7 @@ const doStuff = () => {
   const gold = mvp === 'gold';
   const diamond = mvp === 'diamond';
 
-  const result = repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event);
+  const result = repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event, boom_tier);
   //result = [average_cost, average_booms, meso_result_list, boom_result_list, median_cost, median_booms, max_cost, min_cost, max_booms, min_booms, meso_std, boom_std, meso_result_list_divided]
 
   const meso_result_list = result[2];

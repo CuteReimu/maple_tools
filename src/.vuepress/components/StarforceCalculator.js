@@ -244,6 +244,40 @@ const SERVER_RATES = {
   "kms": kmsRates,
 }
 
+const BOOM_TIER_COST_MULT_INCREASE = {
+  15: [0, 0.5, 1.5, 2],
+  16: [0, 0.5, 1.5, 2],
+  17: [0, 0.5, 1.5, 2],
+  18: [0, 1, 2.5, 5.5],
+  19: [0, 1, 2.5, 5.5],
+  20: [0, 1, 2.5, 5.5],
+  21: [0, 1, 2.5, 5.5],
+};
+
+const BOOM_TIER_DESTROY_RATES = {
+  15: [0.0210, 0.0140, 0.0070, 0],
+  16: [0.0210, 0.0140, 0.0070, 0],
+  17: [0.0680, 0.0425, 0.0170, 0],
+  18: [0.0680, 0.0440, 0.0180, 0],
+  19: [0.0850, 0.0616, 0.0360, 0],
+  20: [0.1050, 0.0750, 0.0400, 0],
+  21: [0.1275, 0.0880, 0.0450, 0],
+};
+
+const BOOM_TIER_SUCCESS_RATES = {
+  15: [0.30, 0.30, 0.30, 0.30],
+  16: [0.30, 0.30, 0.30, 0.30],
+  17: [0.15, 0.15, 0.15, 0.15],
+  18: [0.15, 0.12, 0.10, 0.08],
+  19: [0.15, 0.12, 0.10, 0.08],
+  20: [0.30, 0.25, 0.20, 0.15],
+  21: [0.15, 0.12, 0.10, 0.08],
+};
+
+export function isBoomTierEligible(server, current_star) {
+  return server === 'gms' && current_star >= 15 && current_star <= 21;
+}
+
 export function getRates(server, itemType, useAEE) {
   if (itemType === "tyrant") {
     return useAEE ? tyrantAEERates : tyrantRates;
@@ -294,7 +328,7 @@ function median(values) {
     return (values[half - 1] + values[half]) / 2.0;
 }
 
-function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chance_time, item_type, server) {
+function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chance_time, item_type, server, boom_tier) {
   // if (item_type == "tyrant"){
   //     var attempt_cost = item_level**3.56;
   //     return parseFloat(attempt_cost.toFixed(0))
@@ -328,6 +362,10 @@ function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, 
       multiplier = multiplier + getSafeguardMultiplierIncrease(current_star, sauna, server);
     }
 
+  }
+
+  if (boom_tier > 1 && isBoomTierEligible(server, current_star)) {
+    multiplier = multiplier + BOOM_TIER_COST_MULT_INCREASE[current_star][boom_tier - 1];
   }
 
   const attempt_cost = getBaseCost(server, current_star, item_level) * multiplier;
@@ -390,7 +428,7 @@ export function grabColumnColors(boomsAmount, boomPercentiles) {
   }
 }
 
-export function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event) {
+export function determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event, boom_tier) {
   /** returns either "Success", "Maintain", "Decrease", or "Boom" */
   if (five_ten_fifteen) {
     if (current_star === 5 || current_star === 10 || current_star === 15) {
@@ -404,6 +442,13 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
   let probability_maintain = rates[current_star][1];
   let probability_decrease = rates[current_star][2];
   let probability_boom = rates[current_star][3];
+
+  if (boom_tier > 1 && isBoomTierEligible(server, current_star)) {
+    const tier_idx = boom_tier - 1;
+    probability_success = BOOM_TIER_SUCCESS_RATES[current_star][tier_idx];
+    probability_boom = BOOM_TIER_DESTROY_RATES[current_star][tier_idx];
+    probability_maintain = 1 - probability_success - probability_decrease - probability_boom;
+  }
 
   if (sauna) {
     if ((current_star >= 12 && current_star <= 14) || (item_type === 'tyrant' && (current_star >= 5 && current_star <= 7))) {
@@ -466,7 +511,7 @@ export function determineOutcome(current_star, rates, star_catch, boom_protect, 
   }
 }
 
-function performExperiment(current_stars, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event) {
+function performExperiment(current_stars, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event, boom_tier) {
   /** returns [total_mesos, total_booms]  or [AEE_amount, total_booms]*/
   let current_star = current_stars;
   let total_mesos = 0;
@@ -480,7 +525,7 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
     }
     else {
       if (server !== 'kms' && server !== 'gms') chanceTime = checkChanceTime(decrease_count);
-      total_mesos = total_mesos + attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chanceTime, item_type, server);
+      total_mesos = total_mesos + attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, silver, gold, diamond, five_ten_fifteen, chanceTime, item_type, server, boom_tier);
     }
 
     if (chanceTime) {
@@ -493,7 +538,7 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
       }
     }
     else {
-      let outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event);
+      let outcome = determineOutcome(current_star, rates, star_catch, boom_protect, five_ten_fifteen, sauna, item_type, server, boom_event, boom_tier);
 
       if (outcome === "Success") {
         decrease_count = 0;
@@ -533,7 +578,7 @@ function performExperiment(current_stars, desired_star, rates, item_level, boom_
   return [total_mesos, total_booms]
 }
 
-export function repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event) {
+export function repeatExperiment(total_trials, current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event, boom_tier) {
   //* return [average_cost, average_booms, meso_result_list, boom_result_list] */
   let total_mesos = 0;
   let total_booms = 0;
@@ -543,11 +588,11 @@ export function repeatExperiment(total_trials, current_star, desired_star, rates
   const meso_result_list_divided = [];
 
   while (current_trial < total_trials) {
-    const trial_mesos = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event)[0];
+    const trial_mesos = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event, boom_tier)[0];
     meso_result_list.push(trial_mesos);
     meso_result_list_divided.push(trial_mesos / 1000000000);
 
-    const trial_booms = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event)[1];
+    const trial_booms = performExperiment(current_star, desired_star, rates, item_level, boom_protect, thirty_off, star_catch, five_ten_fifteen, sauna, silver, gold, diamond, item_type, two_plus, useAEE, server, boom_event, boom_tier)[1];
     boom_result_list.push(trial_booms);
 
     total_mesos = total_mesos + trial_mesos;
