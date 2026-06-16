@@ -18,23 +18,23 @@
     "@vueuse/core": "^14.3.0",
     "@vueuse/shared": "^14.3.0",
     "chart.js": "^4.5.1",
-    "eslint": "^10.4.1",
+    "eslint": "^10.5.0",
     "eslint-plugin-vue": "^10.9.2",
     "globals": "^17.6.0",
     "iconv-lite": "^0.7.2",
     "katex": "^0.17.0",
     "mermaid": "^11.15.0",
     "sass-embedded": "^1.100.0",
-    "typescript-eslint": "^8.60.1",
+    "typescript-eslint": "^8.61.0",
     "vite-plugin-node-polyfills": "^0.28.0",
-    "vue": "^3.5.35",
+    "vue": "^3.5.38",
     "vue-chartjs": "^5.3.3",
     "vuepress": "2.0.0-rc.30",
     "vuepress-plugin-md-enhance": "^2.0.0-rc.107",
     "vuepress-theme-hope": "2.0.0-rc.107"
   },
   "dependencies": {
-    "element-plus": "^2.11.5",
+    "element-plus": "^2.14.2",
     "encoding-japanese": "^2.2.0"
   }
 }
