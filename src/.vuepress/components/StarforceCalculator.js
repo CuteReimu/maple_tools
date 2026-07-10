@@ -365,7 +365,7 @@ function attemptCost(current_star, item_level, boom_protect, thirty_off, sauna, 
   }
 
   if (boom_tier > 1 && isBoomTierEligible(server, current_star)) {
-    multiplier = multiplier + BOOM_TIER_COST_MULT_INCREASE[current_star][boom_tier - 1];
+    multiplier = multiplier * (1 + BOOM_TIER_COST_MULT_INCREASE[current_star][boom_tier - 1]);
   }
 
   const attempt_cost = getBaseCost(server, current_star, item_level) * multiplier;
