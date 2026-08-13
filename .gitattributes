@@ -2,5 +2,6 @@ src/** -linguist-documentation
 src/.vuepress/** -linguist-documentation
 
 /src/Tools/*.md linguist-language=MDX
+*.md linguist-detectable
 
 src/.vuepress/components/cubeRates.js linguist-generated
